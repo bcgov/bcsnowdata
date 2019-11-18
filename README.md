@@ -24,8 +24,7 @@ This package contains functions for retrieving snow-related data from
 the BC Data Catalogue, which can be found at:
 <a href="https://catalogue.data.gov.bc.ca/dataset?q=snow&amp;download_audience=Public&amp;sort=score+desc%2C+record_publish_date+desc" class="uri">https://catalogue.data.gov.bc.ca/dataset?q=snow&amp;download_audience=Public&amp;sort=score+desc%2C+record_publish_date+desc</a>.
 
-The authors of this package assume no liability for the accuracy of the
-snow-related data.
+The authors of this package assume no liability for the accuracy, completeness, or any other quality-related aspect with regards to the snow data itself.
 
 ### Features
 
