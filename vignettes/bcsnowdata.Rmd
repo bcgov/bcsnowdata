@@ -1,0 +1,199 @@
+---
+title: "bcsnowdata"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{bcsnowdata}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+```{r setup, include=FALSE, cache = FALSE}
+
+# Script to actual build the package itself
+#library(bcsnowdata)
+#library("devtools")
+#library(roxygen2)
+#library(dplyr)
+#setwd("C:/Users/AJOLLYMO/RProjects/bcsnowdata")
+#library(knitr)
+#library("devtools")
+
+# Build documentation - if the packages have changes
+#document()
+
+# Test the aswe function
+#rm(list = ls())
+
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+knitr::opts_chunk$set(echo = FALSE
+                      , comment = NA
+                      , warning = FALSE
+                      , error = FALSE
+                      , message = FALSE
+                      , tidy = TRUE)
+
+knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file()) # Ensure that the package will go to the root folder to look for data
+
+# Necessary packages
+library("devtools")
+library(dplyr)
+library("data.table")
+library("RCurl")
+library(lubridate)
+library(ggplot2)
+library(bcsnowdata)
+
+```
+<a id="devex-badge" rel="Exploration" href="https://github.com/BCDevExchange/assets/blob/master/README.md"><img alt="Being designed and built, but in the lab. May change, disappear, or be buggy." style="border-width:0" src="https://assets.bcdevexchange.org/images/badges/exploration.svg" title="Being designed and built, but in the lab. May change, disappear, or be buggy." /></a>
+
+# BC Snow Data Functions
+
+## Overview of Functions Within the bcsnowdata() package
+This package contains two functions for retrieving snow data from the BC Catalogue - one for data from the automated snow stations, and one that retrieves data from manual snow surveys.
+
+Both functions retrieve data from the BC Data Catologue.
+
+The general link for data from the automated snow survey stations is:
+http://www.env.gov.bc.ca/wsd/data_searches/snow/asws/data/
+
+The manual snow survey data function retrieves data from:
+http://www.env.gov.bc.ca/wsd/data_searches/snow/asws/data/allmss_archive.csv
+
+The package also contains three functions for retrieving location metadata related to the BC snow program. This includes location data for the manual snow surveys, the automated snow weather stations, as well as the snow survey administrative basin areas used for station naming conventions and reporting purposes (such as the RFC Snow Basin Indices).
+
+## Automated Snow Data Function
+
+The first function is get_aswe_databc(), which retrieves data for automated snow stations. It retrieves daily data for dates previous to 2011, and hourly data available after 2011, for automated snow stations from data available on the Data Catalogue.
+
+The user can define multiple options within the function, including:
+
+1. station_id:  This function will retrieve data for one station (by specified station ID), or multiple stations specified within a string (i.e., c("2F05P", "1C18P")). The user can also specify to return all ASWE stations within the Data BC catalogue, although this is not recommended as it will return data for all of the stations.
+
+2. get_year: Specifies the year you want to return. Can be one water year, multiple, or all.
+
+3. update_archive: Specifies whether you want to update the archive of ASWE data that is saved on your computer to speed up the data process. Data older than a month will be automatically updated.
+
+4. parameter_id: Specifies what type of data you want to retrieve. The choices include SWE, Temperature, SD (snow depth), and Precipitation.
+
+The function in this example will retrieve data for station ID 2F05P for all years on record without updating the cache of historic data (data prior to this water year).
+
+See the "ASWE Data Function" vignette for detailed examples of how to use this function.
+
+```{r, AutomatedData, echo = T, include = TRUE, results = 'hide'}
+# Retrieve ASWE data for one site over all years on record; don't cache data
+id <- c("2F05P")
+SWE_test <- get_aswe_databc(station_id = id,
+                          get_year = "All",
+                          use_archive = "No",
+                          parameter_id = "SWE") 
+```
+
+This plot shows the ASWE data retrieved from the automated snow data function. Note that hourly data is only avalable after 2011.
+
+```{r ASWE Plot, echo = T}
+ggplot2::ggplot(SWE_test, ggplot2::aes(x= Date_UTC, y = value)) + ggplot2::geom_point()
+```
+
+## Manual Snow Station
+
+The manual snow station data funtion - get_manual_swe() - is similar to the function that gets data from the ASWE sites. 
+
+Specifically, the user can define multiple options within the function, including:
+
+1. station_id:  This function will retrieve data for one station (by specified station ID), or multiple stations specified within a string (i.e., c("2F05P", "1C18P")). The user can also specify to return all manual snow survey locations within the Data BC catalogue. This is significantly faster than the ASWE station function.
+
+2. survey_period: Specifies what survey period the user wants to return. Can be "All" (the default within the function), or else a specific survey period (or number of them). The format can either be numeric month year (i.e., "03-01" is March 1), or annotated in the format day-month, such as "01-Mar". 
+
+3. get_year: Specifies the year you want to return. Can be one water year, multiple years, or all onn record (the function default).
+
+4. update_archive: Specifies whether you want to update the archive of manual data that is saved on your computer to speed up the data process. Archive data is data older than the current water year (Oct - Sept). Data older than a month will be automatically updated. This is not as significant a time saver as for the ASWE data, given that there is less manual data available.
+
+The function in this example will retrieve data for station ID 1C21 for all years and all survey periods on record without updating the cache of historic data (data prior to this water year).
+
+See the "Manual Snow Data Function" vignette for a detailed example of how to use this function.
+
+```{r, ManualData, echo = T, include = TRUE, results = 'hide'}
+# Retrieve manual snow survey data for one site, all survey periods, all years; don't cache data
+id <- c("1C21")
+manual_test <- get_manual_swe(station_id = id,
+                              survey_period = "All",
+                              get_year = "All",
+                              use_archive = "No") 
+```
+
+The figure below shows the output from this function, specifically the SWE for 1C21 for all years on record:
+
+```{r, Manual Data Plot, echo = T, include = T}
+ggplot2::ggplot(manual_test, ggplot2::aes(x= Date_UTC, y = SWE_mm)) + ggplot2::geom_point()
+```
+
+## Automated Snow Weather Station Locations
+
+The snow_auto_location() returns a dataframe containing location metadata for all of the automated snow weather stations. The returned dataframe includes both active as well as inactive stations, in addition to their latitude, longitude and elevation.
+
+Data obtained from:
+https://catalogue.data.gov.bc.ca/dataset/automated-snow-weather-station-locations
+
+
+```{r, AutomatedDataLocation, echo = T, include = TRUE}
+ASWE_locations <- snow_auto_location()
+
+head(ASWE_locations)
+```
+
+
+## Manual Snow Survey Locations
+
+The snow_auto_location() function returns a dataframe containing location metadata for all of the manual snow survey locations. The returned dataframe includes both active as well as inactive stations, in addition to their latitude, longitude and elevation.
+
+Data obtained from:
+https://catalogue.data.gov.bc.ca/dataset/manual-snow-survey-locations
+
+```{r, ManualDataLocations, echo = T, include = TRUE}
+manual_locations <- snow_manual_location()
+
+head(manual_locations)
+```
+
+## Snow Survey Administrative Basin Areas
+
+The snow_auto_location() returns a dataframe containing location metadata for the administrative basin areas. Returned data includes the polygon geometries necessary to map snow basin areas (for example, upon integration with the bcmaps() package).
+
+Data obtained from:
+https://catalogue.data.gov.bc.ca/dataset/snow-survey-administrative-basin-areas
+
+```{r, BasinLocations, echo = T, include = TRUE}
+basin_locations <- snow_basin_areas()
+
+head(basin_locations)
+```
+
+## Assign water year
+
+This package also contains a function (wtr_yr()) for assigning water year to a column of dates. It is meant as an internal function that can also be called externally. The main input is a vector or column of dates that are used to calculate the corresponding water year. The default start to the calendar year is October (start_month = 10).
+
+```{r, wateryear, echo = T, include = TRUE}
+wtr_yr(as.Date("2018-12-01"))
+```
+
+### License
+
+Copyright 2019 Province of British Columbia
+
+Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and limitations under the License.
+
+---
+*This project was created using the [bcgovr](https://github.com/bcgov/bcgovr) package.* 

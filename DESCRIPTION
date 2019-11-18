@@ -1,0 +1,35 @@
+Package: bcsnowdata
+Title: Retrieve data from automated and manual snow survey sites across British Columbia
+Version: 1.0
+Authors@R: 
+    c(person(given = "Ashlee",
+             family = "Jollymore",
+             role = c("aut", "cre"),
+             email = "Ashlee.Jollymore@gov.bc.ca"),
+      person(given = "Sam",
+             family = "Albers",
+             role = c("aut"),
+             email = "Sam.Albers@gov.bc.ca"))
+Maintainer: Ashlee Jollymore <Ashlee.Jollymore@gov.bc.ca>
+Description: This package contains functions for retrieving snow data from the BC Data Catalogue. These functions (one for automated snow data, one for manual snow surveys) also create data archives on the local user drive as a cache to speed downstream functions that used this data for analysis purposes (i.e., snow statistics, snow basin indices, etc).
+Depends: R (>= 3.1.0)
+License: Apache License (== 2.0) | file LICENSE
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 6.1.99.9001
+Imports:
+    dplyr,
+    data.table,
+    RCurl,
+    lubridate,
+    ggplot2,
+    purrr,
+    magrittr,
+    memoise,
+    digest,
+    rlang
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
