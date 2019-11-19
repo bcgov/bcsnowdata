@@ -48,8 +48,6 @@ The authors of this package are not responsible for any errors within the source
 
 This package features two functions for retrieving BC snow data from the BC Data Catalogue: 1) one for the ASWE stations, and 2) one for manual snow surveys. It also contains functions for retrieving the location metadata of snow survey and automated snow weather stations, as well as snow basin administrative areas.
 
-The authors of this package are not responsible for any errors within the source data, and assume no responsibility or liability for subsequent use of any data resources compiled by these functions.
-
 ### Installation
 
 The snow package can be installed from GitHub:
@@ -66,7 +64,7 @@ As of November 2019, this section is the same as the vignette demonstrating the 
 
 #### Automated Snow Function
 
-The first function is get_aswe_databc(), which retrieves data for automated snow stations. It retrieves daily data for dates previous to 2011, and hourly data available after 2011, for automated snow stations from data available on the Data Catalogue.
+The first function is get_aswe_databc(), which retrieves data for automated snow stations. It retrieves daily data for dates before 2011, and hourly data available after 2011, for automated snow stations from data available on the Data Catalogue.
 
 The user can define multiple options within the function, including:
 
@@ -102,7 +100,7 @@ Specifically, the user can define multiple options within the function, includin
 
 2. survey_period: Specifies what survey period the user wants to return. Can be "All" (the default within the function), or else a specific survey period (or number of them). The format can either be numeric month year (i.e., "03-01" is March 1), or annotated in the format day-month, such as "01-Mar". 
 
-3. get_year: Specifies the year you want to return. Can be one water year, multiple years, or all onn record (the function default).
+3. get_year: Specifies the year you want to return. Can be one water year, multiple years, or all on record (the function default).
 
 4. update_archive: Specifies whether you want to update the archive of manual data that is saved on your computer to speed up the data process. Archive data is data older than the current water year (Oct - Sept). Data older than a month will be automatically updated. This is not as significant a time saver as for the ASWE data, given that there is less manual data available.
 
