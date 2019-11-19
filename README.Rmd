@@ -21,13 +21,6 @@ knitr::opts_chunk$set(echo = FALSE
 knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file()) # Ensure that the package will go to the root folder to look for data
 
 # Necessary packages
-library("devtools")
-library(dplyr)
-library("data.table")
-library("RCurl")
-library(lubridate)
-library(ggplot2)
-library(bcsnowdata)
 
 ```
 # bcsnowdata
