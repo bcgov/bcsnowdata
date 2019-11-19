@@ -17,7 +17,7 @@ License: Apache License (== 2.0) | file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 6.1.99.9001
+RoxygenNote: 7.0.0
 Imports:
     dplyr,
     data.table,
