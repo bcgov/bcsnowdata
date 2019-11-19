@@ -41,10 +41,10 @@ subsequent use of any data resources compiled by these functions.
 ### Installation
 
 The snow package can be installed from GitHub:
-
-if(!requireNamespace(“remotes”)) install.packages(“remotes”)
-remotes::install\_github(“bcsnowdata”)
-
+``` r
+install.packages(“remotes”)
+remotes::install\_github(“bcgov/bcsnowdata”)
+```
 ### Usage
 
 As of November 2019, this section is the same as the vignette
