@@ -99,7 +99,7 @@ test_manual_sp2 <- get_manual_swe(station_id = "All",
 
 ## Specifying Year
 
-The user can also specify the year (water year) that the function retrieves. Note water year is the same as calendar year as  as there aren't any manual snow surveys done within October - December of the previous calendar year.
+The user can also specify the year (water year) that the function retrieves. Note that water year is the same as calendar year because manual snow surveys are not performed in October - December.
 
 ```{r manual_year, echo = TRUE, include = TRUE, results = 'hide'}
 # Get all years for all stations and all survey periods
@@ -117,17 +117,17 @@ test_manual_year2 <- get_manual_swe(station_id = "All",
 
 ## Using the Caching Functions
 
-The manual snow data function also contains the ability to cache the data archive and current year data on your local drive. The purpose of this is to speed up the data retrieval process, which is more critical when the data retreival function is used within downstream functions (for example, those that analyze statistics). As the data is smaller than the large ASWE dataset, caching has less of an impact on the data processing speed and so is not recommended although the option remains if the user wants to save a version of the data on their own computer.
+The manual snow data function also contains the ability to cache the data archive and current year data on your local drive. The purpose of this is to speed up the data retrieval process, which is more critical when the data retreival function is used within downstream functions (for example, those that analyze statistics). As the data is smaller than the large ASWE dataset, caching has less of an impact on the data processing speed and so is not recommended, although the option remains if the user wants to save a version of the data on their own computer.
 
 If the user prefers to use the data cache, they can turn it on using the "use_archive" variable. If "use_archive" is set to "Yes", then the user must also set whether to automatically update the stored version of the data on their machine ('update_archive'), as well as teh directory in which the data is saved ('directory_archive').
 
-update_archive: Can be either "Yes" or "No" If it is "Yes", then the function will download a copy of the manual data archive from the Data Catalogue and save it (in an RDS format that is readable by R) in the directory that is specified by the user ('directory_archive' variable). If the user choses "No", then the data is not downloaded from the Data Catalogue, and the historic manual snow data is instead read from the directory that is specified from the user. If there is no data present, or if the stored data is more than 30 days old, the data is automatically downloaded from the Data Catalgue and the archived data updated.
+update_archive: Can be either "Yes" or "No" If it is "Yes", then the function will download a copy of the manual data archive from the Data Catalogue and save it (in an RDS format that is readable by R) in the directory that is specified by the user ('directory_archive' variable). If the user choses "No", then the data is not downloaded from the Data Catalogue, and the historic manual snow data is instead read from the directory that is specified from the user. If there is no data present, or if the stored data is more than 30 days old, the data is automatically downloaded from the Data Catalogue and the archived data updated.
 
 directory_archive = Where the data cache is stored on the user's computer. The path file can be anywhere, but it must end with a "/". If the user doesn't specify where the data will be stored, it is saved in the current directory of the user's R session (./data/cache/")
 
 
 ```{r manual_cache, echo = TRUE, include = TRUE, results = 'hide'}
-# Function will retrieve all data from the Data Catalgue and save a version of the historic data at the directory specified.
+# Function will retrieve all data from the Data Catalogue and save a version of the historic data at the directory specified.
 test_manual_cache1 <- get_manual_swe(station_id = "All",
                                  survey_period = "All",
                                  get_year = "All",

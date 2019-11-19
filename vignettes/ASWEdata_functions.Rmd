@@ -38,13 +38,13 @@ library(lubridate)
 
 # Details of the ASWE Data Function
 
-This vignette details the use of get_aswe_databc(), a function that retrieves data obtained by the automated snow weather stations (ASWE) from the BC Data Catolgue. Data retrieved from this function includes snow water equivalent (SWE), snow depth, precipitation (accumulated) and air temperature (daily maximum and minimum).
+This vignette details the use of get_aswe_databc(), a function that retrieves data obtained by the automated snow weather stations (ASWE) from the BC Data Catalogue. Data retrieved from this function includes snow water equivalent (SWE), snow depth, precipitation (accumulated) and air temperature (daily maximum and minimum).
 
 This vignette details the various options that the user must determine in using the function.
 
 ## Specifying Station ID
 
-The function can retrieve one, multiple, or all manual snow surveys through the "station_id" variable. The default setting is "All". Because the ASWE dataset is very large, attempting to retrieve all of the stations for multiple years is not recommended (it takes a long time, and can result in data truncation). The user can also specify a single of multiple years.
+The function can retrieve one, multiple, or all manual snow surveys through the "station_id" variable. The default setting is "All". Because the ASWE dataset is very large, attempting to retrieve all stations for multiple years is not recommended (it takes a long time, and could result in data truncation). The user can also specify a single or multiple years.
 
 ```{r ASWE_stationID, echo = TRUE, include = TRUE, results = 'hide'}
 # Retrieve SWE for one station (all years on record)
@@ -116,15 +116,15 @@ test_p4 <- get_aswe_databc(station_id = "2F10P",
 
 ## Data Caching Functions
 
-As the data collected from teh ASWE stations is very large, reading the entire archive of data from the Data Catalogue can be long, espeacially if you are repeating the data retrieval operation many times for downstream analysis. Thus, there are options for caching a copy of the data archive within the get_aswe_databc() function. This gives users the option of saving a version (in R-friendly RDS format) in a location of their choice on their computer.
+As the data collected from the ASWE stations is very large, reading the entire archive of data from the Data Catalogue can be long, especially  if you are repeating the data retrieval operation many times during downstream analysis. Thus, there are options for caching a copy of the data archive within the get_aswe_databc() function. This gives users the option of saving a version (in R-friendly RDS format) in a location of their choice on their computer.
 
 The user can choose to cache a version of the data archive from Data BC on their computer using the "use_archive" variable - "No" means that the data will be downloaded directly from the Data Catalogue adn will not be cached on the user's computer.
 
 If the user chooses to cache data to save time by settings use_archive = "Yes", then the user must also define whether to update the archive (update_archive variable) and where to save the data (directory_archive variable). 
 
-The 'update_archive' variable determines whether or not a data cache will be updated, if it exists already. If the user decides not to update the archive (update_archive = "No"), then the historic data will be retrieved from the user's computer (which is faster than downloading it from the Data Catalogue). If the data doesn't exist at the location that the user has specified (in the 'directory_archive' variable), then the data will be automatically downloaded from the Data Catalogue and saved at the location specified. The function also checks to see how old the historic data is; if the data hasn't been updaed in a month, it will be re-downloaded from the Data Catalogue and saved at the location specified within the 'directory_archive' variable; this is to ensure that the data archive is up to date with the Data Catalogue version of the data.
+The 'update_archive' variable determines whether or not a data cache will be updated, if it exists already. If the user decides not to update the archive (update_archive = "No"), then the historic data will be retrieved from the user's computer (which is faster than downloading it from the Data Catalogue). If the data doesn't exist at the location that the user has specified (in the 'directory_archive' variable), then the data will be automatically downloaded from the Data Catalogue and saved at the location specified. The function also checks to see how old the historic data is; if the data hasn't been updated in a month, it will be re-downloaded from the Data Catalogue and saved at the location specified within the 'directory_archive' variable; this is to ensure that the data archive is up to date with the Data Catalogue version of the data.
 
-Lastly, the 'directory_archive' variable demonstrates where the data cache should be saved on the user's computer. If the user doesn't specify a location, the data will be automatically cached within a Data -> cache folder that will be created in the active directory you are working in. However, it is recommended that the user define a permament home for the data cache, as the active directory will change with the user's R project directory. 
+Lastly, the 'directory_archive' variable demonstrates where the data cache should be saved on the user's computer. If the user doesn't specify a location, the data will be automatically cached within a Data -> cache folder that will be created in the active directory you are working in. However, it is recommended that the user define a permanent home for the data cache, as the active directory will change with the user's R project directory. 
 
 ```{r ASWE_cache, echo = TRUE, include = TRUE, results = 'hide'}
 # Retrieve SWE for one year across one station. Use a data cache without updating it, and check that the data

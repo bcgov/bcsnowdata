@@ -56,7 +56,7 @@ library(bcsnowdata)
 ## Overview of Functions Within the bcsnowdata() package
 This package contains two functions for retrieving snow data from the BC Catalogue - one for data from the automated snow stations, and one that retrieves data from manual snow surveys.
 
-Both functions retrieve data from the BC Data Catologue.
+Both functions retrieve data from the BC Data Catalogue.
 
 The general link for data from the automated snow survey stations is:
 http://www.env.gov.bc.ca/wsd/data_searches/snow/asws/data/
@@ -68,7 +68,7 @@ The package also contains three functions for retrieving location metadata relat
 
 ## Automated Snow Data Function
 
-The first function is get_aswe_databc(), which retrieves data for automated snow stations. It retrieves daily data for dates previous to 2011, and hourly data available after 2011, for automated snow stations from data available on the Data Catalogue.
+The first function is get_aswe_databc(), which retrieves data for automated snow stations. It retrieves daily data for dates before 2011, and hourly data available after 2011, for automated snow stations from data available on the Data Catalogue.
 
 The user can define multiple options within the function, including:
 
@@ -93,7 +93,7 @@ SWE_test <- get_aswe_databc(station_id = id,
                           parameter_id = "SWE") 
 ```
 
-This plot shows the ASWE data retrieved from the automated snow data function. Note that hourly data is only avalable after 2011.
+This plot shows the ASWE data retrieved from the automated snow data function. Note that hourly data is only available after 2011.
 
 ```{r ASWE Plot, echo = T}
 ggplot2::ggplot(SWE_test, ggplot2::aes(x= Date_UTC, y = value)) + ggplot2::geom_point()
@@ -101,7 +101,7 @@ ggplot2::ggplot(SWE_test, ggplot2::aes(x= Date_UTC, y = value)) + ggplot2::geom_
 
 ## Manual Snow Station
 
-The manual snow station data funtion - get_manual_swe() - is similar to the function that gets data from the ASWE sites. 
+The manual snow station data function - get_manual_swe() - is similar to the function that gets data from the ASWE sites. 
 
 Specifically, the user can define multiple options within the function, including:
 
