@@ -43,7 +43,7 @@ subsequent use of any data resources compiled by these functions.
 The snow package can be installed from GitHub:
 ``` r
 install.packages(“remotes”)
-remotes::install\_github(“bcgov/bcsnowdata”)
+remotes::install_github(“bcgov/bcsnowdata”)
 ```
 ### Usage
 
