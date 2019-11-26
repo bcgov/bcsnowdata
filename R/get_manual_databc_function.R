@@ -111,12 +111,16 @@ get_manual_swe <- function(station_id,
     data_archive_manual <- snow_manual_archive()
     data_current_manual <- snow_manual_current()
   }
-
-
-  # Combine archived data and current year data
-  data <- dplyr::full_join(data_archive_manual, data_current_manual) %>%
-    dplyr::distinct(Number, `Date of Survey`, `Snow Depth cm`, .keep_all = TRUE)
-
+  
+  # If there is no data in the current year data, data is only the archive data. Otherwise, join the current year data with the archive
+  if (dim(data_current_manual)[1] == 0) {
+    data <- data_archive_manual
+  } else if (dim(data_current_manual)[1] != 0) {
+    # Combine archived data and current year data
+    data <- dplyr::full_join(data_archive_manual, data_current_manual) %>%
+      dplyr::distinct(Number, `Date of Survey`, `Snow Depth cm`, .keep_all = TRUE)
+  }
+  
   stations <- unique(data$Number) # stations within the manual data
 
   # convert the survey_period into the right format (in case the input format is incorrect)
