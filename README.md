@@ -14,7 +14,7 @@ This package is currently under development, and may be subject to
 future changes and iterations.
 
 This package is maintained by River Forecast Centre, which is part of
-the Water Stewardship Branch of the Ministry of Forest Lands, Natural
+the Water Management Branch of the Ministry of Forest Lands, Natural
 Resource Operations and Rural Development.
 
 What does bcsnowdata do?
