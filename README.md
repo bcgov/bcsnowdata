@@ -14,15 +14,14 @@ This package is currently under development, and may be subject to
 future changes and iterations.
 
 This package is maintained by <a href = "https://www2.gov.bc.ca/gov/content/environment/air-land-water/water/drought-flooding-dikes-dams/river-forecast-centre" class = "uri">River Forecast Centre</a>, which is part of
-the Water Management Branch of the Ministry of Forest, Lands, Natural
-Resource Operations and Rural Development.
+the Water Management Branch of the BC <a href = "https://www2.gov.bc.ca/gov/content/governments/organizational-structure/ministries-organizations/ministries/forests-lands-natural-resource-operations-and-rural-development" class = "uri">Ministry of Forest, Lands, Natural Resource Operations and Rural Development </a>.
 
 What does bcsnowdata do?
 ------------------------
 
 This package contains functions for retrieving snow-related data from
-the BC Data Catalogue, which can be found at:
-<a href="https://catalogue.data.gov.bc.ca/dataset?q=snow&amp;download_audience=Public&amp;sort=score+desc%2C+record_publish_date+desc" class="uri">https://catalogue.data.gov.bc.ca/dataset?q=snow&amp;download_audience=Public&amp;sort=score+desc%2C+record_publish_date+desc</a>.
+the BC Data Catalogue, which can be found at the
+<a href="https://catalogue.data.gov.bc.ca/dataset?q=snow&amp;download_audience=Public&amp;sort=score+desc%2C+record_publish_date+desc" class="uri">BC Data Catalogue</a>.
 
 The authors of this package assume no liability for the accuracy, completeness, or any other quality-related aspect with regards to the snow data itself.
 
