@@ -28,7 +28,7 @@ The authors of this package assume no liability for the accuracy, completeness, 
 ### Features
 
 This package features two functions for retrieving BC snow data from the
-BC Data Catalogue: 1) one for the ASWE stations, and 2) one for manual
+BC Data Catalogue: one for the ASWE stations, and one for manual
 snow surveys. It also contains functions for retrieving the location
 metadata of snow survey and automated snow weather stations, as well as
 snow basin administrative areas.
