@@ -13,8 +13,8 @@ Project Status
 This package is currently under development, and may be subject to
 future changes and iterations.
 
-This package is maintained by River Forecast Centre, which is part of
-the Water Management Branch of the Ministry of Forest Lands, Natural
+This package is maintained by <a href = "https://www2.gov.bc.ca/gov/content/environment/air-land-water/water/drought-flooding-dikes-dams/river-forecast-centre" class = "uri">River Forecast Centre</a>, which is part of
+the Water Management Branch of the Ministry of Forest, Lands, Natural
 Resource Operations and Rural Development.
 
 What does bcsnowdata do?
