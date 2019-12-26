@@ -13,23 +13,22 @@ Project Status
 This package is currently under development, and may be subject to
 future changes and iterations.
 
-This package is maintained by River Forecast Centre, which is part of
-the Water Stewardship Branch of the Ministry of Forest Lands, Natural
-Resource Operations and Rural Development.
+This package is maintained by <a target="_blank" rel="noopener noreferrer" href = "https://www2.gov.bc.ca/gov/content/environment/air-land-water/water/drought-flooding-dikes-dams/river-forecast-centre" class = "uri">River Forecast Centre</a>, which is part of
+the Water Management Branch of the BC <a target="_blank" rel="noopener noreferrer" href = "https://www2.gov.bc.ca/gov/content/governments/organizational-structure/ministries-organizations/ministries/forests-lands-natural-resource-operations-and-rural-development" class = "uri">Ministry of Forest, Lands, Natural Resource Operations and Rural Development </a>.
 
 What does bcsnowdata do?
 ------------------------
 
 This package contains functions for retrieving snow-related data from
-the BC Data Catalogue, which can be found at:
-<a href="https://catalogue.data.gov.bc.ca/dataset?q=snow&amp;download_audience=Public&amp;sort=score+desc%2C+record_publish_date+desc" class="uri">https://catalogue.data.gov.bc.ca/dataset?q=snow&amp;download_audience=Public&amp;sort=score+desc%2C+record_publish_date+desc</a>.
+the BC Data Catalogue, which can be found at the
+<a target="_blank" rel="noopener noreferrer" href="https://catalogue.data.gov.bc.ca/dataset?q=snow&amp;download_audience=Public&amp;sort=score+desc%2C+record_publish_date+desc" class="uri">BC Data Catalogue</a>.
 
 The authors of this package assume no liability for the accuracy, completeness, or any other quality-related aspect with regards to the snow data itself.
 
 ### Features
 
 This package features two functions for retrieving BC snow data from the
-BC Data Catalogue: 1) one for the ASWE stations, and 2) one for manual
+BC Data Catalogue: one for the ASWE stations, and one for manual
 snow surveys. It also contains functions for retrieving the location
 metadata of snow survey and automated snow weather stations, as well as
 snow basin administrative areas.
