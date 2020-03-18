@@ -100,7 +100,7 @@ get_manual_swe <- function(station_id,
         data_archive_manual <- snow_manual_archive()
 
         # Save archive - all data beyond current year
-        saveRDS(data_archive_manual, file = paste0(int_dirarch, parameter_id, "_archive.RDS"))
+        saveRDS(data_archive_manual, file = paste0(int_dirarch, "SWEmanual_archive.RDS"))
       }
 
       # Get the current year manual data
