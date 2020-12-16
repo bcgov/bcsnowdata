@@ -2,6 +2,7 @@
 output:
   md_document:
     variant: markdown_github
+    
 ---
 
 <!--
@@ -15,10 +16,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and limitations under the License.
 -->
 
-<!-- badges: start -->
-[![img](https://img.shields.io/badge/Lifecycle-Maturing-007EC6)](https://github.com/bcgov/repomountie/blob/master/doc/lifecycle-badges.md)
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) 
-<!-- badges: end -->
+
 
 ```{r setup, include=FALSE, cache = FALSE}
 knitr::opts_chunk$set(
@@ -41,17 +39,18 @@ knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file()) # Ensure th
 ```
 # bcsnowdata
 
-<!-- Add a project state badge
-See https://github.com/BCDevExchange/Our-Project-Docs/blob/master/discussion/projectstates.md
-If you have bcgovr installed and you use RStudio, click the 'Insert BCDevex Badge' Addin. -->
-
+<!-- badges: start -->
+[![img](https://img.shields.io/badge/Lifecycle-Maturing-007EC6)](https://github.com/bcgov/repomountie/blob/master/doc/lifecycle-badges.md)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) 
 <a id="devex-badge" rel="Exploration" href="https://github.com/BCDevExchange/assets/blob/master/README.md"><img alt="Being designed and built, but in the lab. May change, disappear, or be buggy." style="border-width:0" src="https://assets.bcdevexchange.org/images/badges/exploration.svg" title="Being designed and built, but in the lab. May change, disappear, or be buggy." /></a>
+<!-- badges: end -->
+
 
 ## Project Status
 
 This package is currently under development, and may be subject to future changes and iterations. 
 
-This package is maintained by River Forecast Centre, which is part of the Water Stewardship Branch of the Ministry of Forest Lands, Natural Resource Operations and Rural Development.
+This package is maintained by River Forecast Centre, which is part of the Water Management Branch of the Ministry of Forest Lands, Natural Resource Operations and Rural Development.
 
 ## What does bcsnowdata do?
  
