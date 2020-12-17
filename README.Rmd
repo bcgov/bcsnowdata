@@ -1,8 +1,7 @@
 ---
 output:
-  md_document:
-    variant: markdown_github
-    
+  github_document:
+    html_preview: yes
 ---
 
 <!--
@@ -42,7 +41,6 @@ knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file()) # Ensure th
 <!-- badges: start -->
 [![img](https://img.shields.io/badge/Lifecycle-Maturing-007EC6)](https://github.com/bcgov/repomountie/blob/master/doc/lifecycle-badges.md)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) 
-<a id="devex-badge" rel="Exploration" href="https://github.com/BCDevExchange/assets/blob/master/README.md"><img alt="Being designed and built, but in the lab. May change, disappear, or be buggy." style="border-width:0" src="https://assets.bcdevexchange.org/images/badges/exploration.svg" title="Being designed and built, but in the lab. May change, disappear, or be buggy." /></a>
 <!-- badges: end -->
 
 
@@ -68,7 +66,7 @@ This package features two functions for retrieving BC snow data from the BC Data
 The snow package can be installed from GitHub:
 
 ```{r, install, echo = T, include = TRUE, results = 'hide'}
-install.packages("remotes")
+install.packages("remotes", repos = "http://cran.us.r-project.org")
 remotes::install_github("bcgov/bcsnowdata")
 library(bcsnowdata)
 ```

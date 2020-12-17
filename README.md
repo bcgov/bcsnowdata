@@ -1,49 +1,60 @@
-bcsnowdata
-==========
 
-<!-- Add a project state badge
-See https://github.com/BCDevExchange/Our-Project-Docs/blob/master/discussion/projectstates.md
-If you have bcgovr installed and you use RStudio, click the 'Insert BCDevex Badge' Addin. -->
+<!--
+Copyright 2020 Province of British Columbia
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+http://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and limitations under the License.
+-->
 
-<a id="devex-badge" rel="Exploration" href="https://github.com/BCDevExchange/assets/blob/master/README.md"><img alt="Being designed and built, but in the lab. May change, disappear, or be buggy." style="border-width:0" src="https://assets.bcdevexchange.org/images/badges/exploration.svg" title="Being designed and built, but in the lab. May change, disappear, or be buggy." /></a>
+# bcsnowdata
 
-Project Status
---------------
+<!-- badges: start -->
+
+[![img](https://img.shields.io/badge/Lifecycle-Maturing-007EC6)](https://github.com/bcgov/repomountie/blob/master/doc/lifecycle-badges.md)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+<!-- badges: end -->
+
+## Project Status
 
 This package is currently under development, and may be subject to
 future changes and iterations.
 
-This package is maintained by <a target="_blank" rel="noopener noreferrer" href = "https://www2.gov.bc.ca/gov/content/environment/air-land-water/water/drought-flooding-dikes-dams/river-forecast-centre" class = "uri">River Forecast Centre</a>, which is part of
-the Water Management Branch of the BC <a target="_blank" rel="noopener noreferrer" href = "https://www2.gov.bc.ca/gov/content/governments/organizational-structure/ministries-organizations/ministries/forests-lands-natural-resource-operations-and-rural-development" class = "uri">Ministry of Forest, Lands, Natural Resource Operations and Rural Development </a>.
+This package is maintained by River Forecast Centre, which is part of
+the Water Management Branch of the Ministry of Forest Lands, Natural
+Resource Operations and Rural Development.
 
-What does bcsnowdata do?
-------------------------
+## What does bcsnowdata do?
 
 This package contains functions for retrieving snow-related data from
-the BC Data Catalogue, which can be found at the
-<a target="_blank" rel="noopener noreferrer" href="https://catalogue.data.gov.bc.ca/dataset?q=snow&amp;download_audience=Public&amp;sort=score+desc%2C+record_publish_date+desc" class="uri">BC Data Catalogue</a>.
-
-The authors of this package assume no liability for the accuracy, completeness, or any other quality-related aspect with regards to the snow data itself.
-
-### Features
-
-This package features two functions for retrieving BC snow data from the
-BC Data Catalogue: one for the ASWE stations, and one for manual
-snow surveys. It also contains functions for retrieving the location
-metadata of snow survey and automated snow weather stations, as well as
-snow basin administrative areas.
+the BC Data Catalogue, which can be found at:
+<https://catalogue.data.gov.bc.ca/dataset?q=snow&download_audience=Public&sort=score+desc%2C+record_publish_date+desc>.
 
 The authors of this package are not responsible for any errors within
 the source data, and assume no responsibility or liability for
 subsequent use of any data resources compiled by these functions.
 
+### Features
+
+This package features two functions for retrieving BC snow data from the
+BC Data Catalogue: 1) one for the ASWE stations, and 2) one for manual
+snow surveys. It also contains functions for retrieving the location
+metadata of snow survey and automated snow weather stations, as well as
+snow basin administrative areas.
+
 ### Installation
 
 The snow package can be installed from GitHub:
+
 ``` r
-install.packages("remotes")
+install.packages("remotes", repos = "http://cran.us.r-project.org")
 remotes::install_github("bcgov/bcsnowdata")
+library(bcsnowdata)
 ```
+
 ### Usage
 
 As of November 2019, this section is the same as the vignette
@@ -53,9 +64,9 @@ bcsnowdata() package.
 #### Automated Snow Function
 
 The first function is get\_aswe\_databc(), which retrieves data for
-automated snow stations. It retrieves daily data for dates previous to
-2011, and hourly data available after 2011, for automated snow stations
-from data available on the Data Catalogue.
+automated snow stations. It retrieves daily data for dates before 2011,
+and hourly data available after 2011, for automated snow stations from
+data available on the Data Catalogue.
 
 The user can define multiple options within the function, including:
 
@@ -111,14 +122,14 @@ including:
     format day-month, such as “01-Mar”.
 
 3.  get\_year: Specifies the year you want to return. Can be one water
-    year, multiple years, or all onn record (the function default).
+    year, multiple years, or all on record (the function default).
 
 4.  update\_archive: Specifies whether you want to update the archive of
     manual data that is saved on your computer to speed up the data
-    process. Archive data is data older than the current water year
-    (Oct - Sept). Data older than a month will be automatically updated.
-    This is not as significant a time saver as for the ASWE data, given
-    that there is less manual data available.
+    process. Archive data is data older than the current water year (Oct
+    - Sept). Data older than a month will be automatically updated. This
+    is not as significant a time saver as for the ASWE data, given that
+    there is less manual data available.
 
 The function in this example will retrieve data for station ID 1C21 for
 all years and all survey periods on record without updating the cache of
@@ -140,7 +151,7 @@ dataframe includes both active as well as inactive stations, in addition
 to their latitude, longitude and elevation.
 
 Data obtained from:
-<a href="https://catalogue.data.gov.bc.ca/dataset/automated-snow-weather-station-locations" class="uri">https://catalogue.data.gov.bc.ca/dataset/automated-snow-weather-station-locations</a>
+<https://catalogue.data.gov.bc.ca/dataset/automated-snow-weather-station-locations>
 
 ``` r
 ASWE_locations <- snow_auto_location()
@@ -149,20 +160,19 @@ head(ASWE_locations)
 Simple feature collection with 6 features and 10 fields
 geometry type:  POINT
 dimension:      XY
-bbox:           xmin: 1217284 ymin: 454025.8 xmax: 1455320 ymax: 879332.5
-epsg (SRID):    3005
-proj4string:    +proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs
+bbox:           xmin: 981486.2 ymin: 903297.6 xmax: 1499553 ymax: 1225253
+projected CRS:  NAD83 / BC Albers
 # A tibble: 6 x 11
-  id    SNOW_ASWS_STN_ID LOCATION_ID LOCATION_NAME ELEVATION STATUS
-  <chr>            <int> <chr>       <chr>             <int> <chr> 
-1 WHSE~                1 1C41P       Yanks Peak         1670 Active
-2 WHSE~                2 1D06P       Tenquille La~      1680 Active
-3 WHSE~                3 1D09P       Wahleach Lake      1480 Active
-4 WHSE~                4 1D17P       Chilliwack R~      1600 Active
-5 WHSE~                5 1D19P       Spuzzum            1180 Active
-6 WHSE~                6 1E02P       Mount Cook         1550 Active
-# ... with 5 more variables: LATITUDE <dbl>, LONGITUDE <dbl>,
-#   OBJECTID <int>, SE_ANNO_CAD_DATA <chr>, geometry <POINT [m]>
+  id    SNOW_ASWS_STN_ID LOCATION_ID LOCATION_NAME ELEVATION STATUS LATITUDE
+  <chr>            <int> <chr>       <chr>             <int> <chr>     <dbl>
+1 WHSE~                1 1A01P       Yellowhead L~      1860 Active     52.9
+2 WHSE~                2 1A02P       McBride Upper      1611 Active     53.3
+3 WHSE~                3 1A03P       Barkerville        1520 Active     53.1
+4 WHSE~                4 1A05P       Longworth Up~      1740 Active     54.0
+5 WHSE~                5 1A12P       Kaza Lake          1257 Active     56.0
+6 WHSE~                6 1A14P       Hedrick Lake       1100 Active     54.1
+# ... with 4 more variables: LONGITUDE <dbl>, OBJECTID <int>,
+#   SE_ANNO_CAD_DATA <chr>, geometry <POINT [m]>
 ```
 
 ##### Manual Snow Survey Locations
@@ -173,7 +183,7 @@ returned dataframe includes both active as well as inactive stations, in
 addition to their latitude, longitude and elevation.
 
 Data obtained from:
-<a href="https://catalogue.data.gov.bc.ca/dataset/manual-snow-survey-locations" class="uri">https://catalogue.data.gov.bc.ca/dataset/manual-snow-survey-locations</a>
+<https://catalogue.data.gov.bc.ca/dataset/manual-snow-survey-locations>
 
 ``` r
 manual_locations <- snow_manual_location()
@@ -182,18 +192,17 @@ head(manual_locations)
 Simple feature collection with 6 features and 10 fields
 geometry type:  POINT
 dimension:      XY
-bbox:           xmin: 1432172 ymin: 557054.9 xmax: 1633453 ymax: 770315.2
-epsg (SRID):    3005
-proj4string:    +proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs
+bbox:           xmin: 1214133 ymin: 477179.7 xmax: 1353969 ymax: 614635.2
+projected CRS:  NAD83 / BC Albers
 # A tibble: 6 x 11
   id    SNOW_MSS_LOC_ID LOCATION_ID LOCATION_NAME ELEVATION STATUS LATITUDE
   <chr>           <int> <chr>       <chr>             <int> <chr>     <dbl>
-1 WHSE~              86 2F18        Brenda Mine        1460 Inact~     49.9
-2 WHSE~              87 2A14        Mount Abbot        2010 Active     51.2
-3 WHSE~              88 2A16        Goldstream         1920 Active     51.7
-4 WHSE~              89 2A17        Fidelity Mou~      1870 Active     51.2
-5 WHSE~              90 2A18        Keystone Cre~      1890 Active     51.4
-6 WHSE~              91 2A19        Vermont Creek      1520 Active     51.0
+1 WHSE~              84 1D09        Wahleach Lake      1480 Active     49.2
+2 WHSE~              85 1D10        Nahatlatch R~      1550 Active     49.8
+3 WHSE~              86 1D11        Boston Bar C~      1340 Inact~     49.6
+4 WHSE~              87 1D12        Boston Bar C~      1230 Inact~     49.6
+5 WHSE~              88 1D13        Wolverine Cr~       250 Inact~     50.5
+6 WHSE~              89 1D14        Ottomite           1460 Inact~     49.6
 # ... with 4 more variables: LONGITUDE <dbl>, OBJECTID <int>,
 #   SE_ANNO_CAD_DATA <chr>, geometry <POINT [m]>
 ```
@@ -206,7 +215,7 @@ polygon geometries necessary to map snow basin areas (for example, upon
 integration with the bcmaps() package).
 
 Data obtained from:
-<a href="https://catalogue.data.gov.bc.ca/dataset/snow-survey-administrative-basin-areas" class="uri">https://catalogue.data.gov.bc.ca/dataset/snow-survey-administrative-basin-areas</a>
+<https://catalogue.data.gov.bc.ca/dataset/snow-survey-administrative-basin-areas>
 
 ``` r
 basin_locations <- snow_basin_areas()
@@ -216,8 +225,7 @@ Simple feature collection with 6 features and 8 fields
 geometry type:  MULTIPOLYGON
 dimension:      XY
 bbox:           xmin: 531975.4 ymin: 456322.4 xmax: 1581028 ymax: 1242968
-epsg (SRID):    3005
-proj4string:    +proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs
+projected CRS:  NAD83 / BC Albers
 # A tibble: 6 x 9
   id    BASIN_ID FEATURE_CODE BASIN_NAME OBJECTID SE_ANNO_CAD_DATA
   <chr> <chr>    <chr>        <chr>         <int> <chr>           
@@ -227,8 +235,8 @@ proj4string:    +proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=10000
 4 WHSE~ 11       FA12420100   Okanagan         45 <NA>            
 5 WHSE~ 1        FA12420100   Upper Fra~       23 <NA>            
 6 WHSE~ 23       FA12420100   Haida Gwa~       24 <NA>            
-# ... with 3 more variables: FEATURE_AREA_SQM <dbl>,
-#   FEATURE_LENGTH_M <dbl>, geometry <MULTIPOLYGON [m]>
+# ... with 3 more variables: FEATURE_AREA_SQM <dbl>, FEATURE_LENGTH_M <dbl>,
+#   geometry <MULTIPOLYGON [m]>
 ```
 
 ##### Assign water year
@@ -265,18 +273,18 @@ to abide by its terms.
 ### License
 
     Copyright 2019 Province of British Columbia
-
+    
     Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
-
+    
     http://www.apache.org/licenses/LICENSE-2.0
-
+    
     Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and limitations under the License.
 
-------------------------------------------------------------------------
+-----
 
 *This project was created using the
 [bcgovr](https://github.com/bcgov/bcgovr) package.*
