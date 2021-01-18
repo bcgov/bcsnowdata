@@ -86,7 +86,7 @@ The user can define multiple options within the function, including:
 
 2. get_year: Specifies the year you want to return. Can be one water year, multiple, or all.
 
-3. update_archive: Specifies whether you want to update the archive of ASWE data that is saved on your computer to speed up the data process. Data older than a month will be automatically updated.
+3. force: Specifies whether you want to update the archive of ASWE data that is saved on your computer to speed up the data process. If the data within the archive on the users
 
 4. parameter_id: Specifies what type of data you want to retrieve. The choices include SWE, Temperature, SD (snow depth), and Precipitation.
 
@@ -100,8 +100,9 @@ The function in this example will retrieve data for station ID 2F05P for all yea
 id <- c("2F05P")
 SWE_test <- get_aswe_databc(station_id = id,
                           get_year = "All",
-                          use_archive = "No",
-                          parameter_id = "SWE") 
+                          parameter_id = "SWE",
+                          force = FALSE,
+                          ask = FALSE) 
 ```
 
 #### Manual Snow Survey Data Function
