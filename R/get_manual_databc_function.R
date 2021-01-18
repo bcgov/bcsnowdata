@@ -21,9 +21,8 @@
 #' @param station_id Define the station id you want. Can be an individual site, a string of site IDs, or all ASWE sites. Defaults to "All".
 #' @param survey_period Survey period you want to retrieve. Defaults to 'All'
 #' @param get_year Water year of data you want to retrieve. Defaults to 'All'
-#' @param use_archive Whether you want to cache data to speed downstream calculations. Defaults to c("Yes", "No"),
-#' @param update_archive Whether you want to update the historical archive (data before this water year). Can choose either yes or no. If the archive is greater than 30 days old it will automatically update
-#' @param directory_archive The directory where the data cache will be saved. Defaults to "./data/cache/" of your active directory
+#' @param force Whether you want to re-download the archived file whether it is updated or no. Defaults to FALSE
+#' @param ask Whether the user is asked whether to create a directory for the cached file. Defaults to TRUE
 #' @keywords Manual snow data DataBC
 #' @importFrom magrittr %>%
 #' @export
