@@ -7,25 +7,22 @@
 get_aswe_databc(
   station_id = "All",
   get_year = "All",
-  use_archive = c("Yes", "No"),
-  update_archive = c("Yes", "No"),
-  directory_archive = "./data/cache/",
   parameter_id = c("SWE", "Snow_Depth", "Precipitation", "Temperature"),
+  force = FALSE,
+  ask = TRUE,
   ...
 )
 }
 \arguments{
-\item{station_id}{Define the station id you want. Can be an individual site, a string of site IDs, or all ASWE sites. Defaults to "All", but this is a lot of data so takes forever.}
+\item{station_id}{Define the station id you want. Can be an individual site, a string of site IDs, or all ASWE sites. Defaults to "All"; this will return a great deal of data.}
 
 \item{get_year}{Define the year that you want to retrieve. Defaults to "All"}
 
-\item{use_archive}{Whether you want to cache data to speed downstream calculations. Defaults to c("Yes", "No"),}
-
-\item{update_archive}{Whether you want to update the historical archive (data before this water year). Can choose either yes or no. If the archive is greater than 30 days old it will automatically update}
-
-\item{directory_archive}{The directory where the data cache will be saved. Defaults to "./data/cache/" of your active directory}
-
 \item{parameter_id}{Defaults to: "SWE", "Snow_Depth", "Precipitation", "Temperature". Type of data you want to retrieve}
+
+\item{force}{Whether you want to re-download the archived file whether it is updated or no. Defaults to FALSE}
+
+\item{ask}{Whether the user is asked whether to create a directory for the cached file. Defaults to TRUE}
 }
 \description{
 This function allows you to obtain data from BC ASWE sites. It retrieves this data from Data BC
