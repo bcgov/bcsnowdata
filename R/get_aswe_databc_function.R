@@ -38,84 +38,51 @@
 
 get_aswe_databc <- function(station_id = "All",
                             get_year = "All",
-                            use_archive = c("Yes", "No"),
-                            update_archive = c("Yes", "No"),
-                            directory_archive = "./data/cache/",
-                            parameter_id = c("SWE", "Snow_Depth", "Precipitation", "Temperature"), ...){
+                            parameter_id = c("SWE", "Snow_Depth", "Precipitation", "Temperature"), 
+                            force = FALSE,
+                            ask = TRUE,...){
 
    # --------------------------------------
-   # Get all of the data before this current year
+   # Data archive - data before current water year 
+   # Check to see whether archived data has been downloaded on the user's computer and whether it has been updated for this year 
    # --------------------------------------
-   if (use_archive == "Yes") {
-
-    if (directory_archive != "./data/cache/") { # If the user has specified where the data should be cached.
-
-      # Create a directory for the data archive. If it exists, this won't override, but will create a data folder if it doesn't exist. Warnings are suppressed if the directory exists
-      int_dirarch <- directory_archive # reassign internal variable
-      dir.create(file.path(int_dirarch), showWarnings = FALSE)
-
-    } else { # If the user doesn't specify where to create a data archive, create one within the working directory
-      print("No path for data cache specified: data saved at /data/cache in working directory")
-
-      # Create a directory for the data archive. If it exists, this won't override, but will create a data folder if it doesn't exist. Warnings are suppressed if the directory exists
-      int_dirarch <- file.path("./", "data/cache") # reassign internal variable for data cache directory
-
-      # Create the 'data' folder within your working directory
-      dir.create(file.path("./", "data"), showWarnings = FALSE)
-
-      # Create the "cache" folder within the data/working directory
-      dir.create(int_dirarch, showWarnings = FALSE)
-    }
-
-    # If the choice is to update the data, then automatically update the data; otherwise, skip it
-    if (update_archive == "Yes") {
-      # Create the ASWE file archive for SWE
-      archive <- ASWE_data_archive(parameter_id)
-
-      # Save archive - all data before current year
-      saveRDS(archive, file = paste0(int_dirarch, parameter_id, "_archive.RDS"))
-    }
-
-    # If the choice is to not automatically update the data, ensure that the data file exists and is 'fresh' (i.e., less than a month old)
-    if (update_archive == "No") {
-     if (file.exists(paste0(int_dirarch, parameter_id, "_archive.RDS"))){
-
-       # Ensure that the file is not stale. If it is, re-read the file and save it
-       if ((Sys.Date() - (as.Date(file.info(paste0(int_dirarch, parameter_id, "_archive.RDS"))$mtime ))) >= 30){
-         # Create the ASWE file archive for SWE
-         archive <- ASWE_data_archive(parameter_id)
-
-         # Save archive - all data beyond current year
-         saveRDS(archive, file = paste0(int_dirarch, parameter_id, "_archive.RDS"))
-
-         # if the file exists and is not stale, read the archive from the cache
-       } else {
-         archive <- readRDS(paste0(int_dirarch, parameter_id, "_archive.RDS"))
-       }
-     } else { # if the file doesn't exist, create it
-       # Create the ASWE file archive for SWE
-       archive <- ASWE_data_archive(parameter_id)
-
-       # Save archive - all data beyond current year
-       saveRDS(archive, file = paste0(int_dirarch, parameter_id, "_archive.RDS"))
-     }
-    }
-     # If the user doesn't want to use a cache, skip all of the data archiving. None of the data called by the function will be saved.
-   } else if (use_archive == "No") {
-
-     # Get the archived ASWE data directly from the Data Catalogue without saving or archiving any data
+  
+   # Check to ensure that the ASWE archived data has been cached on the user's computer and is up to date
+   fname <- paste0(parameter_id, "_archive.rds")
+   dir <- data_dir()
+   fpath <- file.path(dir, fname)
+     
+   if (!file.exists(fpath) | force) { # If the file exists or the user decides to force the download, grab the archive data using 
+     
+     # Check that the directory exists
+     check_write_to_data_dir(dir, ask)
+       
+     # Get ASWE archive data
      archive <- ASWE_data_archive(parameter_id)
+    
+     # Save archive - all data before current year
+     saveRDS(archive, fpath)
+    
+   } else {
+     archive <- readRDS(fpath)
+    
+     # Get the maximum date within the archived data. It should be the current water year -1 if it is current
+     time <- max(unique(archive$Date_UTC))
+    
+     # Make sure that the archive file was updated last water year. Otherwise 
+     if (wtr_yr(time) != wtr_yr(Sys.Date()) - 1) {
+       archive <- ASWE_data_archive(parameter_id)
+       saveRDS(archive, fpath)
+     }
+    
+     #update_message_once(paste0(what, ' archive was updated on ', format(time_update, "%Y-%m-%d")))
+     print(paste0(parameter_id, ' archive was updated up to ', wtr_yr(max(unique(archive$Date_UTC)))))
    }
-
+  
   # --------------------------------------
   # Get current water year data
   # --------------------------------------
   current <- snow_auto_current(parameter_id)
-
-  # If you are using the cache, save the current year data within the data cache folder
-  if (use_archive == "Yes") {
-   saveRDS(current, file = paste0(int_dirarch, parameter_id, "_current.RDS"))
-  }
 
   # -------------------
   # Choices - filter the data by the station ID you specify
@@ -127,9 +94,9 @@ get_aswe_databc <- function(station_id = "All",
     current_1 <- current %>%
       dplyr::filter(Station_ID %in% station_id)
 
-    all_1 <- dplyr::full_join(archive_1, current_1)
+    all_1 <- dplyr::full_join(archive_1, current_1, by = c("Date_UTC", "Station_ID", "value", "variable", "station_name"))
   } else {
-    all_1 <- dplyr::full_join(archive, current)
+    all_1 <- dplyr::full_join(archive, current, by = c("Date_UTC", "Station_ID", "value", "variable", "station_name"))
   }
 
   # Format the compiled data - ensure data is in the right format and that there are no duplicates
@@ -137,21 +104,23 @@ get_aswe_databc <- function(station_id = "All",
     dplyr::mutate(Date_UTC = as.POSIXct(Date_UTC, format = "%Y-%m-%d %H:%M:%S")) %>%
     dplyr::mutate(value = as.numeric(value)) %>%
     dplyr::arrange(Station_ID, Date_UTC) %>%
-    dplyr::distinct(., .keep_all = TRUE)
+    dplyr::distinct(., .keep_all = TRUE) %>%
+    dplyr::rename(date_utc = "Date_UTC",
+                  station_id = "Station_ID")
 
   #Subset by water year (note - not actual year. Starts in oct of previous year)
   if (all(get_year == "All")){
     data_temp_1 <- all
   } else {
-    all$wy <- wtr_yr(dates = all$Date_UTC) # THIS IS THE SLOW PART
+    all$wy <- wtr_yr(dates = all$date_utc) # THIS IS THE SLOW PART
     data_temp_1 <- all %>%
       dplyr::filter(wy %in% get_year) %>%
       dplyr::select(-wy)
   }
 
-  data_final = data_temp_1 %>%
+  data_final <- data_temp_1 %>%
     dplyr::distinct(., .keep_all = TRUE) %>% # ensure only unique entries exist
-    dplyr::arrange(Station_ID, Date_UTC)
+    dplyr::arrange(station_id, date_utc)
 
   ## Have a flag if the parameter input was incorrectly specified by the user
   if (all(!c("SWE", "Snow_Depth", "Precipitation", "Temperature") %in% parameter_id)) {
