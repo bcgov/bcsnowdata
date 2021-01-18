@@ -210,7 +210,6 @@ snow_manual_stations <- function(crs = "3005"){
 
 # ======================================
 ## Memoised function
-## TODO this for all data
 # ======================================
 
 snow_daily_archive <- memoise::memoise(snow_daily_archive_)
@@ -218,9 +217,6 @@ snow_auto_archive <- memoise::memoise(snow_auto_archive_)
 snow_auto_current <- memoise::memoise(snow_auto_current_)
 snow_manual_archive <- memoise::memoise(snow_manual_archive_)
 snow_manual_current <- memoise::memoise(snow_manual_current_)
-
-
-
 
 # ==================================================================
 # Functions for compiling data
