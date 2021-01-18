@@ -22,7 +22,7 @@
 #' Get BC ASWE Data Function
 #'
 #' This function allows you to obtain data from BC ASWE sites. It retrieves this data from Data BC
-#' @param station_id Define the station id you want. Can be an individual site, a string of site IDs, or all ASWE sites. Defaults to "All", but this is a lot of data so takes forever.
+#' @param station_id Define the station id you want. Can be an individual site, a string of site IDs, or all ASWE sites. Defaults to "All"; this will return a great deal of data.
 #' @param get_year Define the year that you want to retrieve. Defaults to "All"
 #' @param force Whether you want to re-download the archived file whether it is updated or no. Defaults to FALSE
 #' @param ask Whether the user is asked whether to create a directory for the cached file. Defaults to TRUE
