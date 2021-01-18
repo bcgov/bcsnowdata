@@ -41,83 +41,60 @@
 get_manual_swe <- function(station_id,
                            survey_period = "All",
                            get_year = "All",
-                           use_archive = c("Yes", "No"),
-                           update_archive = c("Yes", "No"),
-                           directory_archive = "./data/cache/"){
+                           force = FALSE,
+                           ask = TRUE,...){
 
-  # ------------------------------------------------------------------------
-  # If the user wants to cache data to speed downstream functions
-
-  if (use_archive == "Yes") {
-    if (directory_archive != "./data/cache/") { # If the user has specified where the data should be cached.
-
-      # Create a directory for the data archive. If it exists, this won't override, but will create a data folder if it doesn't exist. Warnings are suppressed if the directory exists
-      int_dirarch <- directory_archive # reassign internal variable
-      dir.create(file.path(int_dirarch), showWarnings = FALSE)
-
-    } else { # If the user doesn't specify where to create a data archive, create one within the working directory
-      print("No path for data cache specified: data saved at /data/cache in working directory")
-
-      # Create a directory for the data archive. If it exists, this won't override, but will create a data folder if it doesn't exist. Warnings are suppressed if the directory exists
-      int_dirarch <- file.path("./", "data/cache") # reassign internal variable for data cache directory
-
-      # Create the 'data' folder within your working directory
-      dir.create(file.path("./", "data"), showWarnings = FALSE)
-
-      # Create the "cache" folder within the data/working directory
-      dir.create(int_dirarch, showWarnings = FALSE)
-    }
-
-    # If the choice is to update the data, then automatically update the data
-    if (update_archive == "Yes") {
-      # Create the ASWE file archive for SWE
-      data_archive_manual <- snow_manual_archive()
-      data_current_manual <- snow_manual_current()
-
+  # --------------------------------------
+  # Data archive - data before current water year 
+  # Check to see whether archived data has been downloaded on the user's computer and whether it has been updated for this year 
+  # --------------------------------------
+  
+  # Check to ensure that the archived data has been cached on the user's computer and is up to date
+  fname <- c("manualswe_archive.rds")
+  dir <- data_dir()
+  fpath <- file.path(dir, fname)
+  
+  if (!file.exists(fpath) | force) { # If the file exists or the user decides to force the download, grab the archive data using 
+    
+    # Check that the directory exists
+    check_write_to_data_dir(dir, ask)
+    
+    # Get ASWE archive data
+    archive <- snow_manual_archive()
+    
+    # Save archive - all data before current year
+    saveRDS(archive, fpath)
+    
+  } else {
+    archive <- readRDS(fpath)
+    
+    # Get the maximum date within the archived data. It should be the current water year -1 if it is current
+    time <- max(unique(archive$`Date of Survey`))
+    
+    # Make sure that the archive file was updated last water year (or this year?). Otherwise update.
+    if (wtr_yr(time) != wtr_yr(Sys.Date()) - 1 || wtr_yr(time) == wtr_yr(Sys.Date())) {
+      
+      # Get ASWE archive data
+      archive <- snow_manual_archive()
+      
       # Save archive - all data before current year
-      saveRDS(data_archive_manual, file = paste0(int_dirarch, "SWEmanual_archive.RDS"))
+      saveRDS(archive, fpath)
     }
-
-    # If the choice is to not automatically update the data, ensure that the data file exists and is 'fresh' (i.e., less than a month old)
-    if (update_archive == "No") {
-      if (file.exists(paste0(int_dirarch, "SWEmanual_archive.RDS"))){
-
-        # Ensure that the file is not stale. If it is, re-read the file and save it
-        if ((Sys.Date() - (as.Date(file.info(paste0(int_dirarch, "SWEmanual_archive.RDS"))$mtime))) >= 30){
-          # Create the ASWE file archive for SWE
-          data_archive_manual <- snow_manual_archive()
-
-          # Save archive - all data beyond current year
-          saveRDS(data_archive_manual, file = paste0(int_dirarch, "SWEmanual_archive.RDS"))
-
-          # if the file exists and is not stale, read the archive from the cache
-        } else {
-          data_archive_manual <- readRDS(paste0(int_dirarch, "SWEmanual_archive.RDS"))
-        }
-      } else { # if the file doesn't exist, create it
-
-        # Create the manual data file from Data Catalogue
-        data_archive_manual <- snow_manual_archive()
-
-        # Save archive - all data beyond current year
-        saveRDS(data_archive_manual, file = paste0(int_dirarch, "SWEmanual_archive.RDS"))
-      }
-
-      # Get the current year manual data
-      data_current_manual <- snow_manual_current()
-    }
-
-  } else { # if you aren't using  a data cache. Not as important as for the manual as it is faster
-    data_archive_manual <- snow_manual_archive()
-    data_current_manual <- snow_manual_current()
+    
+    #update_message_once(paste0(what, ' archive was updated on ', format(time_update, "%Y-%m-%d")))
+    print(paste0('Manual SWE archive was updated up to ', max(unique(archive$`Date of Survey`))))
   }
   
+  # Get current water year data
+  current <- snow_manual_current()
+  
   # If there is no data in the current year data, data is only the archive data. Otherwise, join the current year data with the archive
-  if (dim(data_current_manual)[1] == 0) {
-    data <- data_archive_manual
-  } else if (dim(data_current_manual)[1] != 0) {
+  if (dim(current)[1] == 0) {
+    data <- archive
+    print("No data for current water year")
+  } else if (dim(current)[1] != 0) {
     # Combine archived data and current year data
-    data <- dplyr::full_join(data_archive_manual, data_current_manual) %>%
+    data <- dplyr::full_join(archive, current, by = c("Snow Course Name", "Number", "Elev. metres", "Date of Survey", "Snow Depth cm", "Water Equiv. mm", "Survey Code", "Snow Line Elev. m", "Snow Line Code", "% of Normal", "Density %", "Survey Period", "Normal mm", "wr")) %>%
       dplyr::distinct(Number, `Date of Survey`, `Snow Depth cm`, .keep_all = TRUE)
   }
   
@@ -148,48 +125,57 @@ get_manual_swe <- function(station_id,
 
   # set up loop to retrieve specified stations
   if(station_id[1] == "All"){
-    SWE_current <- data
-  } else if (length(station_id)>= 1){
+    swe_current <- data
+  } else if (length(station_id) >= 1){
     data_sub <- data %>%
       dplyr::filter(Number %in% station_id)
-    SWE_current <- data_sub
+    swe_current <- data_sub
   } else {
-    SWE_current <- NULL
+    swe_current <- NULL
     print('Error in getting manual SWE')
   }
 
   # Loop to get specified survey periods
   if(survey_period[1] == "All"){
-    SWE_current <- SWE_current
+    swe_current <- swe_current
   } else if (length(survey_period)>=1){
-    SWE_current <- SWE_current %>%
+    swe_current <- swe_current %>%
       dplyr::filter(`Survey Period` %in% survey_period)
   } else {
-    SWE_current = NULL
+    swe_current = NULL
   }
 
   # Loop to get specified year
   if(get_year[1] == "All"){
-    SWE_current <- SWE_current
+    swe_current <- swe_current
   } else if (length(get_year)>=1){
-    SWE_current <- SWE_current %>%
-      dplyr::filter(SWE_current$wr %in% get_year)
+    swe_current <- swe_current %>%
+      dplyr::filter(swe_current$wr %in% get_year)
   } else {
-    SWE_current = NULL
+    swe_current = NULL
   }
 
-  # massage data - remove periods from colum names
+  # massage data - remove periods from column names
   ## We should look at janitor::clean_name here
-  SWE_out <- SWE_current %>%
+  swe_out <- swe_current %>%
     #dplyr::rename(Station_ID = Number, SWE_mm = `Snow Line Elev. m`, Date_UTC = `Date of Survey`) %>%
     dplyr::distinct() %>%
-    dplyr::select(-wr)
+    dplyr::select(-wr) %>%
+    dplyr::rename("snow_course_name" = `Snow Course Name`,
+                  "station_id" = "Number",
+                  elev_metres = `Elev. metres`,
+                  date_utc = `Date of Survey`,
+                  snow_depth_cm = `Snow Depth cm`,
+                  swe_mm = `Water Equiv. mm`,
+                  survey_code = `Survey Code`,
+                  snow_line_elev_m = `Snow Line Elev. m`,
+                  snow_line_code = `Snow Line Code`,
+                  x_of_normal = `% of Normal`,
+                  density_percent = `Density %`,
+                  survey_period = `Survey Period`,
+                  normal_mm = `Normal mm`
+                  )
 
-  ## Maintain column names
-  colnames(SWE_out) <- c("Snow_Course_Name", "Station_ID", "Elev_metres", "Date_UTC",
-                         "Snow_Depth_cm", "SWE_mm", "Survey_Code", "Snow_Line_Elev_m",
-                         "Snow_Line_Code", "X_of_Normal", "Density_", "Survey_Period",
-                         "Normal_mm")
-  return(SWE_out)
+  return(swe_out)
 }
 
