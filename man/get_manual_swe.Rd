@@ -8,9 +8,9 @@ get_manual_swe(
   station_id,
   survey_period = "All",
   get_year = "All",
-  use_archive = c("Yes", "No"),
-  update_archive = c("Yes", "No"),
-  directory_archive = "./data/cache/"
+  force = FALSE,
+  ask = TRUE,
+  ...
 )
 }
 \arguments{
@@ -20,11 +20,9 @@ get_manual_swe(
 
 \item{get_year}{Water year of data you want to retrieve. Defaults to 'All'}
 
-\item{use_archive}{Whether you want to cache data to speed downstream calculations. Defaults to c("Yes", "No"),}
+\item{force}{Whether you want to re-download the archived file whether it is updated or no. Defaults to FALSE}
 
-\item{update_archive}{Whether you want to update the historical archive (data before this water year). Can choose either yes or no. If the archive is greater than 30 days old it will automatically update}
-
-\item{directory_archive}{The directory where the data cache will be saved. Defaults to "./data/cache/" of your active directory}
+\item{ask}{Whether the user is asked whether to create a directory for the cached file. Defaults to TRUE}
 }
 \description{
 This function allows you to obtain data for . It retrieves this data from Data BC
