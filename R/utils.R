@@ -131,3 +131,11 @@ databc_GET_client <- function(layer, crs){
 
 }
 
+#update_message_once <- function(...) {
+#  silence <- isTRUE(getOption("silence_update_message"))
+#  messaged <- bcsnowdata_env$bcsnowdata_update_message
+#  if (!silence && !messaged) {
+#    message(...)
+#    assign("bcsnowdata_update_message", TRUE, envir = bcsnowdata_env)
+#  }
+#}
