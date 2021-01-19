@@ -26,7 +26,7 @@ library("data.table")
 library("RCurl")
 library(lubridate)
 library(ggplot2)
-remotes::install_github("bcgov/bcsnowdata")
+#remotes::install_github("bcgov/bcsnowdata")
 library(bcsnowdata)
 
 ```
