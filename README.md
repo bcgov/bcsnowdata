@@ -171,17 +171,17 @@ head(ASWE_locations)
 Simple feature collection with 6 features and 10 fields
 geometry type:  POINT
 dimension:      XY
-bbox:           xmin: 981486.2 ymin: 903297.6 xmax: 1499553 ymax: 1225253
+bbox:           xmin: 983916 ymin: 389071.9 xmax: 1212658 ymax: 1379931
 projected CRS:  NAD83 / BC Albers
 # A tibble: 6 x 11
   id    SNOW_ASWS_STN_ID LOCATION_ID LOCATION_NAME ELEVATION STATUS LATITUDE
   <chr>            <int> <chr>       <chr>             <int> <chr>     <dbl>
-1 WHSE~                1 1A01P       Yellowhead L~      1860 Active     52.9
-2 WHSE~                2 1A02P       McBride Upper      1611 Active     53.3
-3 WHSE~                3 1A03P       Barkerville        1520 Active     53.1
-4 WHSE~                4 1A05P       Longworth Up~      1740 Active     54.0
-5 WHSE~                5 1A12P       Kaza Lake          1257 Active     56.0
-6 WHSE~                6 1A14P       Hedrick Lake       1100 Active     54.1
+1 WHSE~               83 3B25P       North Road T~        35 Active     48.5
+2 WHSE~               84 3B26P       Mount Arrows~      1465 Active     49.2
+3 WHSE~               85 3C08P       Burnt Bridge~      1330 Active     52.5
+4 WHSE~               86 4A02P       Pine Pass          1400 Active     55.4
+5 WHSE~               87 4A03P       Ware Upper         1565 Active     57.4
+6 WHSE~               88 4A04P       Ware Lower          971 Active     57.4
 # ... with 4 more variables: LONGITUDE <dbl>, OBJECTID <int>,
 #   SE_ANNO_CAD_DATA <chr>, geometry <POINT [m]>
 ```
