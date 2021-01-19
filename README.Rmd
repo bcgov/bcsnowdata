@@ -109,7 +109,7 @@ SWE_test <- get_aswe_databc(station_id = id,
 
 #### Manual Snow Survey Data Function
 
-The manual snow station data funtion - get_manual_swe() - is similar to the function that gets data from the ASWE sites. 
+The manual snow station data function - get_manual_swe() - is similar to the function that gets data from the ASWE sites. 
 
 Specifically, the user can define multiple options within the function, including:
 
