@@ -1,5 +1,5 @@
 ---
-title: "Manual Snow Data Function"
+title: "ManualSnow_functions"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{ManualSnow_functions}
