@@ -79,13 +79,20 @@ The user can define multiple options within the function, including:
 2.  get\_year: Specifies the year you want to return. Can be one water
     year, multiple, or all.
 
-3.  update\_archive: Specifies whether you want to update the archive of
-    ASWE data that is saved on your computer to speed up the data
-    process. Data older than a month will be automatically updated.
-
-4.  parameter\_id: Specifies what type of data you want to retrieve. The
+3.  parameter\_id: Specifies what type of data you want to retrieve. The
     choices include SWE, Temperature, SD (snow depth), and
     Precipitation.
+
+4.  force: Specifies whether you want to update the archive of ASWE data
+    that is saved on your computer to speed up the data process. If the
+    data within the archive on the user’s drive is out of date (i.e.,
+    doesn’t contain data from the last water year), the archive will
+    automatically update.
+
+5.  ask: Specifies whether the user can decide to create a new directory
+    for cached data. If TRUE, user will have the option of saying ‘yes’
+    or ‘no’ as to whether they want to create a new directory for
+    archived data to be cached.
 
 ##### get\_aswe\_databc() Example
 
@@ -96,13 +103,13 @@ prior to this water year).
 ``` r
 # Retrieve SWE for one site over all years; don't cache data
 id <- c("2F05P")
-SWE_test <- get_aswe_databc(station_id = id, get_year = "All", use_archive = "No", 
-    parameter_id = "SWE")
+SWE_test <- get_aswe_databc(station_id = id, get_year = "All", parameter_id = "SWE", 
+    force = FALSE, ask = FALSE)
 ```
 
 #### Manual Snow Survey Data Function
 
-The manual snow station data funtion - get\_manual\_swe() - is similar
+The manual snow station data function - get\_manual\_swe() - is similar
 to the function that gets data from the ASWE sites.
 
 Specifically, the user can define multiple options within the function,
@@ -124,12 +131,16 @@ including:
 3.  get\_year: Specifies the year you want to return. Can be one water
     year, multiple years, or all on record (the function default).
 
-4.  update\_archive: Specifies whether you want to update the archive of
-    manual data that is saved on your computer to speed up the data
-    process. Archive data is data older than the current water year (Oct
-    - Sept). Data older than a month will be automatically updated. This
-    is not as significant a time saver as for the ASWE data, given that
-    there is less manual data available.
+4.  force: Specifies whether you want to update the archive of ASWE data
+    that is saved on your computer to speed up the data process. If the
+    data within the archive on the user’s drive is out of date (i.e.,
+    doesn’t contain data from the last water year), the archive will
+    automatically update.
+
+5.  ask: Specifies whether the user can decide to create a new directory
+    for cached data. If TRUE, user will have the option of saying ‘yes’
+    or ‘no’ as to whether they want to create a new directory for
+    archived data to be cached.
 
 The function in this example will retrieve data for station ID 1C21 for
 all years and all survey periods on record without updating the cache of
@@ -140,7 +151,7 @@ historic data (data prior to this water year).
 # years; don't use data cache
 id <- c("1C21")
 manual_test <- get_manual_swe(station_id = id, survey_period = "All", get_year = "All", 
-    use_archive = "No")
+    force = FALSE, ask = FALSE)
 ```
 
 ##### Automated Snow Weather Station Locations
@@ -192,17 +203,17 @@ head(manual_locations)
 Simple feature collection with 6 features and 10 fields
 geometry type:  POINT
 dimension:      XY
-bbox:           xmin: 1214133 ymin: 477179.7 xmax: 1353969 ymax: 614635.2
+bbox:           xmin: 1069776 ymin: 903848.3 xmax: 1499385 ymax: 1017042
 projected CRS:  NAD83 / BC Albers
 # A tibble: 6 x 11
   id    SNOW_MSS_LOC_ID LOCATION_ID LOCATION_NAME ELEVATION STATUS LATITUDE
   <chr>           <int> <chr>       <chr>             <int> <chr>     <dbl>
-1 WHSE~              84 1D09        Wahleach Lake      1480 Active     49.2
-2 WHSE~              85 1D10        Nahatlatch R~      1550 Active     49.8
-3 WHSE~              86 1D11        Boston Bar C~      1340 Inact~     49.6
-4 WHSE~              87 1D12        Boston Bar C~      1230 Inact~     49.6
-5 WHSE~              88 1D13        Wolverine Cr~       250 Inact~     50.5
-6 WHSE~              89 1D14        Ottomite           1460 Inact~     49.6
+1 WHSE~               1 1A01        Yellowhead         1860 Inact~     52.9
+2 WHSE~               2 1A02        McBride (Upp~      1611 Inact~     53.3
+3 WHSE~               3 1A03        Barkerville        1520 Inact~     53.1
+4 WHSE~               4 1A04        Nechako             940 Inact~     53.6
+5 WHSE~               5 1A05        Longworth (U~      1693 Active     54.0
+6 WHSE~               6 1A06        Hansard             590 Inact~     54.1
 # ... with 4 more variables: LONGITUDE <dbl>, OBJECTID <int>,
 #   SE_ANNO_CAD_DATA <chr>, geometry <POINT [m]>
 ```
