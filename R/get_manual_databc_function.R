@@ -25,6 +25,7 @@
 #' @param ask Whether the user is asked whether to create a directory for the cached file. Defaults to TRUE
 #' @keywords Manual snow data DataBC
 #' @importFrom magrittr %>%
+#' @importFrom grDevices cm
 #' @export
 #' @examples
 #' get_manual_swe()
