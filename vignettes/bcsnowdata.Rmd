@@ -10,32 +10,12 @@ vignette: >
 
 ```{r setup, include=FALSE, cache = FALSE}
 
-# Script to actual build the package itself
-#library(bcsnowdata)
-#library("devtools")
-#library(roxygen2)
-#library(dplyr)
-#setwd("C:/Users/AJOLLYMO/RProjects/bcsnowdata")
-#library(knitr)
-#library("devtools")
-
-# Build documentation - if the packages have changes
-#document()
-
-# Test the aswe function
-#rm(list = ls())
-
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
-
-knitr::opts_chunk$set(echo = FALSE
-                      , comment = NA
-                      , warning = FALSE
-                      , error = FALSE
-                      , message = FALSE
-                      , tidy = TRUE)
+knitr::opts_chunk$set(echo = FALSE,
+                      comment = NA,
+                      warning = FALSE,
+                      error = FALSE,
+                      message = FALSE,
+                      tidy = TRUE)
 
 knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file()) # Ensure that the package will go to the root folder to look for data
 
@@ -46,10 +26,15 @@ library("data.table")
 library("RCurl")
 library(lubridate)
 library(ggplot2)
+remotes::install_github("bcgov/bcsnowdata")
 library(bcsnowdata)
 
 ```
-<a id="devex-badge" rel="Exploration" href="https://github.com/BCDevExchange/assets/blob/master/README.md"><img alt="Being designed and built, but in the lab. May change, disappear, or be buggy." style="border-width:0" src="https://assets.bcdevexchange.org/images/badges/exploration.svg" title="Being designed and built, but in the lab. May change, disappear, or be buggy." /></a>
+<!-- badges: start -->
+[![img](https://img.shields.io/badge/Lifecycle-Maturing-007EC6)](https://github.com/bcgov/repomountie/blob/master/doc/lifecycle-badges.md)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) 
+
+<!-- badges: end -->
 
 # BC Snow Data Functions
 
