@@ -50,20 +50,23 @@ The function can retrieve one, multiple, or all manual snow surveys through the 
 # Retrieve SWE for one station (all years on record)
 test_ID1 <- get_aswe_databc(station_id = "2F05P",
                           get_year = "All",
-                          use_archive = "No",
-                          parameter_id = "SWE") 
+                          parameter_id = "SWE",
+                          force = FALSE,
+                          ask = FALSE) 
 
 # Retrieve SWE for one year across all stations
 test_ID2 <- get_aswe_databc(station_id = "All",
                           get_year = "2019",
-                          use_archive = "No",
-                          parameter_id = "SWE") 
+                          parameter_id = "SWE",
+                          force = FALSE,
+                          ask = FALSE) 
 
 # Retrieve SWE for one year across two stations
 test_ID3 <- get_aswe_databc(station_id = c("2F10P", "4D10P"),
                           get_year = "2019",
-                          use_archive = "No",
-                          parameter_id = "SWE") 
+                          parameter_id = "SWE",
+                          force = FALSE,
+                          ask = FALSE) 
 ```
 
 ## Specifying Year
@@ -75,8 +78,9 @@ The user can also specify the year (by water year) that the function retrieves. 
 # Retrieve SWE for two years year across one station
 test_year1 <- get_aswe_databc(station_id = "2F10P",
                           get_year = c("2019", "2018"),
-                          use_archive = "No",
-                          parameter_id = "SWE")
+                          parameter_id = "SWE",
+                          force = FALSE,
+                          ask = FALSE)
 ```
 
 ## Specifying the Type of Data Retrieved: Parameter ID
@@ -92,39 +96,35 @@ parameter_id = "Temperature"
 # Retrieve SWE for one year across one station
 test_p1 <- get_aswe_databc(station_id = "2F10P",
                           get_year = c("2019"),
-                          use_archive = "No",
-                          parameter_id = "SWE")
+                          parameter_id = "SWE",
+                          force = FALSE,
+                          ask = FALSE)
 
 # Retrieve snow depth for one year across one station
 test_p2 <- get_aswe_databc(station_id = "2F10P",
                           get_year = c("2019"),
-                          use_archive = "No",
-                          parameter_id = "Snow_Depth")
+                          parameter_id = "Snow_Depth",
+                          force = FALSE,
+                          ask = FALSE)
 
 # Retrieve accumulated precipitation for one year across one station
 test_p3 <- get_aswe_databc(station_id = "2F10P",
                           get_year = c("2019"),
-                          use_archive = "No",
-                          parameter_id = "Precipitation")
+                          parameter_id = "Precipitation",
+                          force = FALSE,
+                          ask = FALSE)
 
 # Retrieve air temperature (daily max and min) for one year across one station
 test_p4 <- get_aswe_databc(station_id = "2F10P",
                           get_year = c("2019"),
-                          use_archive = "No",
-                          parameter_id = "Temperature")
+                          parameter_id = "Temperature",
+                          force = FALSE,
+                          ask = FALSE)
 ```
 
 ## Data Caching Functions
 
-As the data collected from the ASWE stations is very large, reading the entire archive of data from the Data Catalogue can be long, especially  if you are repeating the data retrieval operation many times during downstream analysis. Thus, there are options for caching a copy of the data archive within the get_aswe_databc() function. This gives users the option of saving a version (in R-friendly RDS format) in a location of their choice on their computer.
-
-The user can choose to cache a version of the data archive from Data BC on their computer using the "use_archive" variable - "No" means that the data will be downloaded directly from the Data Catalogue adn will not be cached on the user's computer.
-
-If the user chooses to cache data to save time by settings use_archive = "Yes", then the user must also define whether to update the archive (update_archive variable) and where to save the data (directory_archive variable). 
-
-The 'update_archive' variable determines whether or not a data cache will be updated, if it exists already. If the user decides not to update the archive (update_archive = "No"), then the historic data will be retrieved from the user's computer (which is faster than downloading it from the Data Catalogue). If the data doesn't exist at the location that the user has specified (in the 'directory_archive' variable), then the data will be automatically downloaded from the Data Catalogue and saved at the location specified. The function also checks to see how old the historic data is; if the data hasn't been updated in a month, it will be re-downloaded from the Data Catalogue and saved at the location specified within the 'directory_archive' variable; this is to ensure that the data archive is up to date with the Data Catalogue version of the data.
-
-Lastly, the 'directory_archive' variable demonstrates where the data cache should be saved on the user's computer. If the user doesn't specify a location, the data will be automatically cached within a Data -> cache folder that will be created in the active directory you are working in. However, it is recommended that the user define a permanent home for the data cache, as the active directory will change with the user's R project directory. 
+As the data collected from the ASWE stations is very large, reading the entire archive of data from the Data Catalogue can take some time. Thus, both get_aswe_databc() and get_manual_databc() cache data in an .rmd format on the user's computer to speed data acquisition. Specifically, archived data (i.e., older than the current water year) is cached on the user's computer. The user can choose to manually over write the cached data (force = FALSE). If no data has been cached (for example, if this is the first time the function is being use to retrieve a particular variable), the user can specify whether they will be asked to opt into creating a new data directory (ask = TRUE/FALSE). If ask = true, the function will ask the user permission to create said directory; if the user specifies 'no', then the function will stop. 
 
 ```{r ASWE_cache, echo = TRUE, include = TRUE, results = 'hide'}
 # Retrieve SWE for one year across one station. Use a data cache without updating it, and check that the data
@@ -132,7 +132,6 @@ Lastly, the 'directory_archive' variable demonstrates where the data cache shoul
 test_c1 <- get_aswe_databc(station_id = "2F10P",
                           get_year = c("2019"),
                           parameter_id = "SWE",
-                          use_archive = "Yes",
-                          update_archive = "Yes",
-                          directory_archive = "C:/Users/AJOLLYMO/RProjects/SnowData_archive/cache/")
+                          force = FALSE,
+                          ask = FALSE)
 ```
