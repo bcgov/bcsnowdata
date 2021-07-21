@@ -25,9 +25,9 @@ wtr_yr <- function(dates, start_month = 10) {
   # Convert possible character vector into date
   d1 <- as.Date(dates)
   # Year offset
-  offset <- ifelse(as.integer(format(d1, '%m')) < start_month,0,1)
+  offset <- ifelse(as.integer(format(d1, "%m")) < start_month, 0, 1)
   # Water year
-  adj_year <- as.integer(format(d1, '%Y')) + offset
+  adj_year <- as.integer(format(d1, "%Y")) + offset
   # Return the water year
   adj_year
 }
