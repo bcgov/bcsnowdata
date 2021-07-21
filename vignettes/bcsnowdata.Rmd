@@ -8,7 +8,7 @@ vignette: >
 ---
 
 
-```{r setup, include=FALSE, cache = FALSE}
+```{r setup, include = FALSE, cache = FALSE}
 
 knitr::opts_chunk$set(echo = FALSE,
                       comment = NA,
@@ -72,8 +72,8 @@ See the "ASWE Data Function" vignette for detailed examples of how to use this f
 
 ```{r, AutomatedData, echo = T, include = TRUE, results = 'hide'}
 # Retrieve ASWE data for one site over all years on record; don't update cache if it exists
-id <- c("2F05P")
-SWE_test <- get_aswe_databc(station_id = id,
+id <- c("2C09Q")
+SWE_test <- bcsnowdata::get_aswe_databc(station_id = id,
                           get_year = "All",
                           parameter_id = "SWE",
                           force = FALSE,
@@ -110,7 +110,7 @@ See the "Manual Snow Data Function" vignette for a detailed example of how to us
 ```{r, ManualData, echo = T, include = TRUE, results = 'hide'}
 # Retrieve manual snow survey data for one site, all survey periods, all years; update the cache without asking the user whether to create a new directory
 id <- c("1C21")
-manual_test <- get_manual_swe(station_id = id,
+manual_test <- bcsnowdata::get_manual_swe(station_id = id,
                               survey_period = "All",
                               get_year = "All",
                               force = TRUE,
@@ -132,7 +132,7 @@ https://catalogue.data.gov.bc.ca/dataset/automated-snow-weather-station-location
 
 
 ```{r, AutomatedDataLocation, echo = T, include = TRUE}
-ASWE_locations <- snow_auto_location()
+ASWE_locations <- bcsnowdata::snow_auto_location()
 
 head(ASWE_locations)
 ```
@@ -146,7 +146,7 @@ Data obtained from:
 https://catalogue.data.gov.bc.ca/dataset/manual-snow-survey-locations
 
 ```{r, ManualDataLocations, echo = T, include = TRUE}
-manual_locations <- snow_manual_location()
+manual_locations <- bcsnowdata::snow_manual_location()
 
 head(manual_locations)
 ```
@@ -159,7 +159,7 @@ Data obtained from:
 https://catalogue.data.gov.bc.ca/dataset/snow-survey-administrative-basin-areas
 
 ```{r, BasinLocations, echo = T, include = TRUE}
-basin_locations <- snow_basin_areas()
+basin_locations <- bcsnowdata::snow_basin_areas()
 
 head(basin_locations)
 ```
@@ -169,7 +169,7 @@ head(basin_locations)
 This package also contains a function (wtr_yr()) for assigning water year to a column of dates. It is meant as an internal function that can also be called externally. The main input is a vector or column of dates that are used to calculate the corresponding water year. The default start to the calendar year is October (start_month = 10).
 
 ```{r, wateryear, echo = T, include = TRUE}
-wtr_yr(as.Date("2018-12-01"))
+bcsnowdata::wtr_yr(as.Date("2018-12-01"))
 ```
 
 ### License
