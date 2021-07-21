@@ -37,13 +37,14 @@
 
 get_aswe_databc <- function(station_id = "All",
                             get_year = "All",
-                            parameter_id = c("SWE", "Snow_Depth", "Precipitation", "Temperature"), 
+                            parameter_id = c("SWE", "Snow_Depth", "Precipitation", "Temperature"),
                             force = FALSE,
-                            ask = TRUE,...){
+                            ask = TRUE, ...) {
 
    # --------------------------------------
-   # Data archive - data before current water year 
-   # Check to see whether archived data has been downloaded on the user's computer and whether it has been updated for this year 
+   # Data archive - data before current water year
+   # Check to see whether archived data has been downloaded on the user's computer
+   # and whether it has been updated for this year
    # --------------------------------------
   
    # Check to ensure that the ASWE archived data has been cached on the user's computer and is up to date
