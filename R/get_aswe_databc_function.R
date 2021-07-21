@@ -40,7 +40,10 @@ get_aswe_databc <- function(station_id = "All",
                             parameter_id = c("SWE", "Snow_Depth", "Precipitation", "Temperature"),
                             force = FALSE,
                             ask = TRUE, ...) {
-
+   ## Have a flag if the parameter input was incorrectly specified by the user
+   if (all(!c("SWE", "Snow_Depth", "Precipitation", "Temperature") %in% parameter_id)) {
+    stop("Did you specify the correct parameter_id? :)", call. = FALSE)
+   }
    # --------------------------------------
    # Data archive - data before current water year
    # Check to see whether archived data has been downloaded on the user's computer
@@ -121,9 +124,4 @@ get_aswe_databc <- function(station_id = "All",
   data_final <- data_temp_1 %>%
     dplyr::distinct(., .keep_all = TRUE) %>% # ensure only unique entries exist
     dplyr::arrange(station_id, date_utc)
-
-  ## Have a flag if the parameter input was incorrectly specified by the user
-  if (all(!c("SWE", "Snow_Depth", "Precipitation", "Temperature") %in% parameter_id)) {
-    stop("Did you specify the correct parameter_id? :)", call. = FALSE)
-  }
 } # function end
