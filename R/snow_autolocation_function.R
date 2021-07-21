@@ -20,7 +20,7 @@
 #' @examples
 #' snow_auto_location()
 
-snow_auto_location <- function(crs = "3005"){
+snow_auto_location <- function(crs = "3005") {
 
   databc_GET_client("WHSE_WATER_MANAGEMENT.SSL_SNOW_ASWS_STNS_SP", crs = crs)
 

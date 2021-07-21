@@ -20,7 +20,7 @@
 #' @examples
 #' snow_basin_areas()
 
-snow_basin_areas <- function(crs = "3005"){
+snow_basin_areas <- function(crs = "3005") {
 
   databc_GET_client("WHSE_WATER_MANAGEMENT.SSL_SNOW_SURVEY_BASIN_AREA_SP", crs = crs)
 

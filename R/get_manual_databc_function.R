@@ -6,11 +6,10 @@
 #
 # http://www.apache.org/licenses/LICENSE-2.0
 #
-# Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS,
+# Unless required by applicable law or agreed to in writing, 
+# software distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and limitations under the License.
-
-
 
 # ====================================================================
 # Function for Retrieving Manual Snow Survey Data from Data BC
@@ -42,11 +41,11 @@ get_manual_swe <- function(station_id,
                            survey_period = "All",
                            get_year = "All",
                            force = FALSE,
-                           ask = TRUE,...){
+                           ask = TRUE, ...) {
 
   # --------------------------------------
-  # Data archive - data before current water year 
-  # Check to see whether archived data has been downloaded on the user's computer and whether it has been updated for this year 
+  # Data archive - data before current water year
+  # Check to see whether archived data has been downloaded on the user's computer and whether it has been updated for this year
   # --------------------------------------
   
   # Check to ensure that the archived data has been cached on the user's computer and is up to date
@@ -54,7 +53,7 @@ get_manual_swe <- function(station_id,
   dir <- data_dir()
   fpath <- file.path(dir, fname)
   
-  if (!file.exists(fpath) | force) { # If the file exists or the user decides to force the download, grab the archive data using 
+  if (!file.exists(fpath) | force) { # If the file exists or the user decides to force the download, grab the archive data using
     
     # Check that the directory exists
     check_write_to_data_dir(dir, ask)
@@ -81,8 +80,7 @@ get_manual_swe <- function(station_id,
       saveRDS(archive, fpath)
     }
     
-    #update_message_once(paste0(what, ' archive was updated on ', format(time_update, "%Y-%m-%d")))
-    print(paste0('Manual SWE archive was updated up to ', max(unique(archive$`Date of Survey`))))
+    print(paste0("Manual SWE archive was updated up to ", max(unique(archive$`Date of Survey`))))
   }
   
   # Get current water year data
@@ -97,68 +95,65 @@ get_manual_swe <- function(station_id,
     data <- dplyr::full_join(archive, current, by = c("Snow Course Name", "Number", "Elev. metres", "Date of Survey", "Snow Depth cm", "Water Equiv. mm", "Survey Code", "Snow Line Elev. m", "Snow Line Code", "% of Normal", "Density %", "Survey Period", "Normal mm", "wr")) %>%
       dplyr::distinct(Number, `Date of Survey`, `Snow Depth cm`, .keep_all = TRUE)
   }
-  
-  stations <- unique(data$Number) # stations within the manual data
 
   # convert the survey_period into the right format (in case the input format is incorrect)
-  if (survey_period == "01-01"){
+  if (survey_period == "01-01") {
     survey_period <- "01-Jan"
-  } else if (survey_period == "02-01"){
+  } else if (survey_period == "02-01") {
     survey_period <-  "01-Feb"
-  } else if (survey_period == "03-01"){
+  } else if (survey_period == "03-01") {
     survey_period <-  "01-Mar"
-  } else if (survey_period == "04-01"){
+  } else if (survey_period == "04-01") {
     survey_period <-  "01-Apr"
-  } else if (survey_period == "05-01"){
+  } else if (survey_period == "05-01") {
     survey_period <-  "01-May"
-  } else if (survey_period == "05-15"){
+  } else if (survey_period == "05-15") {
     survey_period <-  "15-May"
-  } else if (survey_period == "06-01"){
+  } else if (survey_period == "06-01") {
     survey_period <-  "01-Jun"
-  } else if (survey_period == "06-15"){
+  } else if (survey_period == "06-15") {
     survey_period <-  "15-Jun"
-  } else if (survey_period == "latest"){
-    survey_period <- 'latest'
+  } else if (survey_period == "latest") {
+    survey_period <- "latest"
   } else {
     survey_period <- survey_period
   }
 
   # set up loop to retrieve specified stations
-  if(station_id[1] == "All"){
+  if (station_id[1] == "All") {
     swe_current <- data
-  } else if (length(station_id) >= 1){
+  } else if (length(station_id) >= 1) {
     data_sub <- data %>%
       dplyr::filter(Number %in% station_id)
     swe_current <- data_sub
   } else {
     swe_current <- NULL
-    print('Error in getting manual SWE')
+    print("Error in getting manual SWE")
   }
 
   # Loop to get specified survey periods
-  if(survey_period[1] == "All"){
+  if (survey_period[1] == "All") {
     swe_current <- swe_current
-  } else if (length(survey_period)>=1){
+  } else if (length(survey_period) >= 1) {
     swe_current <- swe_current %>%
       dplyr::filter(`Survey Period` %in% survey_period)
   } else {
-    swe_current = NULL
+    swe_current <- NULL
   }
 
   # Loop to get specified year
-  if(get_year[1] == "All"){
+  if (get_year[1] == "All") {
     swe_current <- swe_current
-  } else if (length(get_year)>=1){
+  } else if (length(get_year) >= 1) {
     swe_current <- swe_current %>%
       dplyr::filter(swe_current$wr %in% get_year)
   } else {
-    swe_current = NULL
+    swe_current <- NULL
   }
 
   # massage data - remove periods from column names
   ## We should look at janitor::clean_name here
   swe_out <- swe_current %>%
-    #dplyr::rename(Station_ID = Number, SWE_mm = `Snow Line Elev. m`, Date_UTC = `Date of Survey`) %>%
     dplyr::distinct() %>%
     dplyr::select(-wr) %>%
     dplyr::rename("snow_course_name" = `Snow Course Name`,
@@ -175,7 +170,4 @@ get_manual_swe <- function(station_id,
                   survey_period = `Survey Period`,
                   normal_mm = `Normal mm`
                   )
-
-  return(swe_out)
 }
-
