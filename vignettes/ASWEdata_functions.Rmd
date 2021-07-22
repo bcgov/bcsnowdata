@@ -22,7 +22,8 @@ knitr::opts_chunk$set(echo = FALSE
                       , message = FALSE
                       , tidy = TRUE)
 
-knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file()) # Ensure that the package will go to the root folder to look for data
+# Ensure that the package will go to the root folder to look for data
+knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file()) 
 
 # Install and load packages
 #devtools::install("C:/Users/AJOLLYMO/RProjects/bcsnowdata")
