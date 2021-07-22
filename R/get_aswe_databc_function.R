@@ -1,9 +1,8 @@
-# Copyright 2019 Province of British Columbia
+# Copyright 2021 Province of British Columbia
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-#
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing,
@@ -33,54 +32,51 @@
 #' @export
 #' @examples
 #' get_aswe_databc()
-
-
 get_aswe_databc <- function(station_id = "All",
                             get_year = "All",
                             parameter_id = c("SWE", "Snow_Depth", "Precipitation", "Temperature"),
                             force = FALSE,
                             ask = TRUE, ...) {
-   ## Have a flag if the parameter input was incorrectly specified by the user
-   if (all(!c("SWE", "Snow_Depth", "Precipitation", "Temperature") %in% parameter_id)) {
+  # Flag if the parameter input was incorrectly specified by the user
+  if (all(!c("SWE", "Snow_Depth", "Precipitation", "Temperature") %in% parameter_id)) {
     stop("Did you specify the correct parameter_id? :)", call. = FALSE)
-   }
-   # --------------------------------------
-   # Data archive - data before current water year
-   # Check to see whether archived data has been downloaded on the user's computer
-   # and whether it has been updated for this year
-   # --------------------------------------
-   # Check to ensure that the ASWE archived data has been cached on the user's computer and is up to date
-   fname <- paste0(parameter_id, "_archive.rds")
-   dir <- data_dir()
-   fpath <- file.path(dir, fname)
-   
-   # If the file exists or the user decides to force the download, grab the archive data
-   if (!file.exists(fpath) | force) {
-     
-     # Check that the directory exists
-     check_write_to_data_dir(dir, ask)
-       
-     # Get ASWE archive data
-     archive <- ASWE_data_archive(parameter_id)
-    
-     # Save archive - all data before current year
-     saveRDS(archive, fpath)
-    
-   } else {
-     archive <- readRDS(fpath)
-    
-     # Get the maximum date within the archived data. It should be the current water year -1 if it is current
-     time <- max(unique(archive$Date_UTC))
-    
-     # Make sure that the archive file was updated last water year. Otherwise 
-     if (wtr_yr(time) != wtr_yr(Sys.Date()) - 1) {
-       archive <- ASWE_data_archive(parameter_id)
-       saveRDS(archive, fpath)
-     }
-  
-     print(paste0(parameter_id, " archive was updated up to ", wtr_yr(max(unique(archive$Date_UTC)))))
-   }
-  
+  }
+  # --------------------------------------
+  # Data archive - data before current water year
+  # Check to see whether archived data has been downloaded on the user's computer
+  # and whether it has been updated for this year
+  # --------------------------------------
+  # Check to ensure that the ASWE archived data has been cached on the user's computer and is up to date
+  fname <- paste0(parameter_id, "_archive.rds")
+  dir <- data_dir()
+  fpath <- file.path(dir, fname)
+
+  # If the file exists or the user decides to force the download, grab the archive data
+  if (!file.exists(fpath) | force) {
+
+    # Check that the directory exists
+    check_write_to_data_dir(dir, ask)
+
+    # Get ASWE archive data
+    archive <- ASWE_data_archive(parameter_id)
+
+    # Save archive - all data before current year
+    saveRDS(archive, fpath)
+  } else {
+    archive <- readRDS(fpath)
+
+    # Get the maximum date within the archived data. It should be the current water year -1 if it is current
+    time <- max(unique(archive$Date_UTC))
+
+    # Make sure that the archive file was updated last water year. Otherwise
+    if (wtr_yr(time) != wtr_yr(Sys.Date()) - 1) {
+      archive <- ASWE_data_archive(parameter_id)
+      saveRDS(archive, fpath)
+    }
+
+    print(paste0(parameter_id, " archive was updated up to ", wtr_yr(max(unique(archive$Date_UTC)))))
+  }
+
   # --------------------------------------
   # Get current water year data
   # --------------------------------------
@@ -108,10 +104,12 @@ get_aswe_databc <- function(station_id = "All",
     dplyr::mutate(value = as.numeric(value)) %>%
     dplyr::arrange(Station_ID, Date_UTC) %>%
     dplyr::distinct(., .keep_all = TRUE) %>%
-    dplyr::rename(date_utc = "Date_UTC",
-                  station_id = "Station_ID")
+    dplyr::rename(
+      date_utc = "Date_UTC",
+      station_id = "Station_ID"
+    )
 
-  #Subset by water year (note - not actual year. Starts in oct of previous year)
+  # Subset by water year (note - not actual year. Starts in oct of previous year)
   if (all(get_year == "All")) {
     data_temp_1 <- all
   } else {
@@ -124,4 +122,4 @@ get_aswe_databc <- function(station_id = "All",
   data_final <- data_temp_1 %>%
     dplyr::distinct(., .keep_all = TRUE) %>% # ensure only unique entries exist
     dplyr::arrange(station_id, date_utc)
-} # function end
+}
