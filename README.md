@@ -103,7 +103,7 @@ prior to this water year).
 ``` r
 # Retrieve SWE for one site over all years; don't cache data
 id <- c("2F05P")
-SWE_test <- get_aswe_databc(station_id = id, get_year = "All", parameter_id = "SWE", 
+SWE_test <- get_aswe_databc(station_id = id, get_year = "All", parameter_id = "SWE",
     force = FALSE, ask = FALSE)
 ```
 
@@ -150,7 +150,7 @@ historic data (data prior to this water year).
 # Retrieve manual snow survey data for one site over all survey periods and
 # years; don't use data cache
 id <- c("1C21")
-manual_test <- get_manual_swe(station_id = id, survey_period = "All", get_year = "All", 
+manual_test <- get_manual_swe(station_id = id, survey_period = "All", get_year = "All",
     force = FALSE, ask = FALSE)
 ```
 
@@ -169,19 +169,19 @@ ASWE_locations <- snow_auto_location()
 
 head(ASWE_locations)
 Simple feature collection with 6 features and 10 fields
-geometry type:  POINT
-dimension:      XY
-bbox:           xmin: 983916 ymin: 389071.9 xmax: 1212658 ymax: 1379931
-projected CRS:  NAD83 / BC Albers
+Geometry type: POINT
+Dimension:     XY
+Bounding box:  xmin: 981486.2 ymin: 903870.2 xmax: 1499304 ymax: 1225253
+Projected CRS: NAD83 / BC Albers
 # A tibble: 6 x 11
-  id    SNOW_ASWS_STN_ID LOCATION_ID LOCATION_NAME ELEVATION STATUS LATITUDE
-  <chr>            <int> <chr>       <chr>             <int> <chr>     <dbl>
-1 WHSE~               83 3B25P       North Road T~        35 Active     48.5
-2 WHSE~               84 3B26P       Mount Arrows~      1465 Active     49.2
-3 WHSE~               85 3C08P       Burnt Bridge~      1330 Active     52.5
-4 WHSE~               86 4A02P       Pine Pass          1400 Active     55.4
-5 WHSE~               87 4A03P       Ware Upper         1565 Active     57.4
-6 WHSE~               88 4A04P       Ware Lower          971 Active     57.4
+  id        SNOW_ASWS_STN_ID LOCATION_ID LOCATION_NAME ELEVATION STATUS LATITUDE
+  <chr>                <int> <chr>       <chr>             <int> <chr>     <dbl>
+1 WHSE_WAT~                1 1A01P       Yellowhead L~      1860 Active     52.9
+2 WHSE_WAT~                2 1A02P       McBride Upper      1610 Active     53.3
+3 WHSE_WAT~                3 1A03P       Barkerville        1470 Active     53.1
+4 WHSE_WAT~                4 1A05P       Longworth Up~      1740 Active     54.0
+5 WHSE_WAT~                5 1A12P       Kaza Lake          1257 Active     56.0
+6 WHSE_WAT~                6 1A14P       Hedrick Lake       1130 Active     54.1
 # ... with 4 more variables: LONGITUDE <dbl>, OBJECTID <int>,
 #   SE_ANNO_CAD_DATA <chr>, geometry <POINT [m]>
 ```
@@ -201,19 +201,19 @@ manual_locations <- snow_manual_location()
 
 head(manual_locations)
 Simple feature collection with 6 features and 10 fields
-geometry type:  POINT
-dimension:      XY
-bbox:           xmin: 1069776 ymin: 903848.3 xmax: 1499385 ymax: 1017042
-projected CRS:  NAD83 / BC Albers
+Geometry type: POINT
+Dimension:     XY
+Bounding box:  xmin: 1069776 ymin: 903870.2 xmax: 1499304 ymax: 1017042
+Projected CRS: NAD83 / BC Albers
 # A tibble: 6 x 11
-  id    SNOW_MSS_LOC_ID LOCATION_ID LOCATION_NAME ELEVATION STATUS LATITUDE
-  <chr>           <int> <chr>       <chr>             <int> <chr>     <dbl>
-1 WHSE~               1 1A01        Yellowhead         1860 Inact~     52.9
-2 WHSE~               2 1A02        McBride (Upp~      1611 Inact~     53.3
-3 WHSE~               3 1A03        Barkerville        1520 Inact~     53.1
-4 WHSE~               4 1A04        Nechako             940 Inact~     53.6
-5 WHSE~               5 1A05        Longworth (U~      1693 Active     54.0
-6 WHSE~               6 1A06        Hansard             590 Inact~     54.1
+  id         SNOW_MSS_LOC_ID LOCATION_ID LOCATION_NAME ELEVATION STATUS LATITUDE
+  <chr>                <int> <chr>       <chr>             <int> <chr>     <dbl>
+1 WHSE_WATE~               1 1A01        Yellowhead         1860 Inact~     52.9
+2 WHSE_WATE~               2 1A02        McBride Upper      1610 Inact~     53.3
+3 WHSE_WATE~               3 1A03        Barkerville        1470 Inact~     53.1
+4 WHSE_WATE~               4 1A04        Nechako             940 Inact~     53.6
+5 WHSE_WATE~               5 1A05        Longworth Up~      1693 Active     54.0
+6 WHSE_WATE~               6 1A06        Hansard             590 Inact~     54.1
 # ... with 4 more variables: LONGITUDE <dbl>, OBJECTID <int>,
 #   SE_ANNO_CAD_DATA <chr>, geometry <POINT [m]>
 ```
@@ -233,19 +233,19 @@ basin_locations <- snow_basin_areas()
 
 head(basin_locations)
 Simple feature collection with 6 features and 8 fields
-geometry type:  MULTIPOLYGON
-dimension:      XY
-bbox:           xmin: 531975.4 ymin: 456322.4 xmax: 1581028 ymax: 1242968
-projected CRS:  NAD83 / BC Albers
+Geometry type: MULTIPOLYGON
+Dimension:     XY
+Bounding box:  xmin: 531975.4 ymin: 456322.4 xmax: 1581028 ymax: 1242968
+Projected CRS: NAD83 / BC Albers
 # A tibble: 6 x 9
-  id    BASIN_ID FEATURE_CODE BASIN_NAME OBJECTID SE_ANNO_CAD_DATA
-  <chr> <chr>    <chr>        <chr>         <int> <chr>           
-1 WHSE~ 12       FA12420100   Boundary         42 <NA>            
-2 WHSE~ 13       FA12420100   Similkame~       43 <NA>            
-3 WHSE~ 2        FA12420100   Upper Fra~       44 <NA>            
-4 WHSE~ 11       FA12420100   Okanagan         45 <NA>            
-5 WHSE~ 1        FA12420100   Upper Fra~       23 <NA>            
-6 WHSE~ 23       FA12420100   Haida Gwa~       24 <NA>            
+  id                 BASIN_ID FEATURE_CODE BASIN_NAME  OBJECTID SE_ANNO_CAD_DATA
+  <chr>              <chr>    <chr>        <chr>          <int> <chr>           
+1 WHSE_WATER_MANAGE~ 12       FA12420100   Boundary          42 <NA>            
+2 WHSE_WATER_MANAGE~ 13       FA12420100   Similkameen       43 <NA>            
+3 WHSE_WATER_MANAGE~ 2        FA12420100   Upper Fras~       44 <NA>            
+4 WHSE_WATER_MANAGE~ 11       FA12420100   Okanagan          45 <NA>            
+5 WHSE_WATER_MANAGE~ 1        FA12420100   Upper Fras~       23 <NA>            
+6 WHSE_WATER_MANAGE~ 23       FA12420100   Haida Gwaii       24 <NA>            
 # ... with 3 more variables: FEATURE_AREA_SQM <dbl>, FEATURE_LENGTH_M <dbl>,
 #   geometry <MULTIPOLYGON [m]>
 ```
@@ -284,18 +284,18 @@ to abide by its terms.
 ### License
 
     Copyright 2019 Province of British Columbia
-    
+
     Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
-    
+
     http://www.apache.org/licenses/LICENSE-2.0
-    
+
     Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and limitations under the License.
 
------
+------------------------------------------------------------------------
 
 *This project was created using the
 [bcgovr](https://github.com/bcgov/bcgovr) package.*
