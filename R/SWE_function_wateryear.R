@@ -10,7 +10,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and limitations under the License.
 
-#' Assign water year function
+#' Function for identifying the water year.
 #' This function assigns the water year according to a column or vector of dates
 #' @param dates A column of dates (in date format)
 #' @param start_month The month that the water year starts on. Defaults to 10 (October)
@@ -20,7 +20,6 @@
 #' @examples
 #' wtr_yr()
 
-# Function for identifying the water year.
 wtr_yr <- function(dates, start_month = 10) {
   # Convert possible character vector into date
   d1 <- as.Date(dates)
