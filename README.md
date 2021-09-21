@@ -171,17 +171,17 @@ head(ASWE_locations)
 Simple feature collection with 6 features and 10 fields
 Geometry type: POINT
 Dimension:     XY
-Bounding box:  xmin: 981486.2 ymin: 903870.2 xmax: 1499304 ymax: 1225253
+Bounding box:  xmin: 983198.9 ymin: 389071.9 xmax: 1212658 ymax: 1379931
 Projected CRS: NAD83 / BC Albers
 # A tibble: 6 x 11
   id        SNOW_ASWS_STN_ID LOCATION_ID LOCATION_NAME ELEVATION STATUS LATITUDE
   <chr>                <int> <chr>       <chr>             <int> <chr>     <dbl>
-1 WHSE_WAT~                1 1A01P       Yellowhead L~      1860 Active     52.9
-2 WHSE_WAT~                2 1A02P       McBride Upper      1610 Active     53.3
-3 WHSE_WAT~                3 1A03P       Barkerville        1470 Active     53.1
-4 WHSE_WAT~                4 1A05P       Longworth Up~      1740 Active     54.0
-5 WHSE_WAT~                5 1A12P       Kaza Lake          1257 Active     56.0
-6 WHSE_WAT~                6 1A14P       Hedrick Lake       1130 Active     54.1
+1 WHSE_WAT~               83 3B25P       North Road T~        35 Active     48.5
+2 WHSE_WAT~               84 3B26P       Mount Arrows~      1465 Active     49.2
+3 WHSE_WAT~               85 3C08P       Burnt Bridge~      1330 Active     52.5
+4 WHSE_WAT~               86 4A02P       Pine Pass          1400 Active     55.4
+5 WHSE_WAT~               87 4A03P       Ware Upper         1565 Active     57.4
+6 WHSE_WAT~               88 4A04P       Ware Lower          971 Active     57.4
 # ... with 4 more variables: LONGITUDE <dbl>, OBJECTID <int>,
 #   SE_ANNO_CAD_DATA <chr>, geometry <POINT [m]>
 ```
@@ -283,7 +283,7 @@ to abide by its terms.
 
 ### License
 
-    Copyright 2019 Province of British Columbia
+    Copyright 2021 Province of British Columbia
 
     Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
     you may not use this file except in compliance with the License.
