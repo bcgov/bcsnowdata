@@ -2,7 +2,7 @@
 % Please edit documentation in R/snow_basinlocations_function.R
 \name{snow_basin_areas}
 \alias{snow_basin_areas}
-\title{Get the location of snow basins (for mapping)}
+\title{This function gets the location of snow surveys from the Data BC catalog (for mapping)}
 \usage{
 snow_basin_areas(crs = "3005")
 }
@@ -10,7 +10,7 @@ snow_basin_areas(crs = "3005")
 \item{crs}{Defaults to 3005}
 }
 \description{
-This function gets the location of snow surveys from the Data BC catalogue
+This function gets the location of snow surveys from the Data BC catalog (for mapping)
 }
 \examples{
 snow_basin_areas()
