@@ -14,9 +14,9 @@ get_manual_swe(
 )
 }
 \arguments{
-\item{station_id}{Define the station id you want. Can be an individual site, a string of site IDs, or all ASWE sites. Defaults to "All".}
+\item{station_id}{Define the station id you want. Can be an individual site, a string of site IDs ("4A10"), or all ASWE sites ("All"). Defaults to "All".}
 
-\item{survey_period}{Survey period you want to retrieve. Defaults to 'All'}
+\item{survey_period}{Survey period you want to retrieve. Can choose either all sites ("All") or a specific survey period ("01-Jan", "01-Feb", "01-Mar", "01-Apr", "01-May", "15-May", "01-Jun", "15-Jun"). Defaults to 'All'}
 
 \item{get_year}{Water year of data you want to retrieve. Defaults to 'All'}
 
