@@ -2,7 +2,7 @@
 % Please edit documentation in R/snow_autolocation_function.R
 \name{snow_auto_location}
 \alias{snow_auto_location}
-\title{Get the location of automated snow sites}
+\title{This function gets the location of snow surveys from the Data BC catalog}
 \usage{
 snow_auto_location(crs = "3005")
 }
@@ -10,7 +10,7 @@ snow_auto_location(crs = "3005")
 \item{crs}{Defaults to 3005}
 }
 \description{
-This function gets the location of snow surveys from the Data BC catalogue
+This function gets the location of snow surveys from the Data BC catalog
 }
 \examples{
 snow_auto_location()
