@@ -2,7 +2,7 @@
 % Please edit documentation in R/SWE_function_wateryear.R
 \name{wtr_yr}
 \alias{wtr_yr}
-\title{Assign water year function
+\title{Function for identifying the water year.
 This function assigns the water year according to a column or vector of dates}
 \usage{
 wtr_yr(dates, start_month = 10)
@@ -13,7 +13,7 @@ wtr_yr(dates, start_month = 10)
 \item{start_month}{The month that the water year starts on. Defaults to 10 (October)}
 }
 \description{
-Assign water year function
+Function for identifying the water year.
 This function assigns the water year according to a column or vector of dates
 }
 \examples{
