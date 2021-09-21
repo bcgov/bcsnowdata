@@ -2,7 +2,7 @@
 % Please edit documentation in R/snow_manuallocation_function.R
 \name{snow_manual_location}
 \alias{snow_manual_location}
-\title{Get the location of manual snow sites}
+\title{This function gets the location of snow surveys from the Data BC catalog}
 \usage{
 snow_manual_location(crs = "3005")
 }
@@ -10,7 +10,7 @@ snow_manual_location(crs = "3005")
 \item{crs}{Defaults to 3005}
 }
 \description{
-This function gets the location of snow surveys from the Data BC catalogue
+This function gets the location of snow surveys from the Data BC catalog
 }
 \examples{
 snow_manual_location()
