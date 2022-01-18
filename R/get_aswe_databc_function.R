@@ -23,9 +23,10 @@
 #' This function allows you to obtain data from BC ASWE sites. It retrieves this data from Data BC
 #' @param station_id Define the station id you want. Can be an individual site, a string of site IDs, or all ASWE sites. Defaults to "All"; this will return a great deal of data.
 #' @param get_year Define the year that you want to retrieve. Defaults to "All"
+#' @param timestep Whether the user wants the hourly or daily data. Choices are "hourly" or "daily"
 #' @param force Whether you want to re-download the archived file whether it is updated or no. Defaults to FALSE
 #' @param ask Whether the user is asked whether to create a directory for the cached file. Defaults to TRUE
-#' @param parameter_id Defaults to: "SWE", "Snow_Depth", "Precipitation", "Temperature". Type of data you want to retrieve
+#' @param parameter_id Defaults to: "swe", "snow_depth", "precipitation", "temperature". Type of data you want to retrieve
 #' @keywords Get ASWE Data
 #' @importFrom magrittr %>%
 #' @importFrom grDevices cm
@@ -34,13 +35,55 @@
 #' get_aswe_databc()
 get_aswe_databc <- function(station_id = "All",
                             get_year = "All",
-                            parameter_id = c("SWE", "Snow_Depth", "Precipitation", "Temperature"),
+                            parameter = c("swe", "snow_depth", "precipitation", "temperature"),
+                            timestep = c("hourly", "daily"),
                             force = FALSE,
                             ask = TRUE, ...) {
+  
   # Flag if the parameter input was incorrectly specified by the user
-  if (all(!c("SWE", "Snow_Depth", "Precipitation", "Temperature") %in% parameter_id)) {
-    stop("Did you specify the correct parameter_id? :)", call. = FALSE)
+  if (all(!c("swe", "snow_depth", "precipitation", "temperature") %in% parameter)) {
+    stop ("Did you specify the correct parameter_id? :)", call. = FALSE)
   }
+  
+  # If the user wants all of the stations, 
+  if (station_id %in% c("ALL", "all", "All")) {
+    id <- snow_auto_location()$LOCATION_ID
+  } else {
+    id <- station_id
+  }
+  
+  # Does the user want daily data or hourly? Get hourly first
+  if (timestep == "hourly") {
+    
+    if (get_year < 2003) {
+      print("No hourly data available before 2003")
+    } else {
+  
+      # If the user wants to simply get the hourly current year data, grab only that 
+      if (get_year == wtr_yr(Sys.Date())) {
+ 
+        hourly <- hourly_current(parameter, id)
+      } else {
+        # Get the archived and current year hourly data
+        hourly <- hourly_archive(parameter, get_year, id)
+      } 
+    }
+  } 
+  
+  if (timestep == "daily") {
+    
+    # If the user wants to simply get the daily current year data, grab only that 
+    if (get_year == wtr_yr(Sys.Date())) {
+      
+      daily <- daily_current(parameter, id)
+    } else {
+      # Get the archived and current year hourly data
+      daily <- daily_archive(parameter, get_year, id)
+    } 
+  }
+  
+  
+  
   # --------------------------------------
   # Data archive - data before current water year
   # Check to see whether archived data has been downloaded on the user's computer
@@ -76,11 +119,19 @@ get_aswe_databc <- function(station_id = "All",
 
     print(paste0(parameter_id, " archive was updated up to ", wtr_yr(max(unique(archive$Date_UTC)))))
   }
+  
+
 
   # --------------------------------------
   # Get current water year data
   # --------------------------------------
-  current <- snow_auto_current(parameter_id)
+  #current <- snow_auto_current(parameter_id)
+  if (parameter == "swe") {
+    current <- bcdata::bcdc_get_data(record = '3a34bdd1-61b2-4687-8b55-c5db5e13ff50', resource = 'fe591e21-7ffd-45f4-b3b3-2291e4a6de15') 
+  } else if (parameter == "snow_depth") {
+    # Archive hourly snow depth
+    current <- bcdc_get_data('5e7acd31-b242-4f09-8a64-000af872d68f', resource = '204f91d4-b136-41d2-98b3-125ecefd6887')
+  }
 
   # -------------------
   # Choices - filter the data by the station ID you specify
