@@ -127,7 +127,11 @@ daily_archive <- function(parameter = c("swe", "snow_depth", "precipitation", "t
     }
   }
   
+  if (any(yr %in% c("ALL", "all", "All"))) {
+    data_o <- data
+  } else {
   # Filter for the years your specify
   data_o <- data %>%
-    dplyr::filter(lubridate::year(date_utc %in% yr))   
+    dplyr::filter(lubridate::year(date_utc %in% yr))  
+  }
 }
