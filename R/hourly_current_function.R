@@ -20,7 +20,6 @@
 #' @export 
 #' @examples \dontrun{}
 
-
 hourly_current <- function(parammeter = c("swe", "snow_depth", "precipitation", "temperature"), id) {
   if (parameter == "swe") {
     current <- bcdata::bcdc_get_data('3a34bdd1-61b2-4687-8b55-c5db5e13ff50', resource = 'fe591e21-7ffd-45f4-b3b3-2291e4a6de15') %>%
