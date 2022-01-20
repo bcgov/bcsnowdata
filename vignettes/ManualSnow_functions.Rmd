@@ -48,7 +48,7 @@ This vignette contains more detail regarding the manual snow data function get_m
 The function can retrieve one, multiple, or all manual snow surveys through the "station_id" function. The default setting is "All". The manual snow survey dataset is much smaller than the dataset that the function for retrieving data from the automated snow weather stations, so using the options for retrieving all data (all sites, all survey periods, all years), is much faster and less prone to errors of data omission.
 
 
-```{r manual_stationID, echo = TRUE, include = TRUE, results = 'hide'}
+```
 # Retrieve one station, all survey periods, all years.
 test <- get_manual_swe(station_id = "4C03",
                        survey_period = "All",
@@ -86,7 +86,7 @@ Survey period options:
 
 Examples:
 
-```{r manual_sp, echo = TRUE, include = TRUE, results = 'hide'}
+```
 # Get all survey periods
 test_manual_sp1 <- get_manual_swe(station_id = "All",
                                  survey_period = "All",
@@ -104,7 +104,7 @@ test_manual_sp2 <- get_manual_swe(station_id = "All",
 
 The user can also specify the year (water year) that the function retrieves. Note that water year is the same as calendar year because manual snow surveys are not performed in October - December.
 
-```{r manual_year, echo = TRUE, include = TRUE, results = 'hide'}
+```
 # Get all years for all stations and all survey periods
 test_manual_year1 <- get_manual_swe(station_id = "All",
                                  survey_period = "All",
@@ -129,7 +129,7 @@ update_archive: Can be either "Yes" or "No" If it is "Yes", then the function wi
 directory_archive = Where the data cache is stored on the user's computer. The path file can be anywhere, but it must end with a "/". If the user doesn't specify where the data will be stored, it is saved in the current directory of the user's R session (./data/cache/")
 
 
-```{r manual_cache, echo = TRUE, include = TRUE, results = 'hide'}
+```
 # Function will retrieve all data from the Data Catalogue and save a version of the historic data at the directory specified.
 test_manual_cache1 <- get_manual_swe(station_id = "All",
                                  survey_period = "All",

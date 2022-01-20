@@ -46,7 +46,7 @@ time_mostrecent <- Sys.time() - time_start
 
 
 # Get archive names
-bcdc_search("snow")
+bcdata::bcdc_search("snow")
 bcdc_get_data("3a34bdd1-61b2-4687-8b55-c5db5e13ff50")
 # archive aswe
 

@@ -20,132 +20,90 @@
 #' @param station_id Define the station id you want. Can be an individual site, a string of site IDs ("4A10"), or all ASWE sites ("All"). Defaults to "All".
 #' @param survey_period Survey period you want to retrieve. Can choose either all sites ("All") or a specific survey period ("01-Jan", "01-Feb", "01-Mar", "01-Apr", "01-May", "15-May", "01-Jun", "15-Jun"). Defaults to 'All'
 #' @param get_year Water year of data you want to retrieve. Defaults to 'All'
-#' @param force Whether you want to re-download the archived file whether it is updated or no. Defaults to FALSE
-#' @param ask Whether the user is asked whether to create a directory for the cached file. Defaults to TRUE
 #' @keywords Manual snow data DataBC
 #' @importFrom magrittr %>%
 #' @importFrom grDevices cm
 #' @export
 #' @examples
 #' get_manual_swe()
-get_manual_swe <- function(station_id,
+get_manual_swe <- function(station_id = "All",
                            survey_period = "All",
-                           get_year = "All",
-                           force = FALSE,
-                           ask = TRUE, ...) {
-
-  # --------------------------------------
-  # Data archive - data before current water year
-  # Check to see whether archived data has been downloaded on the user's computer and whether it has been updated for this year
-  # --------------------------------------
-
-  # Check to ensure that the archived data has been cached on the user's computer and is up to date
-  fname <- c("manualswe_archive.rds")
-  dir <- data_dir()
-  fpath <- file.path(dir, fname)
-
-  if (!file.exists(fpath) | force) { # If the file exists or the user decides to force the download, grab the archive data using
-
-    # Check that the directory exists
-    check_write_to_data_dir(dir, ask)
-
-    # Get ASWE archive data
-    archive <- snow_manual_archive()
-
-    # Save archive - all data before current year
-    saveRDS(archive, fpath)
+                           get_year = "All") {
+  
+  if (survey_period == "latest") {
+    get_year <- wtr_yr(Sys.Date())
+    
+    survey_period <- ifelse(lubridate::month(Sys.Date()) > 5, paste0("0", as.character(lubridate::month(Sys.Date())), "-01"),
+                            ifelse(lubridate::day(Sys.Date()) > 15, paste0("0", as.character(lubridate::month(Sys.Date())), "-01"), 
+                                   paste0("0", as.character(lubridate::month(Sys.Date())), "-01"))
+                            )
+  }
+  
+  # If you only want to get the current water year data
+  if (get_year == wtr_yr(Sys.Date())) {
+    # Get the current year manual data
+    data <- bcdata::bcdc_get_data("12472805-6f6d-457b-8db2-5c1f42a00099")
   } else {
-    archive <- readRDS(fpath)
-
-    # Get the maximum date within the archived data. It should be the current water year -1 if it is current
-    time <- max(unique(archive$`Date of Survey`))
-
-    # Make sure that the archive file was updated last water year (or this year?). Otherwise update.
-    if (wtr_yr(time) != wtr_yr(Sys.Date()) - 1 || wtr_yr(time) == wtr_yr(Sys.Date())) {
-
-      # Get ASWE archive data
-      archive <- snow_manual_archive()
-
-      # Save archive - all data before current year
-      saveRDS(archive, fpath)
-    }
-
-    print(paste0("Manual SWE archive was updated up to ", max(unique(archive$`Date of Survey`))))
+    # Get the archived manual data from Data BC and join with current year
+    data <- bcdata::bcdc_get_data("705df46f-e9d6-4124-bc4a-66f54c07b228") %>%
+      dplyr::full_join(bcdata::bcdc_get_data("12472805-6f6d-457b-8db2-5c1f42a00099"))
   }
-
-  # Get current water year data
-  current <- snow_manual_current()
-
-  # If there is no data in the current year data, data is only the archive data. Otherwise, join the current year data with the archive
-  if (dim(current)[1] == 0) {
-    data <- archive
-    print("No data for current water year")
-  } else if (dim(current)[1] != 0) {
-    # Combine archived data and current year data
-    data <- dplyr::full_join(archive, current, by = c("Snow Course Name", "Number", "Elev. metres", "Date of Survey", "Snow Depth cm", "Water Equiv. mm", "Survey Code", "Snow Line Elev. m", "Snow Line Code", "% of Normal", "Density %", "Survey Period", "Normal mm", "wr")) %>%
-      dplyr::distinct(Number, `Date of Survey`, `Snow Depth cm`, .keep_all = TRUE)
-  }
-
-  # convert the survey_period into the right format (in case the input format is incorrect)
-  if (survey_period == "01-01") {
-    survey_period <- "01-Jan"
-  } else if (survey_period == "02-01") {
-    survey_period <- "01-Feb"
-  } else if (survey_period == "03-01") {
-    survey_period <- "01-Mar"
-  } else if (survey_period == "04-01") {
-    survey_period <- "01-Apr"
-  } else if (survey_period == "05-01") {
-    survey_period <- "01-May"
-  } else if (survey_period == "05-15") {
-    survey_period <- "15-May"
-  } else if (survey_period == "06-01") {
-    survey_period <- "01-Jun"
-  } else if (survey_period == "06-15") {
-    survey_period <- "15-Jun"
-  } else if (survey_period == "latest") {
-    survey_period <- "latest"
+  
+  # Add in water year
+  data$wy <- wtr_yr(data$`Date of Survey`)
+  
+  # Filter by the station you want
+  if (any(station_id %in% c("All", "all", "ALL"))) {
+    data_id <- data
   } else {
-    survey_period <- survey_period
-  }
-
-  # set up loop to retrieve specified stations
-  if (station_id[1] == "All") {
-    swe_current <- data
-  } else if (length(station_id) >= 1) {
-    data_sub <- data %>%
+    data_id <- data %>%
       dplyr::filter(Number %in% station_id)
-    swe_current <- data_sub
-  } else {
-    swe_current <- NULL
-    print("Error in getting manual SWE")
   }
-
-  # Loop to get specified survey periods
-  if (survey_period[1] == "All") {
-    swe_current <- swe_current
-  } else if (length(survey_period) >= 1) {
-    swe_current <- swe_current %>%
-      dplyr::filter(`Survey Period` %in% survey_period)
+  
+  # Filter by the year you want
+  if (any(get_year %in% c("All", "all", "ALL"))) {
+    data_yr <- data_id
   } else {
-    swe_current <- NULL
+    data_yr <- data_id %>%
+      dplyr::filter(wy %in% get_year)
   }
-
-  # Loop to get specified year
-  if (get_year[1] == "All") {
-    swe_current <- swe_current
-  } else if (length(get_year) >= 1) {
-    swe_current <- swe_current %>%
-      dplyr::filter(swe_current$wr %in% get_year)
+  
+  # Filter by the survey period you want
+  if (any(survey_period %in% c("ALL", "all", "All"))) {
+    data_sp <- data_yr
   } else {
-    swe_current <- NULL
+    
+    # convert the survey_period into the right format (in case the input format is incorrect)
+    if (survey_period == "01-01") {
+      survey_period <- "01-Jan"
+    } else if (survey_period == "02-01") {
+      survey_period <- "01-Feb"
+    } else if (survey_period == "03-01") {
+      survey_period <- "01-Mar"
+    } else if (survey_period == "04-01") {
+      survey_period <- "01-Apr"
+    } else if (survey_period == "05-01") {
+      survey_period <- "01-May"
+    } else if (survey_period == "05-15") {
+      survey_period <- "15-May"
+    } else if (survey_period == "06-01") {
+      survey_period <- "01-Jun"
+    } else if (survey_period == "06-15") {
+      survey_period <- "15-Jun"
+    } else {
+      survey_period <- survey_period
+    }
+    
+    # Filter by the survey period
+    data_sp <- data_yr %>%
+      dplyr::filter(Number %in% survey_period)
   }
 
   # massage data - remove periods from column names
   ## We should look at janitor::clean_name here
-  swe_out <- swe_current %>%
+  data_o <- data_sp %>%
     dplyr::distinct() %>%
-    dplyr::select(-wr) %>%
+    dplyr::select(-wy) %>%
     dplyr::rename(
       "snow_course_name" = `Snow Course Name`,
       "station_id" = "Number",

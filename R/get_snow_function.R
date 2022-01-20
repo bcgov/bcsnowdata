@@ -11,13 +11,59 @@
 # See the License for the specific language governing permissions and limitations under the License.
 # ================
 
+#' Get Snow Function
+#' Function that determines whether the user has specified that they want data for a manual or ASWE site 
+#' @param id Define the station id you want. Can be an individual site, a string of site IDs, or all ASWE sites. Defaults to "All"; this will return a great deal of data.
+#' @param get_year Define the year that you want to retrieve. Defaults to "All"
+#' @param timestep Whether the user wants the hourly or daily data. Choices are "hourly" or "daily"
+#' @param parameter_id Defaults to: "swe", "snow_depth", "precipitation", "temperature". Type of data you want to retrieve
+#' @param survey_period The manual survey period a user wants. Defaults to "all"
+#' @keywords Get snow data
+#' @importFrom magrittr %>%
+#' @export
+#' @examples
 
-get_snow <- function(station_id, 
-                     parameter = "swe",
-                     get_year = "All") {
+get_snow <- function(id = c("All", "automated", "manual"), 
+                     get_year = "All",
+                     survey_period = "All",
+                     parameter = c("swe", "snow_depth", "precipitation", "temperature"),
+                     timestep = c("hourly", "daily")) {
+  
+  if (any(id %in% c("All", "all", "ALL"))) {
+    station <- c(snow_auto_location()$LOCATION_ID, snow_manual_location()$LOCATION_ID)
+  } else if (any(id %in% c("automated", "ASWE", "aswe"))) {
+    station <- snow_auto_location()$LOCATION_ID
+  } else if (any(id %in% c("manual", "MANUAL", "Manual"))) {
+    station <- snow_manual_location()$LOCATION_ID
+  } else {
+    station <- id
+  }
+  
   # split the stations the user has specified into ASWE or manual sites
   
-  aswe
-  manual 
+  if (any(station %in% snow_auto_location()$LOCATION_ID)) {
+    aswe <- 
+    
+    aswe_data <- get_aswe_databc(station_id = station[station %in% snow_auto_location()$LOCATION_ID],
+                                 get_year = get_year,
+                                 parameter = parameter,
+                                 timestep = timestep)
+  }
+    
+  # Get any manual data
+  if (any(station %in% snow_manual_location()$LOCATION_ID)) {
+    
+    manual_data <- get_manual_swe(station_id = station[station %in% snow_manual_location()$LOCATION_ID],
+                                              survey_period = survey_period,
+                                              get_year = get_year)
+  }
   
+  if (length(aswe_data)[1] > 1 && length(manual_data)[1] > 1) {
+    d_out <- list(aswe = aswe_data, manual = manual_data)
+  } else if (length(aswe_data)[1] > 1 && length(manual_data)[1] < 1) {
+    d_out <- list(aswe = aswe_data)
+  } else if (length(aswe_data)[1] < 1 && length(manual_data)[1] > 1) {
+    d_out <- list(manual = manual_data)
+  }
+  d_out
 }

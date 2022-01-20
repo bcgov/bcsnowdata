@@ -63,23 +63,23 @@ bcsnowdata() package.
 
 #### Automated Snow Function
 
-The first function is get\_aswe\_databc(), which retrieves data for
+The first function is get_aswe_databc(), which retrieves data for
 automated snow stations. It retrieves daily data for dates before 2011,
 and hourly data available after 2011, for automated snow stations from
 data available on the Data Catalogue.
 
 The user can define multiple options within the function, including:
 
-1.  station\_id: This function will retrieve data for one station (by
+1.  station_id: This function will retrieve data for one station (by
     specified station ID), or multiple stations specified within a
     string (i.e., c(“2F05P”, “1C18P”)). The user can also specify to
     return all ASWE stations within the Data BC catalogue, although this
     is not recommended as it will return data for all of the stations.
 
-2.  get\_year: Specifies the year you want to return. Can be one water
+2.  get_year: Specifies the year you want to return. Can be one water
     year, multiple, or all.
 
-3.  parameter\_id: Specifies what type of data you want to retrieve. The
+3.  parameter_id: Specifies what type of data you want to retrieve. The
     choices include SWE, Temperature, SD (snow depth), and
     Precipitation.
 
@@ -94,41 +94,42 @@ The user can define multiple options within the function, including:
     or ‘no’ as to whether they want to create a new directory for
     archived data to be cached.
 
-##### get\_aswe\_databc() Example
+##### get_aswe_databc() Example
 
 The function in this example will retrieve data for station ID 2F05P for
 all years on record without updating the cache of historic data (data
 prior to this water year).
 
-``` r
-# Retrieve SWE for one site over all years; don't cache data
-id <- c("2F05P")
-SWE_test <- get_aswe_databc(station_id = id, get_year = "All", parameter_id = "SWE",
-    force = FALSE, ask = FALSE)
-```
+    # Retrieve SWE for one site over all years; don't cache data
+    id <- c("2F05P")
+    SWE_test <- get_aswe_databc(station_id = id,
+                              get_year = "All",
+                              parameter_id = "SWE",
+                              force = FALSE,
+                              ask = FALSE) 
 
 #### Manual Snow Survey Data Function
 
-The manual snow station data function - get\_manual\_swe() - is similar
-to the function that gets data from the ASWE sites.
+The manual snow station data function - get_manual_swe() - is similar to
+the function that gets data from the ASWE sites.
 
 Specifically, the user can define multiple options within the function,
 including:
 
-1.  station\_id: This function will retrieve data for one station (by
+1.  station_id: This function will retrieve data for one station (by
     specified station ID), or multiple stations specified within a
     string (i.e., c(“2F05P”, “1C18P”)). The user can also specify to
     return all manual snow survey locations within the Data BC
     catalogue. This is significantly faster than the ASWE station
     function.
 
-2.  survey\_period: Specifies what survey period the user wants to
+2.  survey_period: Specifies what survey period the user wants to
     return. Can be “All” (the default within the function), or else a
     specific survey period (or number of them). The format can either be
     numeric month year (i.e., “03-01” is March 1), or annotated in the
     format day-month, such as “01-Mar”.
 
-3.  get\_year: Specifies the year you want to return. Can be one water
+3.  get_year: Specifies the year you want to return. Can be one water
     year, multiple years, or all on record (the function default).
 
 4.  force: Specifies whether you want to update the archive of ASWE data
@@ -146,17 +147,17 @@ The function in this example will retrieve data for station ID 1C21 for
 all years and all survey periods on record without updating the cache of
 historic data (data prior to this water year).
 
-``` r
-# Retrieve manual snow survey data for one site over all survey periods and
-# years; don't use data cache
-id <- c("1C21")
-manual_test <- get_manual_swe(station_id = id, survey_period = "All", get_year = "All",
-    force = FALSE, ask = FALSE)
-```
+    # Retrieve manual snow survey data for one site over all survey periods and years; don't use data cache
+    id <- c("1C21")
+    manual_test <- get_manual_swe(station_id = id,
+                                  survey_period = "All",
+                                  get_year = "All",
+                                  force = FALSE,
+                                  ask = FALSE)
 
 ##### Automated Snow Weather Station Locations
 
-The snow\_auto\_location() returns a dataframe containing location
+The snow_auto_location() returns a dataframe containing location
 metadata for all of the automated snow weather stations. The returned
 dataframe includes both active as well as inactive stations, in addition
 to their latitude, longitude and elevation.
@@ -164,31 +165,13 @@ to their latitude, longitude and elevation.
 Data obtained from:
 <https://catalogue.data.gov.bc.ca/dataset/automated-snow-weather-station-locations>
 
-``` r
-ASWE_locations <- snow_auto_location()
+    ASWE_locations <- snow_auto_location()
 
-head(ASWE_locations)
-Simple feature collection with 6 features and 10 fields
-Geometry type: POINT
-Dimension:     XY
-Bounding box:  xmin: 983198.9 ymin: 389071.9 xmax: 1212658 ymax: 1379931
-Projected CRS: NAD83 / BC Albers
-# A tibble: 6 x 11
-  id        SNOW_ASWS_STN_ID LOCATION_ID LOCATION_NAME ELEVATION STATUS LATITUDE
-  <chr>                <int> <chr>       <chr>             <int> <chr>     <dbl>
-1 WHSE_WAT~               83 3B25P       North Road T~        35 Active     48.5
-2 WHSE_WAT~               84 3B26P       Mount Arrows~      1465 Active     49.2
-3 WHSE_WAT~               85 3C08P       Burnt Bridge~      1330 Active     52.5
-4 WHSE_WAT~               86 4A02P       Pine Pass          1400 Active     55.4
-5 WHSE_WAT~               87 4A03P       Ware Upper         1565 Active     57.4
-6 WHSE_WAT~               88 4A04P       Ware Lower          971 Active     57.4
-# ... with 4 more variables: LONGITUDE <dbl>, OBJECTID <int>,
-#   SE_ANNO_CAD_DATA <chr>, geometry <POINT [m]>
-```
+    head(ASWE_locations)
 
 ##### Manual Snow Survey Locations
 
-The snow\_auto\_location() function returns a dataframe containing
+The snow_auto_location() function returns a dataframe containing
 location metadata for all of the manual snow survey locations. The
 returned dataframe includes both active as well as inactive stations, in
 addition to their latitude, longitude and elevation.
@@ -196,31 +179,13 @@ addition to their latitude, longitude and elevation.
 Data obtained from:
 <https://catalogue.data.gov.bc.ca/dataset/manual-snow-survey-locations>
 
-``` r
-manual_locations <- snow_manual_location()
+    manual_locations <- snow_manual_location()
 
-head(manual_locations)
-Simple feature collection with 6 features and 10 fields
-Geometry type: POINT
-Dimension:     XY
-Bounding box:  xmin: 1069776 ymin: 903870.2 xmax: 1499304 ymax: 1017042
-Projected CRS: NAD83 / BC Albers
-# A tibble: 6 x 11
-  id         SNOW_MSS_LOC_ID LOCATION_ID LOCATION_NAME ELEVATION STATUS LATITUDE
-  <chr>                <int> <chr>       <chr>             <int> <chr>     <dbl>
-1 WHSE_WATE~               1 1A01        Yellowhead         1860 Inact~     52.9
-2 WHSE_WATE~               2 1A02        McBride Upper      1610 Inact~     53.3
-3 WHSE_WATE~               3 1A03        Barkerville        1470 Inact~     53.1
-4 WHSE_WATE~               4 1A04        Nechako             940 Inact~     53.6
-5 WHSE_WATE~               5 1A05        Longworth Up~      1693 Active     54.0
-6 WHSE_WATE~               6 1A06        Hansard             590 Inact~     54.1
-# ... with 4 more variables: LONGITUDE <dbl>, OBJECTID <int>,
-#   SE_ANNO_CAD_DATA <chr>, geometry <POINT [m]>
-```
+    head(manual_locations)
 
 ##### Snow Survey Administrative Basin Areas
 
-The snow\_auto\_location() returns a dataframe containing location
+The snow_auto_location() returns a dataframe containing location
 metadata for the administrative basin areas. Returned data includes the
 polygon geometries necessary to map snow basin areas (for example, upon
 integration with the bcmaps() package).
@@ -228,40 +193,19 @@ integration with the bcmaps() package).
 Data obtained from:
 <https://catalogue.data.gov.bc.ca/dataset/snow-survey-administrative-basin-areas>
 
-``` r
-basin_locations <- snow_basin_areas()
+    basin_locations <- snow_basin_areas()
 
-head(basin_locations)
-Simple feature collection with 6 features and 8 fields
-Geometry type: MULTIPOLYGON
-Dimension:     XY
-Bounding box:  xmin: 531975.4 ymin: 456322.4 xmax: 1581028 ymax: 1242968
-Projected CRS: NAD83 / BC Albers
-# A tibble: 6 x 9
-  id                 BASIN_ID FEATURE_CODE BASIN_NAME  OBJECTID SE_ANNO_CAD_DATA
-  <chr>              <chr>    <chr>        <chr>          <int> <chr>           
-1 WHSE_WATER_MANAGE~ 12       FA12420100   Boundary          42 <NA>            
-2 WHSE_WATER_MANAGE~ 13       FA12420100   Similkameen       43 <NA>            
-3 WHSE_WATER_MANAGE~ 2        FA12420100   Upper Fras~       44 <NA>            
-4 WHSE_WATER_MANAGE~ 11       FA12420100   Okanagan          45 <NA>            
-5 WHSE_WATER_MANAGE~ 1        FA12420100   Upper Fras~       23 <NA>            
-6 WHSE_WATER_MANAGE~ 23       FA12420100   Haida Gwaii       24 <NA>            
-# ... with 3 more variables: FEATURE_AREA_SQM <dbl>, FEATURE_LENGTH_M <dbl>,
-#   geometry <MULTIPOLYGON [m]>
-```
+    head(basin_locations)
 
 ##### Assign water year
 
-This package also contains a function (wtr\_yr()) for assigning water
+This package also contains a function (wtr_yr()) for assigning water
 year to a column of dates. It is meant as an internal function that can
 also be called externally. The main input is a vector or column of dates
 that are used to calculate the corresponding water year. The default
-start to the calendar year is October (start\_month = 10).
+start to the calendar year is October (start_month = 10).
 
-``` r
-wtr_yr(as.Date("2018-12-01"))
-[1] 2019
-```
+    wtr_yr(as.Date("2018-12-01"))
 
 ### Project Status
 
