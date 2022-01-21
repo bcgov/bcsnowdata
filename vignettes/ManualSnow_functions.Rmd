@@ -21,7 +21,7 @@ knitr::opts_chunk$set(echo = FALSE
                       , error = FALSE
                       , message = FALSE
                       , tidy = TRUE)
-
+library(rprojroot)
 knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file()) # Ensure that the package will go to the root folder to look for data
 
 # Install and load packages
