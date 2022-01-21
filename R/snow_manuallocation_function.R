@@ -15,7 +15,7 @@
 #' @param crs Defaults to 3005
 #' @keywords Get manual snow survey locations
 #' @export
-#' @examples
+#' @examples \dontrun{}
 #' snow_manual_location()
 snow_manual_location <- function(crs = "3005") {
   databc_GET_client("WHSE_WATER_MANAGEMENT.SSL_SNOW_MSS_LOCS_SP", crs = crs)
