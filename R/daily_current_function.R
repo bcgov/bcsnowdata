@@ -23,20 +23,17 @@
 
 daily_current <- function(parameter = c("swe", "snow_depth", "precipitation", "temperature"), id) {
   if (parameter == "swe") {
-    current <- bcdata::bcdc_get_data('3a34bdd1-61b2-4687-8b55-c5db5e13ff50', resource = 'fe591e21-7ffd-45f4-b3b3-2291e4a6de15') %>%
+    current <- bcdata::bcdc_get_data("3a34bdd1-61b2-4687-8b55-c5db5e13ff50", 
+                                     resource = "fe591e21-7ffd-45f4-b3b3-2291e4a6de15") %>%
       dplyr::select(contains(c(id, "DATE(UTC)"))) %>%
       dplyr::mutate(parameter = parameter, "id" = id) %>%
       dplyr::rename(value = contains(id), date_utc = "DATE(UTC)") %>%
-      # Get the daily mean *WILL NEED TO CHANGE
-      #dplyr::mutate(date = as.Date(date_utc)) %>%
-      #dplyr::group_by(date, parameter, id) %>%
-      #dplyr::summarise(value = mean(value, na.rm = TRUE))
       dplyr::mutate(hour = lubridate::hour(date_utc)) %>%
       dplyr::filter(hour == 16) %>% # should eventually do interpolation in case 16:00 UTC measurement is missing??
       dplyr::select(-hour)
     
   } else if (parameter == "snow_depth") {
-    current <- bcdata::bcdc_get_data('3a34bdd1-61b2-4687-8b55-c5db5e13ff50', resource = 'abba1811-dd9a-4447-a297-2b5f81410abd') %>%
+    current <- bcdata::bcdc_get_data("3a34bdd1-61b2-4687-8b55-c5db5e13ff50", resource = "abba1811-dd9a-4447-a297-2b5f81410abd") %>%
       dplyr::select(contains(c(id, "DATE(UTC)"))) %>%
       dplyr::mutate(parameter = parameter, "id" = id) %>%
       dplyr::rename(value = contains(id), date_utc = "DATE(UTC)") %>%
@@ -46,7 +43,7 @@ daily_current <- function(parameter = c("swe", "snow_depth", "precipitation", "t
       dplyr::summarise(value = mean(value, na.rm = TRUE))
     
   } else if (parameter == "precipitation") {
-    current <- bcdata::bcdc_get_data(record = '3a34bdd1-61b2-4687-8b55-c5db5e13ff50', resource = '9f048a78-d74c-40c1-aa1f-9e2fcd1a19dd') %>%
+    current <- bcdata::bcdc_get_data(record = "3a34bdd1-61b2-4687-8b55-c5db5e13ff50", resource = "9f048a78-d74c-40c1-aa1f-9e2fcd1a19dd") %>%
       dplyr::select(contains(c(id, "DATE(UTC)"))) %>%
       dplyr::mutate(parameter = "cum_precip", "id" = id) %>%
       dplyr::rename(value = contains(id), date_utc = "DATE(UTC)") %>%
@@ -55,7 +52,7 @@ daily_current <- function(parameter = c("swe", "snow_depth", "precipitation", "t
       dplyr::group_by(date, parameter, id) %>%
       dplyr::summarise(value = mean(value, na.rm = TRUE))
   } else if (parameter == "temperature") {
-    current <- bcdata::bcdc_get_data(record = '3a34bdd1-61b2-4687-8b55-c5db5e13ff50', resource = '0bc026a2-7487-4f01-8b97-16d1b591a82f') %>%
+    current <- bcdata::bcdc_get_data(record = "3a34bdd1-61b2-4687-8b55-c5db5e13ff50", resource = "0bc026a2-7487-4f01-8b97-16d1b591a82f") %>%
       dplyr::select(contains(c(id, "DATE(UTC)"))) %>%
       dplyr::mutate(parameter = parameter, "id" = id) %>%
       dplyr::rename(value = contains(id), date_utc = "DATE(UTC)") %>%
