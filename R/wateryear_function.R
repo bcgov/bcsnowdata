@@ -1,4 +1,4 @@
-# Copyright 2021 Province of British Columbia
+# Copyright 2022 Province of British Columbia
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
 #' @importFrom magrittr %>%
 #' @import grDevices
 #' @export
-#' @examples
+#' @examples \dontrun{}
 #' wtr_yr()
 wtr_yr <- function(dates, start_month = 10) {
   # Convert possible character vector into date
