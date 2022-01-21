@@ -13,6 +13,7 @@ snow_basin_areas(crs = "3005")
 This function gets the location of snow surveys from the Data BC catalog (for mapping)
 }
 \examples{
+\dontrun{}
 snow_basin_areas()
 }
 \keyword{Get}
