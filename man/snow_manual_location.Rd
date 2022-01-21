@@ -13,6 +13,7 @@ snow_manual_location(crs = "3005")
 This function gets the location of snow surveys from the Data BC catalog
 }
 \examples{
+\dontrun{}
 snow_manual_location()
 }
 \keyword{Get}
