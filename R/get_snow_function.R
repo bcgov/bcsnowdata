@@ -16,12 +16,12 @@
 #' @param id Define the station id you want. Can be an individual site, a string of site IDs, or all ASWE sites. Defaults to "All"; this will return a great deal of data.
 #' @param get_year Define the year that you want to retrieve. Defaults to "All"
 #' @param timestep Whether the user wants the hourly or daily data. Choices are "hourly" or "daily"
-#' @param parameter_id Defaults to: "swe", "snow_depth", "precipitation", "temperature". Type of data you want to retrieve
+#' @param parameter Defaults to: "swe", "snow_depth", "precipitation", "temperature". Type of data you want to retrieve
 #' @param survey_period The manual survey period a user wants. Defaults to "all"
 #' @keywords Get snow data
 #' @importFrom magrittr %>%
 #' @export
-#' @examples
+#' @examples \dontrun{}
 
 get_snow <- function(id = c("All", "automated", "manual"), 
                      get_year = "All",
@@ -42,12 +42,13 @@ get_snow <- function(id = c("All", "automated", "manual"),
   # split the stations the user has specified into ASWE or manual sites
   
   if (any(station %in% snow_auto_location()$LOCATION_ID)) {
-    aswe <- 
     
     aswe_data <- get_aswe_databc(station_id = station[station %in% snow_auto_location()$LOCATION_ID],
                                  get_year = get_year,
                                  parameter = parameter,
                                  timestep = timestep)
+  } else {
+    aswe_data <- list()
   }
     
   # Get any manual data
@@ -56,14 +57,16 @@ get_snow <- function(id = c("All", "automated", "manual"),
     manual_data <- get_manual_swe(station_id = station[station %in% snow_manual_location()$LOCATION_ID],
                                               survey_period = survey_period,
                                               get_year = get_year)
+  } else {
+    manual_data <- list()
   }
   
   if (length(aswe_data)[1] > 1 && length(manual_data)[1] > 1) {
     d_out <- list(aswe = aswe_data, manual = manual_data)
   } else if (length(aswe_data)[1] > 1 && length(manual_data)[1] < 1) {
-    d_out <- list(aswe = aswe_data)
+    d_out <- aswe_data
   } else if (length(aswe_data)[1] < 1 && length(manual_data)[1] > 1) {
-    d_out <- list(manual = manual_data)
+    d_out <- manual_data
   }
   d_out
 }
