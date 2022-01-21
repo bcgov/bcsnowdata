@@ -29,8 +29,11 @@ Imports:
     magrittr,
     memoise,
     digest,
-    rlang
+    rlang,
+    bcdata
 Suggests: 
     knitr,
-    rmarkdown
+    rmarkdown,
+    rprojroot,
+    devtools
 VignetteBuilder: knitr
