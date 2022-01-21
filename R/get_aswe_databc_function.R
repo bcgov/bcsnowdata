@@ -11,26 +11,18 @@
 # See the License for the specific language governing permissions and limitations under the License.
 # ================
 
-# ================
-# Function for returning ASWE data (that is, data from the ASWE sites, including SWE, snow depth, temperature and precipitation),
-# This is the individual function that was taken from "SWE_getdata_function.R"
-# This version is the same, but only adapted so that it works within the R package documentation
-# Created on 10Oct2019 by Ashlee Jollymore
-# ================
 
-#' Get BC ASWE Data Function
-#'
-#' This function allows you to obtain data from BC ASWE sites. It retrieves this data from Data BC
+
+#' Get BC ASWE Data Function. This function allows you to obtain data from BC ASWE sites. It retrieves this data from Data BC
 #' @param station_id Define the station id you want. Can be an individual site, a string of site IDs, or all ASWE sites. Defaults to "All"; this will return a great deal of data.
 #' @param get_year Define the year that you want to retrieve. Defaults to "All"
+#' @param parameter Defaults to: "swe", "snow_depth", "precipitation", "temperature". Type of data you want to retrieve
 #' @param timestep Whether the user wants the hourly or daily data. Choices are "hourly" or "daily"
-#' @param parameter_id Defaults to: "swe", "snow_depth", "precipitation", "temperature". Type of data you want to retrieve
 #' @keywords Get ASWE Data
 #' @importFrom magrittr %>%
 #' @importFrom grDevices cm
 #' @export
-#' @examples
-#' get_aswe_databc()
+#' @examples \dontrun{}
 get_aswe_databc <- function(station_id = "All",
                             get_year = "All",
                             parameter = c("swe", "snow_depth", "precipitation", "temperature"),
@@ -38,7 +30,7 @@ get_aswe_databc <- function(station_id = "All",
   
   # Flag if the parameter input was incorrectly specified by the user
   if (all(!c("swe", "snow_depth", "precipitation", "temperature") %in% parameter)) {
-    stop ("Did you specify the correct parameter_id? :)", call. = FALSE)
+    stop("Did you specify the correct parameter_id? :)", call. = FALSE)
   }
   
   # If the user wants all of the stations, 
