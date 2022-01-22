@@ -5,14 +5,14 @@
 \title{This function retrieves hourly data from aswe sites for the current water year only}
 \usage{
 hourly_current(
-  parammeter = c("swe", "snow_depth", "precipitation", "temperature"),
+  parameter = c("swe", "snow_depth", "precipitation", "temperature"),
   id
 )
 }
 \arguments{
-\item{id}{Station ID you are looking for}
-
 \item{parameter}{Defines the parameter (type of data) your want to retrieve}
+
+\item{id}{Station ID you are looking for}
 }
 \description{
 This function retrieves hourly data from aswe sites for the current water year only
