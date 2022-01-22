@@ -34,7 +34,7 @@ get_aswe_databc <- function(station_id = "All",
   }
   
   # If the user wants all of the stations, 
-  if (station_id %in% c("ALL", "all", "All")) {
+  if (any(station_id %in% c("ALL", "all", "All"))) {
     id <- snow_auto_location()$LOCATION_ID
   } else {
     id <- station_id

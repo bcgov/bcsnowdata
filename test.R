@@ -10,7 +10,8 @@ test_aswe <- get_aswe_databc(station_id = snow_auto_location()$LOCATION_ID[10],
 # swe - hourly: OK
 # swe - daily: OK
 # snow_depth - hourly: OK
-# snow_depth - daily:
+# snow_depth - daily: OK
+# precipitation - hourly: OK
 
 test_function <- function(station_id, get_year, parameter, timestep) {
   print(paste0(station_id, " I = ", match(station_id, snow_auto_location()$LOCATION_ID)))
@@ -19,8 +20,8 @@ test_function <- function(station_id, get_year, parameter, timestep) {
 
 lapply(snow_auto_location()$LOCATION_ID, test_function,
   get_year = "All",
-  parameter = "snow_depth",
-  timestep = "daily")
+  parameter = "precipitation",
+  timestep = "hourly")
 
 match("1D09P", snow_auto_location()$LOCATION_ID)
 
