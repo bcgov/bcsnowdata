@@ -1,10 +1,15 @@
+rm(list = ls())
+
 library(dplyr)
+library(bcdata)
 library(bcsnowdata)
 
-test_aswe <- get_aswe_databc(station_id = snow_auto_location()$LOCATION_ID[10],
+bcdata::bcdc_search("snow")
+
+test_3 <- get_aswe_databc(station_id = snow_auto_location()$LOCATION_ID[10],
                                 get_year = "All",
                                 parameter = "snow_depth",
-                                timestep = "hourly")
+                                timestep = "daily")
 
 # test over all
 # swe - hourly: OK
@@ -18,10 +23,10 @@ test_function <- function(station_id, get_year, parameter, timestep) {
   get_aswe_databc(station_id, get_year, parameter, timestep)
 }
 
-lapply(snow_auto_location()$LOCATION_ID, test_function,
+lapply(snow_auto_location()$LOCATION_ID[1], test_function,
   get_year = "All",
   parameter = "precipitation",
-  timestep = "hourly")
+  timestep = "daily")
 
 match("1D09P", snow_auto_location()$LOCATION_ID)
 
