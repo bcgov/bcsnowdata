@@ -6,9 +6,9 @@ library(bcsnowdata)
 
 bcdata::bcdc_search("snow")
 
-test_3 <- get_aswe_databc(station_id = snow_auto_location()$LOCATION_ID[10],
+test_3 <- get_aswe_databc(station_id = "2C09Q",
                                 get_year = "All",
-                                parameter = "snow_depth",
+                                parameter = "swe",
                                 timestep = "daily")
 
 # test over all
