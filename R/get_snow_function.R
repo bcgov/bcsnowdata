@@ -43,7 +43,8 @@ get_snow <- function(id = c("All", "automated", "manual"),
   
   if (any(station %in% snow_auto_location()$LOCATION_ID)) {
     
-    aswe_data <- get_aswe_databc(station_id = station[station %in% snow_auto_location()$LOCATION_ID],
+    aswe_data <- lapply(station[station %in% snow_auto_location()$LOCATION_ID],
+                                 get_aswe_databc,
                                  get_year = get_year,
                                  parameter = parameter,
                                  timestep = timestep)
@@ -54,7 +55,8 @@ get_snow <- function(id = c("All", "automated", "manual"),
   # Get any manual data
   if (any(station %in% snow_manual_location()$LOCATION_ID)) {
     
-    manual_data <- get_manual_swe(station_id = station[station %in% snow_manual_location()$LOCATION_ID],
+    manual_data <- lapply(station[station %in% snow_manual_location()$LOCATION_ID],
+                                              get_manual_swe,
                                               survey_period = survey_period,
                                               get_year = get_year)
   } else {
