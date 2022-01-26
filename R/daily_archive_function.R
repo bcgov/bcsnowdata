@@ -170,7 +170,8 @@ daily_archive <- function(parameter = c("swe", "snow_depth", "precipitation", "t
           dplyr::full_join(daily_current(parameter = parameter, id = id)) %>%
           dplyr::arrange(date_utc) %>%
           unique() %>%
-          dplyr::filter(!is.na(value))
+          dplyr::filter(!is.na(value)) %>%
+          dplyr::filter(!is.infinite(value))
       } else (
         data <- data %>%
           dplyr::mutate(value = NA) %>%
