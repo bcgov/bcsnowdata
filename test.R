@@ -6,9 +6,9 @@ library(bcsnowdata)
 
 bcdata::bcdc_search("snow")
 
-test_3 <- get_aswe_databc(station_id = "2C09Q",
+test_3 <- get_aswe_databc(station_id = snow_auto_location()$LOCATION_ID[1],
                                 get_year = "All",
-                                parameter = "swe",
+                                parameter = "temperature",
                                 timestep = "daily")
 
 # test over all
@@ -17,18 +17,19 @@ test_3 <- get_aswe_databc(station_id = "2C09Q",
 # snow_depth - hourly: OK
 # snow_depth - daily: OK
 # precipitation - hourly: OK
+# precipitation: Daily: OK
+# temperature- hourly: OK
 
 test_function <- function(station_id, get_year, parameter, timestep) {
   print(paste0(station_id, " I = ", match(station_id, snow_auto_location()$LOCATION_ID)))
   get_aswe_databc(station_id, get_year, parameter, timestep)
 }
 
-lapply(snow_auto_location()$LOCATION_ID[1], test_function,
+t_all <- lapply(snow_auto_location()$LOCATION_ID, test_function,
   get_year = "All",
-  parameter = "precipitation",
+  parameter = "temperature",
   timestep = "daily")
 
-match("1D09P", snow_auto_location()$LOCATION_ID)
 
 manual_test <- get_manual_swe(station_id = snow_manual_location()$LOCATION_ID[7],
                               get_year = "All",
@@ -36,7 +37,7 @@ manual_test <- get_manual_swe(station_id = snow_manual_location()$LOCATION_ID[7]
 
 lapply(snow_auto_location()$LOCATION_ID, get_aswe_databc,
        get_year = "All",
-       parameter = "swe",
+       parameter = "temperature",
        timestep = "hourly")
  
 
