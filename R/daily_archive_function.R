@@ -146,7 +146,7 @@ daily_archive <- function(parameter = c("swe", "snow_depth", "precipitation", "t
       historic_daily <- bcdata::bcdc_get_data("5e7acd31-b242-4f09-8a64-000af872d68f", resource = "945c144a-d094-4a20-a3c6-9fe74cad368a") %>%
         dplyr::filter(variable %in% c("T_Max", "T_Min"), Pillow_ID %in% paste0("_", id)) %>%
         dplyr::rename(id = "Pillow_ID",  date_utc = "Date") %>%
-        dplyr::mutate(parameter = ifelse(variable == "T_Max", "t_max", "t_min"), id = stringr::str_replace(id, "_", "")) %>%
+        dplyr::mutate(parameter = as.character(ifelse(variable == "T_Max", "t_max", "t_min")), id = as.character(stringr::str_replace(id, "_", ""))) %>%
         dplyr::select(-code, -variable) 
       
       # knit the daily snow depth available pre 2003 with hourly 2003-current
