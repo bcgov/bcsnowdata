@@ -1,4 +1,4 @@
-# Copyright 2021 Province of British Columbia
+# Copyright 2022 Province of British Columbia
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
 #' @param crs Defaults to 3005
 #' @keywords Get automated snow survey locations
 #' @export
-#' @examples
+#' @examples \dontrun{}
 #' snow_auto_location()
 snow_auto_location <- function(crs = "3005") {
   databc_GET_client("WHSE_WATER_MANAGEMENT.SSL_SNOW_ASWS_STNS_SP", crs = crs)

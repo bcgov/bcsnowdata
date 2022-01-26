@@ -4,14 +4,7 @@
 \alias{get_manual_swe}
 \title{Get BC Manual Snow Data}
 \usage{
-get_manual_swe(
-  station_id,
-  survey_period = "All",
-  get_year = "All",
-  force = FALSE,
-  ask = TRUE,
-  ...
-)
+get_manual_swe(station_id = "All", survey_period = "All", get_year = "All")
 }
 \arguments{
 \item{station_id}{Define the station id you want. Can be an individual site, a string of site IDs ("4A10"), or all ASWE sites ("All"). Defaults to "All".}
@@ -19,15 +12,12 @@ get_manual_swe(
 \item{survey_period}{Survey period you want to retrieve. Can choose either all sites ("All") or a specific survey period ("01-Jan", "01-Feb", "01-Mar", "01-Apr", "01-May", "15-May", "01-Jun", "15-Jun"). Defaults to 'All'}
 
 \item{get_year}{Water year of data you want to retrieve. Defaults to 'All'}
-
-\item{force}{Whether you want to re-download the archived file whether it is updated or no. Defaults to FALSE}
-
-\item{ask}{Whether the user is asked whether to create a directory for the cached file. Defaults to TRUE}
 }
 \description{
 This function allows you to obtain data for . It retrieves this data from Data BC
 }
 \examples{
+\dontrun{}
 get_manual_swe()
 }
 \keyword{DataBC}

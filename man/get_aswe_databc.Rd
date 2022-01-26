@@ -2,15 +2,13 @@
 % Please edit documentation in R/get_aswe_databc_function.R
 \name{get_aswe_databc}
 \alias{get_aswe_databc}
-\title{Get BC ASWE Data Function}
+\title{Get BC ASWE Data Function. This function allows you to obtain data from BC ASWE sites. It retrieves this data from Data BC}
 \usage{
 get_aswe_databc(
   station_id = "All",
   get_year = "All",
-  parameter_id = c("SWE", "Snow_Depth", "Precipitation", "Temperature"),
-  force = FALSE,
-  ask = TRUE,
-  ...
+  parameter = c("swe", "snow_depth", "precipitation", "temperature"),
+  timestep = c("hourly", "daily")
 )
 }
 \arguments{
@@ -18,17 +16,15 @@ get_aswe_databc(
 
 \item{get_year}{Define the year that you want to retrieve. Defaults to "All"}
 
-\item{parameter_id}{Defaults to: "SWE", "Snow_Depth", "Precipitation", "Temperature". Type of data you want to retrieve}
+\item{parameter}{Defaults to: "swe", "snow_depth", "precipitation", "temperature". Type of data you want to retrieve}
 
-\item{force}{Whether you want to re-download the archived file whether it is updated or no. Defaults to FALSE}
-
-\item{ask}{Whether the user is asked whether to create a directory for the cached file. Defaults to TRUE}
+\item{timestep}{Whether the user wants the hourly or daily data. Choices are "hourly" or "daily"}
 }
 \description{
-This function allows you to obtain data from BC ASWE sites. It retrieves this data from Data BC
+Get BC ASWE Data Function. This function allows you to obtain data from BC ASWE sites. It retrieves this data from Data BC
 }
 \examples{
-get_aswe_databc()
+\dontrun{}
 }
 \keyword{ASWE}
 \keyword{Data}
