@@ -80,13 +80,14 @@ for are manual or ASWE sites.
 The get_snow function is a wrapper for the get_aswe_databc() and
 get_manual_swe() functions detailed below.
 
-Variables include: - id: Station ID of the site(s) to retrieve data for.
-Cal also be: “All” = all manual and ASWE sites, “automated” = all ASWE
-sites; or “manual” = all manual snow sites. - get_year: water year you
-want to retrieve data for. - survey_period: manual site survey period
-you want to retrieve data for in “01-01” or Jan-01 format. - parameter:
-Type of data you are retrieveing for ASWE data. - timestep: Whether you
-are trying to retrieve hourly or daily ASWE data. Only for ASWE data.
+Variables include: \* id: Station ID of the site(s) to retrieve data
+for. Can also be: “All”(all manual and ASWE sites), “automated” (all
+ASWE sites), or “manual” (all manual snow sites). \* get_year: water
+year you want to retrieve data for. \* survey_period: manual site survey
+period you want to retrieve data for (in “01-01” or “Jan-01” format).
+Only for manual data. \* parameter: Type of data you are retrieving for
+ASWE data. Only for ASWE data. \* timestep: Whether you are trying to
+retrieve hourly or daily ASWE data. Only for ASWE data.
 
 ``` r
 library(bcsnowdata)
