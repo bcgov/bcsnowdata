@@ -48,6 +48,8 @@ get_snow <- function(id = c("All", "automated", "manual"),
                                  get_year = get_year,
                                  parameter = parameter,
                                  timestep = timestep)
+    
+    aswe_data <- do.call(rbind, aswe_data)
   } else {
     aswe_data <- list()
   }
@@ -59,15 +61,16 @@ get_snow <- function(id = c("All", "automated", "manual"),
                                               get_manual_swe,
                                               survey_period = survey_period,
                                               get_year = get_year)
+    manual_data <- do.call(rbind, manual_data)
   } else {
     manual_data <- list()
   }
   
-  if (length(aswe_data)[1] > 1 && length(manual_data)[1] > 1) {
+  if (length(aswe_data) > 0 && length(manual_data) > 0) {
     d_out <- list(aswe = aswe_data, manual = manual_data)
-  } else if (length(aswe_data)[1] > 1 && length(manual_data)[1] < 1) {
+  } else if (length(aswe_data) > 0 && length(manual_data) < 1) {
     d_out <- aswe_data
-  } else if (length(aswe_data)[1] < 1 && length(manual_data)[1] > 1) {
+  } else if (length(aswe_data) < 1 && length(manual_data) > 0) {
     d_out <- manual_data
   }
   d_out
