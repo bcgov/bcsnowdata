@@ -20,12 +20,13 @@ See the License for the specific language governing permissions and limitations 
 
 ## Project Status
 
-This package is currently under development, and may be subject to
-future changes and iterations.
+This package is currently under development, and subject to future
+changes and iterations.
 
-This package is maintained by River Forecast Centre, which is part of
-the Water Management Branch of the Ministry of Forest Lands, Natural
-Resource Operations and Rural Development.
+This package is maintained by River Forecast Centre, part of the Water
+Management Branch of the Ministry of Forest Lands, Natural Resource
+Operations and Rural Development within the Government of British
+Columbia.
 
 ## What does bcsnowdata do?
 
@@ -33,9 +34,21 @@ This package contains functions for retrieving snow-related data from
 the BC Data Catalogue, which can be found at:
 <https://catalogue.data.gov.bc.ca/dataset?q=snow&download_audience=Public&sort=score+desc%2C+record_publish_date+desc>.
 
-The authors of this package are not responsible for any errors within
-the source data, and assume no responsibility or liability for
-subsequent use of any data resources compiled by these functions.
+Data is collected from both manual and automated snow weather (ASWE)
+stations around the province. These sites, and data collection, is the
+responsibility of the Ministry of Environment and Climate Change
+Strategy’s Snow Survey Program, BC Hydro and other partners. Snow data
+includes snow water equivalent (SWE; both manual and automated
+stations), snow depth (ASWE and manual sites), precipitation (ASWE), and
+temperature (ASWE sites). The authors of this package are not
+responsible for any errors within the source data, and assume no
+responsibility or liability for subsequent use of any data resources
+compiled by these functions.
+
+This package uses the bcdata package to access ASWE and manual snow data
+from the BC Data Catalogue, and provides a means of quickly accessing
+different records across the different types of data that exist for snow
+within the BC Data Catalogue.
 
 ### Features
 
@@ -49,32 +62,56 @@ snow basin administrative areas.
 
 The snow package can be installed from GitHub:
 
-``` r
-install.packages("remotes", repos = "http://cran.us.r-project.org")
-remotes::install_github("bcgov/bcsnowdata")
-library(bcsnowdata)
-```
+    install.packages("remotes", repos = "http://cran.us.r-project.org")
+    remotes::install_github("bcgov/bcsnowdata")
+    library(bcsnowdata)
 
 ### Usage
 
-As of November 2019, this section is the same as the vignette
-demonstrating the use of the five functions contained within the
-bcsnowdata() package.
+This package contains seven functions for returning snow-associated
+data.
+
+#### get_snow
+
+The get_snow function retrieves either ASWE or manual data, and does not
+require the user to specify whether the site(s) they are retrieving data
+for are manual or ASWE sites.
+
+The get_snow function is a wrapper for the get_aswe_databc() and
+get_manual_swe() functions detailed below.
+
+Variables include: - id: Station ID of the site(s) to retrieve data for.
+Cal also be: “All” = all manual and ASWE sites, “automated” = all ASWE
+sites; or “manual” = all manual snow sites. - get_year: water year you
+want to retrieve data for. - survey_period: manual site survey period
+you want to retrieve data for in “01-01” or Jan-01 format. - parameter:
+Type of data you are retrieveing for ASWE data. - timestep: Whether you
+are trying to retrieve hourly or daily ASWE data. Only for ASWE data.
+
+``` r
+library(bcsnowdata)
+# Get hourly swe data for 2022 water year for 1A01P
+aswe_test <- get_snow(id = "1A01P", get_year = "2022", parameter = "swe", timestep = "hourly")
+
+# Get manual snow data for all sites for the 2022 water year across all survey
+# periods
+manual_test <- get_snow(id = "1A06A", get_year = "2022", survey_period = "all")
+```
 
 #### Automated Snow Function
 
-The first function is get_aswe_databc(), which retrieves data for
-automated snow stations. It retrieves daily data for dates before 2011,
-and hourly data available after 2011, for automated snow stations from
-data available on the Data Catalogue.
+get_aswe_databc() retrieves data for automated snow stations, including
+snow water equivalent (swe), snow depth, precipitation and air
+temperature. Hourly data is available until 2003, and daily data
+available before that for stations that were established before this
+point up to (and including) the current water year.
 
 The user can define multiple options within the function, including:
 
 1.  station_id: This function will retrieve data for one station (by
     specified station ID), or multiple stations specified within a
     string (i.e., c(“2F05P”, “1C18P”)). The user can also specify to
-    return all ASWE stations within the Data BC catalogue, although this
-    is not recommended as it will return data for all of the stations.
+    return all ASWE stations within the Data BC Catalogue.
 
 2.  get_year: Specifies the year you want to return. Can be one water
     year, multiple, or all.
@@ -83,30 +120,20 @@ The user can define multiple options within the function, including:
     choices include SWE, Temperature, SD (snow depth), and
     Precipitation.
 
-4.  force: Specifies whether you want to update the archive of ASWE data
-    that is saved on your computer to speed up the data process. If the
-    data within the archive on the user’s drive is out of date (i.e.,
-    doesn’t contain data from the last water year), the archive will
-    automatically update.
-
-5.  ask: Specifies whether the user can decide to create a new directory
-    for cached data. If TRUE, user will have the option of saying ‘yes’
-    or ‘no’ as to whether they want to create a new directory for
-    archived data to be cached.
-
-##### get_aswe_databc() Example
+4.  timestep: Specifies what type of data to retrieve (hourly or daily
+    average).
 
 The function in this example will retrieve data for station ID 2F05P for
 all years on record without updating the cache of historic data (data
 prior to this water year).
 
-    # Retrieve SWE for one site over all years; don't cache data
-    id <- c("2F05P")
-    SWE_test <- get_aswe_databc(station_id = id,
-                              get_year = "All",
-                              parameter_id = "SWE",
-                              force = FALSE,
-                              ask = FALSE) 
+``` r
+# Get hourly swe data for one station across all years available (no data
+# available before 2003 for all stations)
+id <- c("2F05P")
+SWE_test <- get_aswe_databc(station_id = id, get_year = "All", parameter = "swe",
+    timestep = "hourly")
+```
 
 #### Manual Snow Survey Data Function
 
@@ -129,31 +156,12 @@ including:
     numeric month year (i.e., “03-01” is March 1), or annotated in the
     format day-month, such as “01-Mar”.
 
-3.  get_year: Specifies the year you want to return. Can be one water
-    year, multiple years, or all on record (the function default).
-
-4.  force: Specifies whether you want to update the archive of ASWE data
-    that is saved on your computer to speed up the data process. If the
-    data within the archive on the user’s drive is out of date (i.e.,
-    doesn’t contain data from the last water year), the archive will
-    automatically update.
-
-5.  ask: Specifies whether the user can decide to create a new directory
-    for cached data. If TRUE, user will have the option of saying ‘yes’
-    or ‘no’ as to whether they want to create a new directory for
-    archived data to be cached.
-
-The function in this example will retrieve data for station ID 1C21 for
-all years and all survey periods on record without updating the cache of
-historic data (data prior to this water year).
-
-    # Retrieve manual snow survey data for one site over all survey periods and years; don't use data cache
-    id <- c("1C21")
-    manual_test <- get_manual_swe(station_id = id,
-                                  survey_period = "All",
-                                  get_year = "All",
-                                  force = FALSE,
-                                  ask = FALSE)
+``` r
+# Retrieve manual snow survey data for one site over all survey periods and
+# years
+id <- c("1C21")
+manual_test <- get_manual_swe(station_id = id, survey_period = "All", get_year = "All")
+```
 
 ##### Automated Snow Weather Station Locations
 
@@ -165,9 +173,11 @@ to their latitude, longitude and elevation.
 Data obtained from:
 <https://catalogue.data.gov.bc.ca/dataset/automated-snow-weather-station-locations>
 
-    ASWE_locations <- snow_auto_location()
+``` r
+ASWE_locations <- snow_auto_location()
 
-    head(ASWE_locations)
+head(ASWE_locations)
+```
 
 ##### Manual Snow Survey Locations
 
@@ -179,9 +189,11 @@ addition to their latitude, longitude and elevation.
 Data obtained from:
 <https://catalogue.data.gov.bc.ca/dataset/manual-snow-survey-locations>
 
-    manual_locations <- snow_manual_location()
+``` r
+manual_locations <- snow_manual_location()
 
-    head(manual_locations)
+head(manual_locations)
+```
 
 ##### Snow Survey Administrative Basin Areas
 
@@ -193,9 +205,11 @@ integration with the bcmaps() package).
 Data obtained from:
 <https://catalogue.data.gov.bc.ca/dataset/snow-survey-administrative-basin-areas>
 
-    basin_locations <- snow_basin_areas()
+``` r
+basin_locations <- snow_basin_areas()
 
-    head(basin_locations)
+head(basin_locations)
+```
 
 ##### Assign water year
 
@@ -205,7 +219,9 @@ also be called externally. The main input is a vector or column of dates
 that are used to calculate the corresponding water year. The default
 start to the calendar year is October (start_month = 10).
 
-    wtr_yr(as.Date("2018-12-01"))
+``` r
+wtr_yr(as.Date("2018-12-01"))
+```
 
 ### Project Status
 
@@ -227,7 +243,7 @@ to abide by its terms.
 
 ### License
 
-    Copyright 2021 Province of British Columbia
+    Copyright 2022 Province of British Columbia
 
     Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
     you may not use this file except in compliance with the License.

@@ -91,18 +91,18 @@ Variables include:
 
 ```{r, get_snow, echo = T, include = TRUE, results = 'hide'}
 library(bcsnowdata)
-# Get hourly swe data for 2022 water year for all automated snow weather stations
-aswe_test <- get_snow(id = "automated",
+# Get hourly swe data for 2022 water year for 1A01P
+aswe_test <- get_snow(id = "1A01P",
                       get_year = "2022",
                       parameter = "swe", 
                       timestep = "hourly"
                       )
 
 # Get manual snow data for all sites for the 2022 water year across all survey periods
-manual_test <- get_snow(id = "manual",
+manual_test <- get_snow(id = "1A06A",
                         get_year = "2022",
                         survey_period = "all"
-)
+                        )
 
 ```
 
@@ -128,7 +128,7 @@ The function in this example will retrieve data for station ID 2F05P for all yea
 id <- c("2F05P")
 SWE_test <- get_aswe_databc(station_id = id,
                           get_year = "All",
-                          parameter_id = "swe",
+                          parameter = "swe",
                           timestep = "hourly") 
 ```
 
@@ -174,7 +174,7 @@ The snow_auto_location() function returns a dataframe containing location metada
 Data obtained from:
 https://catalogue.data.gov.bc.ca/dataset/manual-snow-survey-locations
 
-``` {r, snow_auto_location, echo = T, include = TRUE, results = 'hide'}
+``` {r, snow_manual_location, echo = T, include = TRUE, results = 'hide'}
 manual_locations <- snow_manual_location()
 
 head(manual_locations)
