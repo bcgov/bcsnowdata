@@ -31,8 +31,8 @@ Columbia.
 ## What does bcsnowdata do?
 
 This package contains functions for retrieving snow-related data from
-the BC Data Catalogue, which can be found at:
-<https://catalogue.data.gov.bc.ca/dataset?q=snow&download_audience=Public&sort=score+desc%2C+record_publish_date+desc>.
+the BC Data Catalogue, which can be found
+[here](https://catalogue.data.gov.bc.ca/dataset?q=snow&download_audience=Public&sort=score+desc%2C+record_publish_date+desc).
 
 Data is collected from both manual and automated snow weather (ASWE)
 stations around the province. These sites, and data collection, is the
@@ -45,10 +45,11 @@ responsible for any errors within the source data, and assume no
 responsibility or liability for subsequent use of any data resources
 compiled by these functions.
 
-This package uses the bcdata package to access ASWE and manual snow data
-from the BC Data Catalogue, and provides a means of quickly accessing
-different records across the different types of data that exist for snow
-within the BC Data Catalogue.
+This package uses the [bcdata](https://github.com/bcgov/bcdata) package
+to access ASWE and manual snow data from the BC Data Catalogue, and
+provides a means of quickly accessing different records across the
+different types of data that exist for snow within the BC Data
+Catalogue.
 
 ### Features
 
@@ -80,18 +81,13 @@ for are manual or ASWE sites.
 The get_snow function is a wrapper for the get_aswe_databc() and
 get_manual_swe() functions detailed below.
 
-Variables include: 
-- id: Station ID of the site(s) to retrieve data for.
+Variables include: - id: Station ID of the site(s) to retrieve data for.
 Can also be: “All”(all manual and ASWE sites), “automated” (all ASWE
-sites), or “manual” (all manual snow sites). 
-- get_year: water year you
-want to retrieve data for. 
-- survey_period: manual site survey period
+sites), or “manual” (all manual snow sites). - get_year: water year you
+want to retrieve data for. - survey_period: manual site survey period
 you want to retrieve data for (in “01-01” or “Jan-01” format). Only for
-manual data. 
-- parameter: Type of data you are retrieving for ASWE data.
-Only for ASWE data. 
-- timestep: Whether you are trying to retrieve
+manual data. - parameter: Type of data you are retrieving for ASWE data.
+Only for ASWE data. - timestep: Whether you are trying to retrieve
 hourly or daily ASWE data. Only for ASWE data.
 
 ``` r
@@ -176,8 +172,8 @@ metadata for all of the automated snow weather stations. The returned
 dataframe includes both active as well as inactive stations, in addition
 to their latitude, longitude and elevation.
 
-Data obtained from:
-<https://catalogue.data.gov.bc.ca/dataset/automated-snow-weather-station-locations>
+Data obtained from the [BC Data
+Catalogue](https://catalogue.data.gov.bc.ca/dataset/automated-snow-weather-station-locations).
 
 ``` r
 ASWE_locations <- snow_auto_location()
@@ -192,8 +188,8 @@ location metadata for all of the manual snow survey locations. The
 returned dataframe includes both active as well as inactive stations, in
 addition to their latitude, longitude and elevation.
 
-Data obtained from:
-<https://catalogue.data.gov.bc.ca/dataset/manual-snow-survey-locations>
+Data obtained from the [BC Data
+Catalogue](https://catalogue.data.gov.bc.ca/dataset/manual-snow-survey-locations).
 
 ``` r
 manual_locations <- snow_manual_location()
@@ -208,8 +204,8 @@ metadata for the administrative basin areas. Returned data includes the
 polygon geometries necessary to map snow basin areas (for example, upon
 integration with the bcmaps() package).
 
-Data obtained from:
-<https://catalogue.data.gov.bc.ca/dataset/snow-survey-administrative-basin-areas>
+Data obtained from the [BC Data
+Catalogue](https://catalogue.data.gov.bc.ca/dataset/snow-survey-administrative-basin-areas).
 
 ``` r
 basin_locations <- snow_basin_areas()
@@ -219,7 +215,7 @@ head(basin_locations)
 
 ##### Assign water year
 
-This package also contains a function (wtr_yr()) for assigning water
+This package also contains the function wtr_yr() for assigning water
 year to a column of dates. It is meant as an internal function that can
 also be called externally. The main input is a vector or column of dates
 that are used to calculate the corresponding water year. The default

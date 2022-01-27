@@ -50,12 +50,11 @@ This package is maintained by River Forecast Centre, part of the Water Managemen
 
 ## What does bcsnowdata do?
  
-This package contains functions for retrieving snow-related data from the BC Data Catalogue, which can be found at:
-https://catalogue.data.gov.bc.ca/dataset?q=snow&download_audience=Public&sort=score+desc%2C+record_publish_date+desc.
+This package contains functions for retrieving snow-related data from the BC Data Catalogue, which can be found [here](https://catalogue.data.gov.bc.ca/dataset?q=snow&download_audience=Public&sort=score+desc%2C+record_publish_date+desc).
 
 Data is collected from both manual and automated snow weather (ASWE) stations around the province. These sites, and data collection, is the responsibility of the Ministry of Environment and Climate Change Strategy’s Snow Survey Program, BC Hydro and other partners. Snow data includes snow water equivalent (SWE; both manual and automated stations), snow depth (ASWE and manual sites), precipitation (ASWE), and temperature (ASWE sites). The authors of this package are not responsible for any errors within the source data, and assume no responsibility or liability for subsequent use of any data resources compiled by these functions.
 
-This package uses the bcdata package to access ASWE and manual snow data from the BC Data Catalogue, and provides a means of quickly accessing different records across the different types of data that exist for snow within the BC Data Catalogue.
+This package uses the [bcdata](https://github.com/bcgov/bcdata) package to access ASWE and manual snow data from the BC Data Catalogue, and provides a means of quickly accessing different records across the different types of data that exist for snow within the BC Data Catalogue.
 
 ### Features
 
@@ -156,8 +155,7 @@ manual_test <- get_manual_swe(station_id = id,
 
 The snow_auto_location() returns a dataframe containing location metadata for all of the automated snow weather stations. The returned dataframe includes both active as well as inactive stations, in addition to their latitude, longitude and elevation.
 
-Data obtained from:
-https://catalogue.data.gov.bc.ca/dataset/automated-snow-weather-station-locations
+Data obtained from the [BC Data Catalogue](https://catalogue.data.gov.bc.ca/dataset/automated-snow-weather-station-locations).
 
 
 ``` {r, snow_auto_location, echo = T, include = TRUE, results = 'hide'}
@@ -171,8 +169,7 @@ head(ASWE_locations)
 
 The snow_auto_location() function returns a dataframe containing location metadata for all of the manual snow survey locations. The returned dataframe includes both active as well as inactive stations, in addition to their latitude, longitude and elevation.
 
-Data obtained from:
-https://catalogue.data.gov.bc.ca/dataset/manual-snow-survey-locations
+Data obtained from the [BC Data Catalogue](https://catalogue.data.gov.bc.ca/dataset/manual-snow-survey-locations).
 
 ``` {r, snow_manual_location, echo = T, include = TRUE, results = 'hide'}
 manual_locations <- snow_manual_location()
@@ -184,8 +181,7 @@ head(manual_locations)
 
 The snow_auto_location() returns a dataframe containing location metadata for the administrative basin areas. Returned data includes the polygon geometries necessary to map snow basin areas (for example, upon integration with the bcmaps() package).
 
-Data obtained from:
-https://catalogue.data.gov.bc.ca/dataset/snow-survey-administrative-basin-areas
+Data obtained from the [BC Data Catalogue](https://catalogue.data.gov.bc.ca/dataset/snow-survey-administrative-basin-areas).
 
 `````` {r, snow_basin_areas, echo = T, include = TRUE, results = 'hide'}
 basin_locations <- snow_basin_areas()
@@ -195,7 +191,7 @@ head(basin_locations)
 
 ##### Assign water year
 
-This package also contains a function (wtr_yr()) for assigning water year to a column of dates. It is meant as an internal function that can also be called externally. The main input is a vector or column of dates that are used to calculate the corresponding water year. The default start to the calendar year is October (start_month = 10).
+This package also contains the function wtr_yr() for assigning water year to a column of dates. It is meant as an internal function that can also be called externally. The main input is a vector or column of dates that are used to calculate the corresponding water year. The default start to the calendar year is October (start_month = 10).
 
 `````` {r, wtr_yr, echo = T, include = TRUE, results = 'hide'}
 wtr_yr(as.Date("2018-12-01"))
