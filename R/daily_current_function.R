@@ -28,7 +28,6 @@ daily_current <- function(parameter = c("swe", "snow_depth", "precipitation", "t
       dplyr::select(contains(c(id, "DATE(UTC)"))) %>%
       dplyr::mutate(parameter = parameter, "id" = id) %>%
       dplyr::rename(value = contains(id), date_utc = "DATE(UTC)") %>%
-      dplyr::mutate(value = ifelse(!(id %in% names(.)), NA, value)) %>%
       dplyr::mutate(hour = lubridate::hour(date_utc)) %>%
       dplyr::filter(hour == 16) %>% # should eventually do interpolation in case 16:00 UTC measurement is missing??
       dplyr::select(-hour)
@@ -38,7 +37,6 @@ daily_current <- function(parameter = c("swe", "snow_depth", "precipitation", "t
       dplyr::select(contains(c(id, "DATE(UTC)"))) %>%
       dplyr::mutate(parameter = parameter, "id" = id) %>%
       dplyr::rename(value = contains(id), date_utc = "DATE(UTC)") %>%
-      dplyr::mutate(value = ifelse(!(id %in% names(.)), NA, value)) %>%
       # Get the daily mean *WILL NEED TO CHANGE
       dplyr::mutate(date = as.Date(date_utc)) %>%
       dplyr::group_by(date, parameter, id) %>%
@@ -49,7 +47,6 @@ daily_current <- function(parameter = c("swe", "snow_depth", "precipitation", "t
       dplyr::select(contains(c(id, "DATE(UTC)"))) %>%
       dplyr::mutate(parameter = "cum_precip", "id" = id) %>%
       dplyr::rename(value = contains(id), date_utc = "DATE(UTC)") %>%
-      dplyr::mutate(value = ifelse(!(id %in% names(.)), NA, value)) %>%
       # Get the daily mean *WILL NEED TO CHANGE
       dplyr::mutate(date = as.Date(date_utc)) %>%
       dplyr::group_by(date, parameter, id) %>%
@@ -60,7 +57,6 @@ daily_current <- function(parameter = c("swe", "snow_depth", "precipitation", "t
       dplyr::select(contains(c(id, "DATE(UTC)"))) %>%
       dplyr::mutate("id" = id) %>%
       dplyr::rename(value = contains(id), date_utc = "DATE(UTC)") %>%
-      dplyr::mutate(value = ifelse(!(id %in% names(.)), NA, value)) %>%
       # Get the daily max and min temp
       dplyr::mutate(date = as.Date(date_utc)) %>%
       dplyr::group_by(date, id) %>%
