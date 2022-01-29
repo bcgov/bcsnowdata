@@ -38,9 +38,16 @@ daily_current <- function(parameter = c("swe", "snow_depth", "precipitation", "t
       dplyr::mutate(parameter = parameter, "id" = id) %>%
       dplyr::rename(value = contains(id), date_utc = "DATE(UTC)") %>%
       # Get the daily mean *WILL NEED TO CHANGE
-      dplyr::mutate(date = as.Date(date_utc)) %>%
-      dplyr::group_by(date, parameter, id) %>%
-      dplyr::summarise(value = mean(value, na.rm = TRUE))
+      dplyr::mutate(date = as.Date(date_utc))
+      
+    if ("value" %in% colnames(current)) {
+      current <- current %>%
+        dplyr::group_by(date, parameter, id) %>%
+        dplyr::summarise(value = mean(value, na.rm = TRUE))%>%
+        dplyr::rename(date_utc = date)
+    } else {
+      current <- current
+    }
     
   } else if (parameter == "precipitation") {
     current <- bcdata::bcdc_get_data(record = "3a34bdd1-61b2-4687-8b55-c5db5e13ff50", resource = "9f048a78-d74c-40c1-aa1f-9e2fcd1a19dd") %>%
@@ -49,9 +56,16 @@ daily_current <- function(parameter = c("swe", "snow_depth", "precipitation", "t
       dplyr::rename(value = contains(id), date_utc = "DATE(UTC)") %>%
       # Get the daily mean *WILL NEED TO CHANGE
       dplyr::mutate(date = as.Date(date_utc)) %>%
-      dplyr::group_by(date, parameter, id) %>%
-      dplyr::summarise(value = mean(value, na.rm = TRUE)) %>%
-      dplyr::rename(date_utc = date) 
+      dplyr::group_by(date, parameter, id) 
+    
+    if ("value" %in% colnames(current)) {
+      current <- current %>%
+        dplyr::group_by(date, parameter, id) %>%
+        dplyr::summarise(value = mean(value, na.rm = TRUE))%>%
+        dplyr::rename(date_utc = date)
+    } else {
+      current <- current
+    }
   } else if (parameter == "temperature") {
     current <- bcdata::bcdc_get_data(record = "3a34bdd1-61b2-4687-8b55-c5db5e13ff50", resource = "0bc026a2-7487-4f01-8b97-16d1b591a82f") %>%
       dplyr::select(contains(c(id, "DATE(UTC)"))) %>%
