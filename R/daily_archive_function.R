@@ -85,8 +85,7 @@ daily_archive <- function(parameter = c("swe", "snow_depth", "precipitation", "t
           dplyr::full_join(historic_daily) %>%
           dplyr::arrange(date_utc) %>%
           # get current year sd
-          dplyr::full_join(daily_current(parameter = parameter, id = id) %>%
-                             dplyr::rename(date_utc = "date")) %>%
+          dplyr::full_join(daily_current(parameter = parameter, id = id)) %>%
           dplyr::arrange(date_utc) %>%
           unique() %>%
           dplyr::filter(!is.na(value))
