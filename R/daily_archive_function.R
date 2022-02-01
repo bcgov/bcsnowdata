@@ -64,12 +64,11 @@ daily_archive <- function(parameter = c("swe", "snow_depth", "precipitation", "t
           dplyr::summarise(value = mean(value, na.rm = TRUE)) %>%
           # cut out the data that is available within daily archive and knit together
           dplyr::rename(date_utc = "date") %>%
-          dplyr::filter(date_utc > max(historic_daily$date_utc)) %>%
+          dplyr::filter(date_utc > max(historic_daily$date_utc, na.rm = TRUE)) %>%
           dplyr::full_join(historic_daily) %>%
           dplyr::arrange(date_utc) %>%
           # get current year sd
-          dplyr::full_join(daily_current(parameter = parameter, id = id) %>%
-                           dplyr::rename(date_utc = "date")) %>%
+          dplyr::full_join(daily_current(parameter = parameter, id = id)) %>%
           dplyr::arrange(date_utc) %>%
           unique() %>%
           dplyr::filter(!is.na(value))
