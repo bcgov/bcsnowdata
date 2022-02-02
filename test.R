@@ -4,12 +4,14 @@ library(dplyr)
 library(bcdata)
 library(bcsnowdata)
 
-bcdata::bcdc_search("snow")
+#bcdata::bcdc_search("snow")
 
-test_3 <- get_aswe_databc(station_id = snow_auto_location()$LOCATION_ID[1],
+time_start <- Sys.time()
+test_3 <- get_aswe_databc(station_id = "3B26P",
                                 get_year = "All",
-                                parameter = "temperature",
+                                parameter = "snow_depth",
                                 timestep = "daily")
+time <- Sys.time() - time_start
 
 # test over all
 # swe - hourly: OK
@@ -19,26 +21,33 @@ test_3 <- get_aswe_databc(station_id = snow_auto_location()$LOCATION_ID[1],
 # precipitation - hourly: OK
 # precipitation: Daily: OK
 # temperature- hourly: OK
+# "3B26P"
 
 test_function <- function(station_id, get_year, parameter, timestep) {
   print(paste0(station_id, " I = ", match(station_id, snow_auto_location()$LOCATION_ID)))
   get_aswe_databc(station_id, get_year, parameter, timestep)
 }
-
+time_start <- Sys.time()
 t_all <- lapply(snow_auto_location()$LOCATION_ID, test_function,
   get_year = "All",
-  parameter = "temperature",
+  parameter = "swe",
   timestep = "daily")
+time <- Sys.time() - time_start
 
 
 manual_test <- get_manual_swe(station_id = snow_manual_location()$LOCATION_ID[7],
                               get_year = "All",
                               survey_period = "All")
 
-lapply(snow_auto_location()$LOCATION_ID, get_aswe_databc,
-       get_year = "All",
-       parameter = "temperature",
-       timestep = "hourly")
+test_function <- function(station_id, get_year, survey_period) {
+  print(paste0(station_id, " I = ", match(station_id, snow_manual_location()$LOCATION_ID)))
+  get_manual_swe(station_id, get_year, survey_period)
+}
+time_start <- Sys.time()
+t_all <- lapply(snow_manual_location()$LOCATION_ID, test_function,
+                get_year = "All",
+                survey_period = "All")
+time <- Sys.time() - time_start
  
 
 # Test the get data function
@@ -49,3 +58,5 @@ test_bchydro_new <- get_snow(id = "2C09Q",
                              timestep = "hourly")
 
 test_BC <- test_bchydro_new$aswe
+
+manual_data <- bcsnowdata::snow_manual_location() 
