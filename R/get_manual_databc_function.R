@@ -106,7 +106,7 @@ get_manual_swe <- function(station_id = "All",
     dplyr::select(-wy) %>%
     dplyr::rename(
       "snow_course_name" = `Snow Course Name`,
-      "station_id" = "Number",
+      "id" = "Number",
       elev_metres = `Elev. metres`,
       date_utc = `Date of Survey`,
       snow_depth_cm = `Snow Depth cm`,
