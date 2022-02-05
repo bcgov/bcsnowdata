@@ -7,7 +7,7 @@ time_start <- Sys.time()
 test_3 <- get_aswe_databc(station_id = "3B26P",
                                 get_year = "All",
                                 parameter = "swe",
-                                timestep = "daily")
+                                timestep = "hourly")
 time <- Sys.time() - time_start
 
 # test over all
@@ -23,8 +23,8 @@ time <- Sys.time() - time_start
 test_multiple <- c("2F05P", "2F08P", "2F18P", "2F19P")
 time_start <- Sys.time()
 test_4 <- get_aswe_databc(station_id = test_multiple,
-                          get_year = "All",
-                          parameter = "swe",
+                          get_year = "2022",
+                          parameter = "temperature",
                           timestep = "hourly")
 time <- Sys.time() - time_start
 
