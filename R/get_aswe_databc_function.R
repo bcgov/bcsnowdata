@@ -70,5 +70,5 @@ get_aswe_databc <- function(station_id = "All",
   # Need an option to get the historic daily knitted together with the hourly? ***********************
   data_final <- data %>%
     dplyr::distinct(., .keep_all = TRUE) %>% # ensure only unique entries exist
-    dplyr::arrange(station_id, date_utc)
+    dplyr::arrange(id, date_utc)
 }
