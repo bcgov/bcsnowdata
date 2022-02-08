@@ -80,11 +80,12 @@ daily_archive <- function(parameter = c("swe", "snow_depth", "precipitation", "t
         #tibble::as_tibble()
         reshape::melt(id = "ATE.") %>%
         dplyr::mutate(parameter = parameter) %>%
-        dplyr::rename(date_utc = "ATE.", id = "variable") %>%
-        dplyr::arrange(id, date_utc)
+        dplyr::rename(date_utc = "ATE.") %>%
+        dplyr::arrange(date_utc)
       
-      if ("value" %in% colnames(data)) {
+      if ("variable" %in% colnames(data)) {
         data <- data %>%
+          dplyr::rename(id = "variable") %>%
           dplyr::mutate(date = as.Date(date_utc)) %>%
           dplyr::group_by(id, date, parameter) %>%
           dplyr::summarise(value = mean(value, na.rm = TRUE)) %>%
@@ -99,10 +100,10 @@ daily_archive <- function(parameter = c("swe", "snow_depth", "precipitation", "t
           unique() %>%
           dplyr::filter(!is.na(value))
       } else (
-        data <- data %>%
+        data_1 <- data %>%
           dplyr::mutate(value = NA) %>%
           dplyr::mutate(date = as.Date(date_utc), parameter = "snow_depth") %>%
-          dplyr::group_by(id, date, parameter) %>%
+          dplyr::group_by(date, parameter) %>%
           dplyr::summarise(value = mean(value, na.rm = TRUE)) %>%
           # cut out the data that is available within daily archive and knit together
           dplyr::rename(date_utc = "date") %>%
@@ -111,7 +112,7 @@ daily_archive <- function(parameter = c("swe", "snow_depth", "precipitation", "t
           dplyr::arrange(date_utc) %>%
           # get current year sd
           dplyr::full_join(daily_current(parameter = parameter, id = id)) %>%
-          dplyr::arrange(id, date_utc) %>%
+          dplyr::arrange(date_utc) %>%
           unique() %>%
           dplyr::filter(!is.na(value))
       )
