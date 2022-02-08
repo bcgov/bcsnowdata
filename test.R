@@ -28,6 +28,11 @@ test_4 <- get_aswe_databc(station_id = test_multiple,
                           timestep = "hourly")
 time <- Sys.time() - time_start
 
+test <- get_aswe_databc(station_id = "4A13P",
+                get_year = "All",
+                parameter = "snow_depth",
+                timestep = "daily")
+
 test_function <- function(station_id, get_year, parameter, timestep) {
   print(paste0(station_id, " I = ", match(station_id, snow_auto_location()$LOCATION_ID)))
   get_aswe_databc(station_id, get_year, parameter, timestep)
