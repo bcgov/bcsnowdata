@@ -22,6 +22,7 @@
 #' @examples \dontrun{}
 
 daily_current <- function(parameter = c("swe", "snow_depth", "precipitation", "temperature"), id) {
+  
   if (parameter == "swe") {
     current <- bcdata::bcdc_get_data("3a34bdd1-61b2-4687-8b55-c5db5e13ff50", resource = "fe591e21-7ffd-45f4-b3b3-2291e4a6de15") %>%
       dplyr::select(contains(c(id, "DATE(UTC)"))) 
@@ -35,11 +36,16 @@ daily_current <- function(parameter = c("swe", "snow_depth", "precipitation", "t
     current_out <- current %>%
       reshape::melt(id = "ATE.") %>%
       dplyr::mutate(parameter = parameter) %>%
-      dplyr::rename(date_utc = "ATE.", id = "variable") %>%
+      dplyr::rename(date_utc = "ATE.") %>%
       # Get the 16:00 UTC measurement. Should also linear interpolate?
       dplyr::mutate(hour = lubridate::hour(date_utc)) %>%
       dplyr::filter(hour == 16) %>% # should eventually do interpolation in case 16:00 UTC measurement is missing??
       dplyr::select(-hour)
+    
+    if ("variable" %in% colnames(current_out)) {
+      current_out <- current_out %>%
+        dplyr::rename(id = "variable")
+    }
     
   } else if (parameter == "snow_depth") {
     current <- bcdata::bcdc_get_data("3a34bdd1-61b2-4687-8b55-c5db5e13ff50", resource = "abba1811-dd9a-4447-a297-2b5f81410abd") %>%
