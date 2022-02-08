@@ -27,6 +27,7 @@ daily_archive <- function(parameter = c("swe", "snow_depth", "precipitation", "t
   
   # Knit the current year with past year data if you need both current and archived data
   if (any(yr %in% c("all", "All", "ALL")) | any(yr %in% wtr_yr(Sys.Date()))) {
+    
     if (parameter == "swe") {
       # knit the daily swe archive with daily SWE for this water year
       data <- bcdata::bcdc_get_data("5e7acd31-b242-4f09-8a64-000af872d68f", resource = "666b7263-6111-488c-89aa-7480031f74cd") %>%
