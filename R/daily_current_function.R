@@ -54,11 +54,12 @@ daily_current <- function(parameter = c("swe", "snow_depth", "precipitation", "t
       #tibble::as_tibble()
       reshape::melt(id = "ATE.") %>%
       dplyr::mutate(parameter = parameter) %>%
-      dplyr::rename(date_utc = "ATE.", id = "variable")
+      dplyr::rename(date_utc = "ATE.")
       
     # Get the daily mean snow depth
-    if ("value" %in% colnames(current_m)) {
+    if ("variable" %in% colnames(current_m)) {
       current_out <- current_m %>%
+        dplyr::rename(id = "variable") %>%
         dplyr::mutate(date = as.Date(date_utc)) %>%
         dplyr::group_by(id, date) %>%
         dplyr::summarise(value = mean(value, na.rm = TRUE)) %>%
