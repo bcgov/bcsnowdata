@@ -42,18 +42,21 @@ daily_archive <- function(parameter = c("swe", "snow_depth", "precipitation", "t
           #tibble::as_tibble()
           reshape::melt(id = "ATE.") %>%
           dplyr::mutate(parameter = parameter) %>%
-          dplyr::rename(date_utc = "ATE.", id = "variable") %>%
-          dplyr::full_join(daily_current(parameter, id)) %>%
-          dplyr::arrange(id, date_utc)
+          dplyr::rename(date_utc = "ATE.") 
       
-      if ("value" %in% colnames(data)) {
+      if ("variable" %in% colnames(data)) {
         data <- data %>%
+          dplyr::rename(id = "variable") %>%
+          dplyr::full_join(daily_current(parameter, id)) %>%
+          dplyr::arrange(id, date_utc) %>%
           dplyr::filter(!is.na(value))
-      } else (
+      } else {
         data <- data %>%
           dplyr::mutate(value = NA) %>%
+          dplyr::full_join(daily_current(parameter, id)) %>%
+          dplyr::arrange(id, date_utc) %>%
           dplyr::filter(!is.na(value))
-      )
+      }
       
     } else if (parameter == "snow_depth") {
       
