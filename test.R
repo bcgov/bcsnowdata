@@ -28,9 +28,9 @@ test_4 <- get_aswe_databc(station_id = test_multiple,
                           timestep = "hourly")
 time <- Sys.time() - time_start
 
-test <- get_aswe_databc(station_id = snow_auto_location()$LOCATION_ID[5],
+test <- get_aswe_databc(station_id = snow_auto_location()$LOCATION_ID[31],
                 get_year = "All",
-                parameter = "precipitation",
+                parameter = "temperature",
                 timestep = "daily")
 
 test_function <- function(station_id, get_year, parameter, timestep) {
@@ -40,8 +40,8 @@ test_function <- function(station_id, get_year, parameter, timestep) {
 time_start <- Sys.time()
 t_all <- lapply(snow_auto_location()$LOCATION_ID, test_function,
   get_year = "All",
-  parameter = "precipitation",
-  timestep = "daily")
+  parameter = "temperature",
+  timestep = "hourly")
 time <- Sys.time() - time_start
 
 
