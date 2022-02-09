@@ -44,20 +44,23 @@ hourly_archive <- function(parameter = c("swe", "snow_depth", "precipitation", "
       historic <- data.frame(historic) 
       colnames(historic) <- substring(colnames(historic), 2, 6)
       
-      data <- historic %>%
+      df_h <- historic %>%
         reshape::melt(id = "ATE.") %>%
         dplyr::mutate(parameter = parameter) %>%
-        dplyr::rename(date_utc = "ATE.", id = "variable")  %>%
-        dplyr::full_join(hourly_current(parameter, id)) %>%
-        dplyr::arrange(id, date_utc)
+        dplyr::rename(date_utc = "ATE.") 
       
-      if ("value" %in% colnames(data)) {
-          data <- data %>%
+      if ("variable" %in% colnames(df_h)) {
+          data <- df_h %>%
+            dplyr::rename(id = "variable") %>%
+            dplyr::full_join(hourly_current(parameter, id)) %>%
+            dplyr::arrange(id, date_utc) %>%
             dplyr::filter(!is.na(value))
         } else (
-          data <- data %>%
+          data <- df_h %>%
             dplyr::mutate(value = NA) %>%
-            dplyr::filter(!is.na(value))
+            dplyr::full_join(hourly_current(parameter, id)) %>%
+            dplyr::arrange(id, date_utc) %>%
+            dplyr::filter(!is.na(value)) 
         )
   
     } else if (parameter == "snow_depth") {
@@ -72,20 +75,23 @@ hourly_archive <- function(parameter = c("swe", "snow_depth", "precipitation", "
       historic <- data.frame(historic) 
       colnames(historic) <- substring(colnames(historic), 2, 6)
         
-      data <- historic %>%
+      df_h <- historic %>%
           reshape::melt(id = "ATE.") %>%
           dplyr::mutate(parameter = parameter) %>%
-          dplyr::rename(date_utc = "ATE.", id = "variable")  %>%
-          dplyr::full_join(hourly_current(parameter, id)) %>%
-          dplyr::arrange(id, date_utc)
+          dplyr::rename(date_utc = "ATE.")
       
-      if ("value" %in% colnames(data)) {
-        data <- data %>%
+      if ("variable" %in% colnames(df_h)) {
+        data <- df_h %>%
+          dplyr::rename(id = "variable") %>%
+          dplyr::full_join(hourly_current(parameter, id)) %>%
+          dplyr::arrange(id, date_utc) %>%
           dplyr::filter(!is.na(value))
       } else (
-        data <- data %>%
+        data <- df_h %>%
           dplyr::mutate(value = NA) %>%
-          dplyr::filter(!is.na(value))
+          dplyr::full_join(hourly_current(parameter, id)) %>%
+          dplyr::arrange(id, date_utc) %>%
+          dplyr::filter(!is.na(value)) 
       )
   
     } else if (parameter == "precipitation") {
@@ -100,20 +106,23 @@ hourly_archive <- function(parameter = c("swe", "snow_depth", "precipitation", "
       historic <- data.frame(historic) 
       colnames(historic) <- substring(colnames(historic), 2, 6)
       
-      data <- historic %>%
+      df_h <- historic %>%
         reshape::melt(id = "ATE.") %>%
         dplyr::mutate(parameter = "accum_precip") %>%
-        dplyr::rename(date_utc = "ATE.", id = "variable")  %>%
-        dplyr::full_join(hourly_current(parameter, id)) %>%
-        dplyr::arrange(id, date_utc)
+        dplyr::rename(date_utc = "ATE.")
       
-      if ("value" %in% colnames(data)) {
-        data <- data %>%
+      if ("variable" %in% colnames(df_h)) {
+        data <- df_h %>%
+          dplyr::rename(id = "variable") %>%
+          dplyr::full_join(hourly_current(parameter, id)) %>%
+          dplyr::arrange(id, date_utc) %>%
           dplyr::filter(!is.na(value))
       } else (
-        data <- data %>%
+        data <- df_h %>%
           dplyr::mutate(value = NA) %>%
-          dplyr::filter(!is.na(value))
+          dplyr::full_join(hourly_current(parameter, id)) %>%
+          dplyr::arrange(id, date_utc) %>%
+          dplyr::filter(!is.na(value)) 
       )
   
     } else if (parameter == "temperature") {
