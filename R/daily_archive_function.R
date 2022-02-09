@@ -202,11 +202,12 @@ daily_archive <- function(parameter = c("swe", "snow_depth", "precipitation", "t
       data <- data %>%
         reshape::melt(id = "ATE.") %>%
         dplyr::mutate(parameter = parameter) %>%
-        dplyr::rename(date_utc = "ATE.", id = "variable") %>%
-        dplyr::arrange(id, date_utc)
+        dplyr::rename(date_utc = "ATE.") 
       
-      if ("value" %in% colnames(data)) {
-        data <- data %>%
+      if ("variable" %in% colnames(data)) {
+        data_1 <- data %>%
+          dplyr::rename(id = "variable") %>%
+          dplyr::arrange(id, date_utc) %>%
           dplyr::mutate(date = as.Date(date_utc), "id" = id) %>%
           dplyr::filter(date > max(historic_daily$date_utc)) %>%
           dplyr::group_by(id, date) %>%
