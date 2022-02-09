@@ -104,7 +104,7 @@ daily_archive <- function(parameter = c("swe", "snow_depth", "precipitation", "t
           unique() %>%
           dplyr::filter(!is.na(value))
       } else (
-        data_1 <- data %>%
+        data <- data %>%
           dplyr::mutate(value = NA) %>%
           dplyr::mutate(date = as.Date(date_utc), parameter = "snow_depth") %>%
           dplyr::group_by(date, parameter) %>%
@@ -145,11 +145,12 @@ daily_archive <- function(parameter = c("swe", "snow_depth", "precipitation", "t
       data <- data %>%
         reshape::melt(id = "ATE.") %>%
         dplyr::mutate(parameter = "cum_precip") %>%
-        dplyr::rename(date_utc = "ATE.", id = "variable") %>%
+        dplyr::rename(date_utc = "ATE.") %>%
         dplyr::arrange(id, date_utc)
         
-      if ("value" %in% colnames(data)) {
+      if ("variable" %in% colnames(data)) {
         data <- data %>%
+          dplyr::rename(id = "variable") %>%
           dplyr::mutate(date = as.Date(date_utc)) %>%
           dplyr::filter(date > max(historic_daily$date_utc)) %>%
           dplyr::group_by(id, date, parameter) %>%
@@ -167,7 +168,7 @@ daily_archive <- function(parameter = c("swe", "snow_depth", "precipitation", "t
           dplyr::mutate(value = NA) %>%
           dplyr::mutate(date = as.Date(date_utc)) %>%
           dplyr::filter(date > max(historic_daily$date_utc)) %>%
-          dplyr::group_by(id, date, parameter) %>%
+          dplyr::group_by(date, parameter) %>%
           dplyr::summarise(value = mean(value, na.rm = TRUE)) %>%
           dplyr::rename(date_utc = date) %>%
           # Join with the daily mean
