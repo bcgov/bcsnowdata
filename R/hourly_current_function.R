@@ -102,7 +102,14 @@ hourly_current <- function(parameter = c("swe", "snow_depth", "precipitation", "
     current_out <- current %>%
       reshape::melt(id = "ATE.") %>%
       dplyr::mutate(parameter = parameter) %>%
-      dplyr::rename(date_utc = "ATE.", id = "variable") 
+      dplyr::rename(date_utc = "ATE.") 
+    
+    if ("variable" %in% colnames(current_out)) {
+      current_out <- current_out %>%
+        dplyr::rename(id = "variable") 
+    } else {
+      current_out <- current_out
+    }
   }
   current_out
 }
