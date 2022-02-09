@@ -35,7 +35,14 @@ hourly_current <- function(parameter = c("swe", "snow_depth", "precipitation", "
     current_out <- current %>%
       reshape::melt(id = "ATE.") %>%
       dplyr::mutate(parameter = parameter) %>%
-      dplyr::rename(date_utc = "ATE.", id = "variable") 
+      dplyr::rename(date_utc = "ATE.")
+    
+    if ("variable" %in% colnames(current_out)) {
+      current_out <- current_out %>%
+        dplyr::rename(id = "variable") 
+    } else {
+      current_out <- current_out
+    }
     
   } else if (parameter == "snow_depth") {
     current <- bcdata::bcdc_get_data("3a34bdd1-61b2-4687-8b55-c5db5e13ff50", resource = "abba1811-dd9a-4447-a297-2b5f81410abd") %>%
@@ -50,7 +57,14 @@ hourly_current <- function(parameter = c("swe", "snow_depth", "precipitation", "
     current_out <- current %>%
       reshape::melt(id = "ATE.") %>%
       dplyr::mutate(parameter = parameter) %>%
-      dplyr::rename(date_utc = "ATE.", id = "variable") 
+      dplyr::rename(date_utc = "ATE.") 
+    
+    if ("variable" %in% colnames(current_out)) {
+      current_out <- current_out %>%
+        dplyr::rename(id = "variable") 
+    } else {
+      current_out <- current_out
+    }
       
   } else if (parameter == "precipitation") {
     
@@ -66,7 +80,14 @@ hourly_current <- function(parameter = c("swe", "snow_depth", "precipitation", "
     current_out <- current %>%
       reshape::melt(id = "ATE.") %>%
       dplyr::mutate(parameter = "cum_precip") %>%
-      dplyr::rename(date_utc = "ATE.", id = "variable") 
+      dplyr::rename(date_utc = "ATE.") 
+    
+    if ("variable" %in% colnames(current_out)) {
+      current_out <- current_out %>%
+        dplyr::rename(id = "variable") 
+    } else {
+      current_out <- current_out
+    }
     
   } else if (parameter == "temperature") {
     current <- bcdata::bcdc_get_data(record = "3a34bdd1-61b2-4687-8b55-c5db5e13ff50", resource = "0bc026a2-7487-4f01-8b97-16d1b591a82f") %>%
