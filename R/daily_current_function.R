@@ -116,10 +116,11 @@ daily_current <- function(parameter = c("swe", "snow_depth", "precipitation", "t
     current_m <- current %>%
       reshape2::melt(id = "ATE.") %>%
       dplyr::mutate(parameter = parameter) %>%
-      dplyr::rename(date_utc = "ATE.", id = "variable") 
+      dplyr::rename(date_utc = "ATE.") 
     
-    if ("value" %in% colnames(current_m)) {
+    if ("variable" %in% colnames(current_m)) {
       current_out <- current_m %>%
+        dplyr::rename(id = "variable") %>%
         # Get the daily max and min temp
         dplyr::mutate(date = as.Date(date_utc)) %>%
         dplyr::group_by(id, date) %>%
