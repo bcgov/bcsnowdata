@@ -12,11 +12,13 @@
 # =============
 
 #' This function gets the location of snow surveys from the Data BC catalog
-#' @param crs Defaults to 3005
 #' @keywords Get automated snow survey locations
 #' @export
 #' @examples \dontrun{}
 #' snow_auto_location()
-snow_auto_location <- function(crs = "3005") {
-  databc_GET_client("WHSE_WATER_MANAGEMENT.SSL_SNOW_ASWS_STNS_SP", crs = crs)
+snow_auto_location <- function() {
+  #crs = "3005"
+  #databc_GET_client("WHSE_WATER_MANAGEMENT.SSL_SNOW_ASWS_STNS_SP", crs = crs)
+  
+  bcdata::bcdc_get_data("ebe546aa-ac34-491c-a828-fdc87fb70610")
 }
