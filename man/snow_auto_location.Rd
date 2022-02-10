@@ -4,10 +4,7 @@
 \alias{snow_auto_location}
 \title{This function gets the location of snow surveys from the Data BC catalog}
 \usage{
-snow_auto_location(crs = "3005")
-}
-\arguments{
-\item{crs}{Defaults to 3005}
+snow_auto_location()
 }
 \description{
 This function gets the location of snow surveys from the Data BC catalog
