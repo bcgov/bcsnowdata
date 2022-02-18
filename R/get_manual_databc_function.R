@@ -38,20 +38,21 @@ get_manual_swe <- function(station_id = "All",
                                    paste0("0", as.character(lubridate::month(Sys.Date())), "-01"))
                             )
   }
-  
+  time_start <- Sys.time()
   # If you only want to get the current water year data
   if (get_year == wtr_yr(Sys.Date())) {
     # Get the current year manual data
     data <- bcdata::bcdc_get_data("12472805-6f6d-457b-8db2-5c1f42a00099")
   } else {
     # Get the archived manual data from Data BC and join with current year
-    data <- bcdata::bcdc_get_data("705df46f-e9d6-4124-bc4a-66f54c07b228") %>%
-      dplyr::full_join(bcdata::bcdc_get_data("12472805-6f6d-457b-8db2-5c1f42a00099"))
+    #data <- bcdata::bcdc_get_data("705df46f-e9d6-4124-bc4a-66f54c07b228") %>%
+    #  dplyr::full_join(bcdata::bcdc_get_data("12472805-6f6d-457b-8db2-5c1f42a00099"))
+    
+    # Old method
+    data <- snow_manual_archive() %>%
+      dplyr::full_join(snow_manual_current())
   }
-  
-  # Add in water year
-  data$wy <- wtr_yr(data$`Date of Survey`)
-  
+  time <- Sys.time() - time_start
   # Filter by the station you want
   if (any(station_id %in% c("All", "all", "ALL"))) {
     data_id <- data
@@ -59,6 +60,9 @@ get_manual_swe <- function(station_id = "All",
     data_id <- data %>%
       dplyr::filter(Number %in% station_id)
   }
+  
+  # Add in water year
+  data_id$wy <- wtr_yr(data_id$`Date of Survey`)
   
   # Filter by the year you want
   if (any(get_year %in% c("All", "all", "ALL"))) {
