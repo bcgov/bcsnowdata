@@ -44,10 +44,11 @@ t_all <- lapply(snow_auto_location()$LOCATION_ID, test_function,
   timestep = "hourly")
 time <- Sys.time() - time_start
 
-
-manual_test <- get_manual_swe(station_id = snow_manual_location()$LOCATION_ID[7],
+time_start <- Sys.time()
+manual_test <- get_manual_swe(station_id = snow_manual_location()$LOCATION_ID[1],
                               get_year = "All",
                               survey_period = "All")
+time <- Sys.time() - time_start
 
 test_function <- function(station_id, get_year, survey_period) {
   print(paste0(station_id, " I = ", match(station_id, snow_manual_location()$LOCATION_ID)))
