@@ -11,8 +11,6 @@
 # See the License for the specific language governing permissions and limitations under the License.
 # ================
 
-
-
 #' Get BC ASWE Data Function. This function allows you to obtain data from BC ASWE sites. It retrieves this data from Data BC
 #' @param station_id Define the station id you want. Can be an individual site, a string of site IDs, or all ASWE sites. Defaults to "All"; this will return a great deal of data.
 #' @param get_year Define the year that you want to retrieve. Defaults to "All"
