@@ -10,6 +10,28 @@ test_3 <- get_aswe_databc(station_id = "3B26P",
                                 timestep = "hourly")
 time <- Sys.time() - time_start
 
+time_start <- Sys.time()
+test_3 <- get_aswe_databc(station_id = "2D07AP",
+                          get_year = "All",
+                          parameter = "swe",
+                          timestep = "daily")
+time <- Sys.time() - time_start
+
+
+time_start <- Sys.time()
+test_3 <- get_aswe_databc(station_id = "All",
+                          get_year = "All",
+                          parameter = "swe",
+                          timestep = "hourly")
+time <- Sys.time() - time_start
+
+time_start <- Sys.time()
+test_4 <- get_aswe_databc(station_id = "All",
+                          get_year = "All",
+                          parameter = "swe",
+                          timestep = "daily")
+time <- Sys.time() - time_start
+
 # test over all
 # swe - hourly: OK
 # swe - daily: OK
