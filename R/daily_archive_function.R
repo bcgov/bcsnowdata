@@ -31,14 +31,16 @@ daily_archive <- function(parameter = c("swe", "snow_depth", "precipitation", "t
     if (parameter == "swe") {
       # knit the daily swe archive with daily SWE for this water year
       data_i <- bcdata::bcdc_get_data("5e7acd31-b242-4f09-8a64-000af872d68f", resource = "666b7263-6111-488c-89aa-7480031f74cd") %>%
-        dplyr::select(contains(c(id, "DATE(UTC)"))) 
-        
-      colnames(data_i) <- c(gsub( " .*$", "", colnames(data_i)[1]), "date_utc")
+        dplyr::select(contains(c("DATE(UTC)", id))) 
+      
+      colnames(data_i) <- gsub( " .*$", "", colnames(data_i))
         
       # Melt dataframe
-      data <- data_i %>%
-          reshape::melt(id = "date_utc") %>%
-          dplyr::mutate(parameter = parameter) 
+      data <- data.frame(data_i, check.names = FALSE) %>%
+        reshape::melt(id = "DATE(UTC)") %>%
+        dplyr::mutate(parameter = parameter) %>%
+        dplyr::rename(date_utc = "DATE(UTC)", id = "variable") %>%
+        dplyr::arrange(id, date_utc)
       
       if ("variable" %in% colnames(data)) {
         data <- data %>%
@@ -243,19 +245,16 @@ daily_archive <- function(parameter = c("swe", "snow_depth", "precipitation", "t
       
       # get only the archived data
       # knit the daily swe archive with daily SWE for this water year
-      data <- bcdata::bcdc_get_data("5e7acd31-b242-4f09-8a64-000af872d68f", resource = "666b7263-6111-488c-89aa-7480031f74cd") %>%
+      data_i <- bcdata::bcdc_get_data("5e7acd31-b242-4f09-8a64-000af872d68f", resource = "666b7263-6111-488c-89aa-7480031f74cd") %>%
         dplyr::select(contains(c(id, "DATE(UTC)"))) 
       
-      colnames(data) <- substring(colnames(data), 1, 5)
+      colnames(data_i) <- gsub( " .*$", "", colnames(data_i))
       
-      # Needs to be a dataframe to melt
-      data <- data.frame(data) 
-      colnames(data) <- substring(colnames(data), 2, 6)
-      
-      data <- data %>%
-        reshape::melt(id = "ATE.") %>%
+      # Melt dataframe
+      data <- data.frame(data_i, check.names = FALSE) %>%
+        reshape::melt(id = "DATE(UTC)") %>%
         dplyr::mutate(parameter = parameter) %>%
-        dplyr::rename(date_utc = "ATE.", id = "variable") %>%
+        dplyr::rename(date_utc = "DATE(UTC)", id = "variable") %>%
         dplyr::arrange(id, date_utc)
       
       if ("value" %in% colnames(data)) {
@@ -442,7 +441,7 @@ daily_archive <- function(parameter = c("swe", "snow_depth", "precipitation", "t
   } else {
   # Filter for the years your specify
   data_o <- data %>%
-    dplyr::filter(lubridate::year(date_utc %in% yr))  
+    dplyr::filter(lubridate::year(date_utc) %in% yr)  
   }
   return(data_o)
 }
