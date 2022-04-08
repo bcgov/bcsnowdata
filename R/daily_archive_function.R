@@ -68,20 +68,14 @@ daily_archive <- function(parameter = c("swe", "snow_depth", "precipitation", "t
       # knit the daily snow depth available pre 2003 with hourly 2003-current
       data <-  bcdata::bcdc_get_data("5e7acd31-b242-4f09-8a64-000af872d68f", resource = "204f91d4-b136-41d2-98b3-125ecefd6887") %>%
         dplyr::select(contains(c(id, "DATE(UTC)"))) 
-        #dplyr::mutate(date = as.Date(`DATE(UTC)`)) %>%
-        #dplyr::rename(value = contains(id), date_utc = "DATE(UTC)") 
       
-      colnames(data) <- substring(colnames(data), 1, 5)
+      colnames(data) <- gsub( " .*$", "", colnames(data))
       
-      # Needs to be a dataframe to melt
-      data <- data.frame(data) 
-      colnames(data) <- substring(colnames(data), 2, 6)
-      
-      data <- data %>%
-        #tibble::as_tibble()
-        reshape::melt(id = "ATE.") %>%
+      # Needs to be a dataframe to melt + melt dataframe
+      data <- data.frame(data, check.names = FALSE) %>%
+        reshape::melt(id = "DATE(UTC)") %>%
         dplyr::mutate(parameter = parameter) %>%
-        dplyr::rename(date_utc = "ATE.") %>%
+        dplyr::rename(date_utc = "DATE(UTC)") %>%
         dplyr::arrange(date_utc)
       
       if ("variable" %in% colnames(data)) {
@@ -133,16 +127,12 @@ daily_archive <- function(parameter = c("swe", "snow_depth", "precipitation", "t
       data <-  bcdata::bcdc_get_data("5e7acd31-b242-4f09-8a64-000af872d68f", resource = "371a0479-1c6a-4f15-a456-11d778824f38") %>%
         dplyr::select(contains(c(id, "DATE(UTC)"))) 
         
-      colnames(data) <- substring(colnames(data), 1, 5)
+      colnames(data) <- gsub( " .*$", "", colnames(data))
         
-      # Needs to be a dataframe to melt
-      data <- data.frame(data) 
-      colnames(data) <- substring(colnames(data), 2, 6)
-        
-      data <- data %>%
-        reshape::melt(id = "ATE.") %>%
+      data <- data.frame(data, check.names = FALSE) %>%
+        reshape::melt(id = "DATE(UTC)") %>%
         dplyr::mutate(parameter = "cum_precip") %>%
-        dplyr::rename(date_utc = "ATE.") %>%
+        dplyr::rename(date_utc = "DATE(UTC)") %>%
         dplyr::arrange(id, date_utc)
         
       if ("variable" %in% colnames(data)) {
@@ -190,16 +180,13 @@ daily_archive <- function(parameter = c("swe", "snow_depth", "precipitation", "t
       data <-  bcdata::bcdc_get_data(record = "5e7acd31-b242-4f09-8a64-000af872d68f", resource = "fba88311-34b9-4422-b5ae-572fd23b2a00") %>%
         dplyr::select(contains(c(id, "DATE(UTC)"))) 
       
-      colnames(data) <- substring(colnames(data), 1, 5)
+      colnames(data) <- gsub( " .*$", "", colnames(data))
       
       # Needs to be a dataframe to melt
-      data <- data.frame(data) 
-      colnames(data) <- substring(colnames(data), 2, 6)
-      
-      data <- data %>%
-        reshape::melt(id = "ATE.") %>%
+      data <- data.frame(data, check.names = FALSE) %>%
+        reshape::melt(id = "DATE(UTC)") %>%
         dplyr::mutate(parameter = parameter) %>%
-        dplyr::rename(date_utc = "ATE.") 
+        dplyr::rename(date_utc = "DATE(UTC)") 
       
       if ("variable" %in% colnames(data)) {
         data_1 <- data %>%
@@ -281,17 +268,13 @@ daily_archive <- function(parameter = c("swe", "snow_depth", "precipitation", "t
       #dplyr::mutate(date = as.Date(`DATE(UTC)`)) %>%
       #dplyr::rename(value = contains(id), date_utc = "DATE(UTC)") 
       
-      colnames(data) <- substring(colnames(data), 1, 5)
+      colnames(data) <- gsub( " .*$", "", colnames(data))
       
       # Needs to be a dataframe to melt
-      data <- data.frame(data) 
-      colnames(data) <- substring(colnames(data), 2, 6)
-      
-      data <- data %>%
-        #tibble::as_tibble()
-        reshape::melt(id = "ATE.") %>%
+      data <- data.frame(data, check.names = FALSE) %>%
+        reshape::melt(id = "DATE(UTC)") %>%
         dplyr::mutate(parameter = parameter) %>%
-        dplyr::rename(date_utc = "ATE.", id = "variable") %>%
+        dplyr::rename(date_utc = "DATE(UTC)", id = "variable") %>%
         dplyr::arrange(id, date_utc)
       
       if ("value" %in% colnames(data)) {
@@ -336,16 +319,13 @@ daily_archive <- function(parameter = c("swe", "snow_depth", "precipitation", "t
       data <-  bcdata::bcdc_get_data("5e7acd31-b242-4f09-8a64-000af872d68f", resource = "371a0479-1c6a-4f15-a456-11d778824f38") %>%
         dplyr::select(contains(c(id, "DATE(UTC)"))) 
       
-      colnames(data) <- substring(colnames(data), 1, 5)
+      colnames(data) <- gsub( " .*$", "", colnames(data))
       
       # Needs to be a dataframe to melt
-      data <- data.frame(data) 
-      colnames(data) <- substring(colnames(data), 2, 6)
-      
-      data <- data %>%
-        reshape::melt(id = "ATE.") %>%
+      data <- data.frame(data, check.names = FALSE) %>%
+        reshape::melt(id = "DATE(UTC)") %>%
         dplyr::mutate(parameter = "cum_precip") %>%
-        dplyr::rename(date_utc = "ATE.", id = "variable") %>%
+        dplyr::rename(date_utc = "DATE(UTC", id = "variable") %>%
         dplyr::arrange(id, date_utc)
       
       if ("value" %in% colnames(data)) {
@@ -388,16 +368,13 @@ daily_archive <- function(parameter = c("swe", "snow_depth", "precipitation", "t
       data <-  bcdata::bcdc_get_data(record = "5e7acd31-b242-4f09-8a64-000af872d68f", resource = "fba88311-34b9-4422-b5ae-572fd23b2a00") %>%
         dplyr::select(contains(c(id, "DATE(UTC)"))) 
       
-      colnames(data) <- substring(colnames(data), 1, 5)
+      colnames(data) <- gsub( " .*$", "", colnames(data))
       
       # Needs to be a dataframe to melt
-      data <- data.frame(data) 
-      colnames(data) <- substring(colnames(data), 2, 6)
-      
-      data <- data %>%
-        reshape::melt(id = "ATE.") %>%
+      data <- data.frame(data, check.names = FALSE) %>%
+        reshape::melt(id = "DATE(UTC)") %>%
         dplyr::mutate(parameter = parameter) %>%
-        dplyr::rename(date_utc = "ATE.", id = "variable") %>%
+        dplyr::rename(date_utc = "DATE(UTC)", id = "variable") %>%
         dplyr::arrange(id, date_utc)
       
       if ("value" %in% colnames(data)) {
