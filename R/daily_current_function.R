@@ -38,7 +38,7 @@ daily_current <- function(parameter = c("swe", "snow_depth", "precipitation", "t
       dplyr::mutate(hour = lubridate::hour(date_utc)) %>%
       dplyr::filter(hour == 16) %>% # should eventually do interpolation in case 16:00 UTC measurement is missing??
       dplyr::select(-hour) %>%
-      dplyr::arrange(id, date_utc)
+      dplyr::arrange(date_utc)
     
     if ("variable" %in% colnames(current_out)) {
       current_out <- current_out %>%
