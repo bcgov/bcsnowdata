@@ -40,7 +40,7 @@ daily_archive <- function(parameter = c("swe", "snow_depth", "precipitation", "t
         reshape::melt(id = "DATE(UTC)") %>%
         dplyr::mutate(parameter = parameter) %>%
         dplyr::rename(date_utc = "DATE(UTC)") %>%
-        dplyr::arrange(id, date_utc)
+        dplyr::arrange(variable, date_utc)
       
       if ("variable" %in% colnames(data)) {
         data <- data %>%
@@ -76,7 +76,7 @@ daily_archive <- function(parameter = c("swe", "snow_depth", "precipitation", "t
         reshape::melt(id = "DATE(UTC)") %>%
         dplyr::mutate(parameter = parameter) %>%
         dplyr::rename(date_utc = "DATE(UTC)") %>%
-        dplyr::arrange(date_utc)
+        dplyr::arrange(variable, date_utc)
       
       if ("variable" %in% colnames(data)) {
         data <- data %>%
@@ -133,7 +133,7 @@ daily_archive <- function(parameter = c("swe", "snow_depth", "precipitation", "t
         reshape::melt(id = "DATE(UTC)") %>%
         dplyr::mutate(parameter = "cum_precip") %>%
         dplyr::rename(date_utc = "DATE(UTC)") %>%
-        dplyr::arrange(id, date_utc)
+        dplyr::arrange(variable, date_utc)
         
       if ("variable" %in% colnames(data)) {
         data <- data %>%
@@ -241,12 +241,13 @@ daily_archive <- function(parameter = c("swe", "snow_depth", "precipitation", "t
       data <- data.frame(data_i, check.names = FALSE) %>%
         reshape::melt(id = "DATE(UTC)") %>%
         dplyr::mutate(parameter = parameter) %>%
-        dplyr::rename(date_utc = "DATE(UTC)", id = "variable") %>%
+        dplyr::rename(date_utc = "DATE(UTC)") %>%
         dplyr::arrange(id, date_utc)
       
-      if ("value" %in% colnames(data)) {
+      if ("variable" %in% colnames(data)) {
         data <- data %>%
-          dplyr::filter(!is.na(value))
+          dplyr::filter(!is.na(value)) %>%
+          dplyr::rename(id = "variable")
       } else (
         data <- data %>%
           dplyr::mutate(value = NA) %>%
@@ -275,7 +276,7 @@ daily_archive <- function(parameter = c("swe", "snow_depth", "precipitation", "t
         reshape::melt(id = "DATE(UTC)") %>%
         dplyr::mutate(parameter = parameter) %>%
         dplyr::rename(date_utc = "DATE(UTC)", id = "variable") %>%
-        dplyr::arrange(id, date_utc)
+        dplyr::arrange(date_utc)
       
       if ("value" %in% colnames(data)) {
         data <- data %>%
@@ -326,7 +327,7 @@ daily_archive <- function(parameter = c("swe", "snow_depth", "precipitation", "t
         reshape::melt(id = "DATE(UTC)") %>%
         dplyr::mutate(parameter = "cum_precip") %>%
         dplyr::rename(date_utc = "DATE(UTC", id = "variable") %>%
-        dplyr::arrange(id, date_utc)
+        dplyr::arrange(date_utc)
       
       if ("value" %in% colnames(data)) {
         data <- data %>%
@@ -375,7 +376,7 @@ daily_archive <- function(parameter = c("swe", "snow_depth", "precipitation", "t
         reshape::melt(id = "DATE(UTC)") %>%
         dplyr::mutate(parameter = parameter) %>%
         dplyr::rename(date_utc = "DATE(UTC)", id = "variable") %>%
-        dplyr::arrange(id, date_utc)
+        dplyr::arrange(date_utc)
       
       if ("value" %in% colnames(data)) {
         data <- data %>%
