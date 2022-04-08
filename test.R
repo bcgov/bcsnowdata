@@ -5,15 +5,15 @@ library(bcsnowdata)
 
 time_start <- Sys.time()
 test_3 <- get_aswe_databc(station_id = "3B26P",
-                                get_year = "All",
-                                parameter = "swe",
+                                get_year = "2017",
+                                parameter = "temperature",
                                 timestep = "hourly")
 time <- Sys.time() - time_start
 
 time_start <- Sys.time()
-test_3 <- get_aswe_databc(station_id = "2F05P",
+test_3 <- get_aswe_databc(station_id = "3B26P",
                           get_year = "all",
-                          parameter = "swe",
+                          parameter = "temperature",
                           timestep = "daily")
 time <- Sys.time() - time_start
 
@@ -45,8 +45,8 @@ time <- Sys.time() - time_start
 test_multiple <- c("2F05P", "2F08P", "2F18P", "2F19P")
 time_start <- Sys.time()
 test_4 <- get_aswe_databc(station_id = test_multiple,
-                          get_year = "2022",
-                          parameter = "temperature",
+                          get_year = "all",
+                          parameter = "swe",
                           timestep = "hourly")
 time <- Sys.time() - time_start
 
