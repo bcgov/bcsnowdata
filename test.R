@@ -11,8 +11,8 @@ test_3 <- get_aswe_databc(station_id = "3B26P",
 time <- Sys.time() - time_start
 
 time_start <- Sys.time()
-test_3 <- get_aswe_databc(station_id = "2D07AP",
-                          get_year = "2020",
+test_3 <- get_aswe_databc(station_id = "2F05P",
+                          get_year = "all",
                           parameter = "swe",
                           timestep = "daily")
 time <- Sys.time() - time_start
