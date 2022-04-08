@@ -38,16 +38,13 @@ hourly_archive <- function(parameter = c("swe", "snow_depth", "precipitation", "
       historic <- bcdata::bcdc_get_data("5e7acd31-b242-4f09-8a64-000af872d68f", resource = "6789d794-c40a-4023-ac0b-0acc10d0d50f") %>%
         dplyr::select(contains(c(id, "DATE(UTC)")))
       
-      colnames(historic) <- substring(colnames(historic), 1, 5)
+      colnames(historic) <- gsub( " .*$", "", colnames(historic))
       
       # Needs to be a dataframe to melt
-      historic <- data.frame(historic) 
-      colnames(historic) <- substring(colnames(historic), 2, 6)
-      
-      df_h <- historic %>%
-        reshape::melt(id = "ATE.") %>%
+      df_h <- data.frame(historic, check.names = FALSE) %>%
+        reshape::melt(id = "DATE(UTC)") %>%
         dplyr::mutate(parameter = parameter) %>%
-        dplyr::rename(date_utc = "ATE.") 
+        dplyr::rename(date_utc = "DATE(UTC)") 
       
       if ("variable" %in% colnames(df_h)) {
           data <- df_h %>%
@@ -69,16 +66,13 @@ hourly_archive <- function(parameter = c("swe", "snow_depth", "precipitation", "
       historic <-  bcdata::bcdc_get_data("5e7acd31-b242-4f09-8a64-000af872d68f", resource = "204f91d4-b136-41d2-98b3-125ecefd6887") %>%
         dplyr::select(contains(c(id, "DATE(UTC)"))) 
       
-      colnames(historic) <- substring(colnames(historic), 1, 5)
-        
+      colnames(historic) <- gsub( " .*$", "", colnames(historic))
+      
       # Needs to be a dataframe to melt
-      historic <- data.frame(historic) 
-      colnames(historic) <- substring(colnames(historic), 2, 6)
-        
-      df_h <- historic %>%
-          reshape::melt(id = "ATE.") %>%
+      df_h <- data.frame(historic, check.names = FALSE) %>%
+          reshape::melt(id = "DATE(UTC)") %>%
           dplyr::mutate(parameter = parameter) %>%
-          dplyr::rename(date_utc = "ATE.")
+          dplyr::rename(date_utc = "DATE(UTC)")
       
       if ("variable" %in% colnames(df_h)) {
         data <- df_h %>%
@@ -100,16 +94,13 @@ hourly_archive <- function(parameter = c("swe", "snow_depth", "precipitation", "
       historic <-  bcdata::bcdc_get_data("5e7acd31-b242-4f09-8a64-000af872d68f", resource = "371a0479-1c6a-4f15-a456-11d778824f38") %>%
         dplyr::select(contains(c(id, "DATE(UTC)"))) 
          
-      colnames(historic) <- substring(colnames(historic), 1, 5)
+      colnames(historic) <- gsub( " .*$", "", colnames(historic))
       
       # Needs to be a dataframe to melt
-      historic <- data.frame(historic) 
-      colnames(historic) <- substring(colnames(historic), 2, 6)
-      
-      df_h <- historic %>%
-        reshape::melt(id = "ATE.") %>%
+      df_h <- data.frame(historic, check.names = FALSE) %>%
+        reshape::melt(id = "DATE(UTC)") %>%
         dplyr::mutate(parameter = "accum_precip") %>%
-        dplyr::rename(date_utc = "ATE.")
+        dplyr::rename(date_utc = "DATE(UTC)")
       
       if ("variable" %in% colnames(df_h)) {
         data <- df_h %>%
@@ -131,14 +122,11 @@ hourly_archive <- function(parameter = c("swe", "snow_depth", "precipitation", "
       historic <-  bcdata::bcdc_get_data("5e7acd31-b242-4f09-8a64-000af872d68f", resource = "fba88311-34b9-4422-b5ae-572fd23b2a00") %>%
         dplyr::select(contains(c(id, "DATE(UTC)"))) 
       
-      colnames(historic) <- substring(colnames(historic), 1, 5)
+      colnames(historic) <- gsub( " .*$", "", colnames(historic))
       
       # Needs to be a dataframe to melt
-      historic <- data.frame(historic) 
-      colnames(historic) <- substring(colnames(historic), 2, 6)
-      
-      df_h <- historic %>%
-        reshape::melt(id = "ATE.") %>%
+      df_h <- data.frame(historic, check.names = FALSE) %>%
+        reshape::melt(id = "DATE(UTC)") %>%
         dplyr::mutate(parameter = parameter) %>%
         dplyr::rename(date_utc = "ATE.")  
       
@@ -165,16 +153,13 @@ hourly_archive <- function(parameter = c("swe", "snow_depth", "precipitation", "
       historic <- bcdata::bcdc_get_data("5e7acd31-b242-4f09-8a64-000af872d68f", resource = "6789d794-c40a-4023-ac0b-0acc10d0d50f") %>%
         dplyr::select(contains(c(id, "DATE(UTC)")))
       
-      colnames(historic) <- substring(colnames(historic), 1, 5)
+      colnames(historic) <- gsub( " .*$", "", colnames(historic))
       
       # Needs to be a dataframe to melt
-      historic <- data.frame(historic) 
-      colnames(historic) <- substring(colnames(historic), 2, 6)
-      
-      data <- historic %>%
-        reshape::melt(id = "ATE.") %>%
+      data <- data.frame(historic, check.names = FALSE) %>%
+        reshape::melt(id = "DATE(UTC)")  %>%
         dplyr::mutate(parameter = parameter) %>%
-        dplyr::rename(date_utc = "ATE.", id = "variable")  %>%
+        dplyr::rename(date_utc = "DATE(UTC)", id = "variable")  %>%
         dplyr::arrange(id, date_utc)
       
       if ("value" %in% colnames(data)) {
@@ -192,16 +177,13 @@ hourly_archive <- function(parameter = c("swe", "snow_depth", "precipitation", "
       historic <-  bcdata::bcdc_get_data("5e7acd31-b242-4f09-8a64-000af872d68f", resource = "204f91d4-b136-41d2-98b3-125ecefd6887") %>%
         dplyr::select(contains(c(id, "DATE(UTC)"))) 
       
-      colnames(historic) <- substring(colnames(historic), 1, 5)
+      colnames(historic) <- gsub( " .*$", "", colnames(historic))
       
       # Needs to be a dataframe to melt
-      historic <- data.frame(historic) 
-      colnames(historic) <- substring(colnames(historic), 2, 6)
-      
-      data <- historic %>%
-        reshape::melt(id = "ATE.") %>%
+      data <- data.frame(historic, check.names = FALSE) %>%
+        reshape::melt(id = "DATE(UTC)") %>%
         dplyr::mutate(parameter = parameter) %>%
-        dplyr::rename(date_utc = "ATE.", id = "variable")  %>%
+        dplyr::rename(date_utc = "DATE(UTC)", id = "variable")  %>%
         dplyr::arrange(id, date_utc)
       
       if ("value" %in% colnames(data)) {
@@ -219,16 +201,13 @@ hourly_archive <- function(parameter = c("swe", "snow_depth", "precipitation", "
       historic <-  bcdata::bcdc_get_data("5e7acd31-b242-4f09-8a64-000af872d68f", resource = "371a0479-1c6a-4f15-a456-11d778824f38") %>%
         dplyr::select(contains(c(id, "DATE(UTC)"))) 
       
-      colnames(historic) <- substring(colnames(historic), 1, 5)
+      colnames(historic) <- gsub( " .*$", "", colnames(historic))
       
       # Needs to be a dataframe to melt
-      historic <- data.frame(historic) 
-      colnames(historic) <- substring(colnames(historic), 2, 6)
-      
-      data <- historic %>%
-        reshape::melt(id = "ATE.") %>%
+      data <- data.frame(historic, check.names = FALSE) %>%
+        reshape::melt(id = "DATE(UTC)") %>%
         dplyr::mutate(parameter = "accum_precip") %>%
-        dplyr::rename(date_utc = "ATE.", id = "variable")  %>%
+        dplyr::rename(date_utc = "DATE(UTC)", id = "variable")  %>%
         dplyr::arrange(id, date_utc)
       
       if ("value" %in% colnames(data)) {
@@ -246,16 +225,13 @@ hourly_archive <- function(parameter = c("swe", "snow_depth", "precipitation", "
       historic <-  bcdata::bcdc_get_data("5e7acd31-b242-4f09-8a64-000af872d68f", resource = "fba88311-34b9-4422-b5ae-572fd23b2a00") %>%
         dplyr::select(contains(c(id, "DATE(UTC)"))) 
       
-      colnames(historic) <- substring(colnames(historic), 1, 5)
+      colnames(historic) <- gsub( " .*$", "", colnames(historic))
       
       # Needs to be a dataframe to melt
-      historic <- data.frame(historic) 
-      colnames(historic) <- substring(colnames(historic), 2, 6)
-      
-      data <- historic %>%
-        reshape::melt(id = "ATE.") %>%
+      data <- data.frame(historic, check.names = FALSE) %>%
+        reshape::melt(id = "DATE(UTC)") %>%
         dplyr::mutate(parameter = parameter) %>%
-        dplyr::rename(date_utc = "ATE.", id = "variable")  %>%
+        dplyr::rename(date_utc = "DATE(UTC)", id = "variable")  %>%
         dplyr::arrange(id, date_utc)
       
       if ("value" %in% colnames(data)) {
