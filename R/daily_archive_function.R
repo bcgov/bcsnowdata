@@ -186,7 +186,7 @@ daily_archive <- function(parameter = c("swe", "snow_depth", "precipitation", "t
         dplyr::rename(date_utc = "DATE(UTC)") 
       
       if ("variable" %in% colnames(data)) {
-        data_1 <- data %>%
+        data <- data %>%
           dplyr::rename(id = "variable") %>%
           dplyr::arrange(id, date_utc) %>%
           dplyr::mutate(date = as.Date(date_utc), "id" = id) %>%
@@ -222,6 +222,7 @@ daily_archive <- function(parameter = c("swe", "snow_depth", "precipitation", "t
           unique() %>%
           dplyr::filter(!is.na(value))
       )
+      
     }
   } else {
     
@@ -350,6 +351,7 @@ daily_archive <- function(parameter = c("swe", "snow_depth", "precipitation", "t
           unique() %>%
           dplyr::filter(!is.na(value))
       )
+      
     } else if (parameter == "temperature") {
       
       # Get t max and t min from historic daily data - not always complete to present water year
@@ -407,12 +409,15 @@ daily_archive <- function(parameter = c("swe", "snow_depth", "precipitation", "t
     }
   }
   
+  # filter for specified years and check that the DAILY data only is present - slight glitch in some stations that data catalogue has some hourly data
   if (any(yr %in% c("ALL", "all", "All"))) {
-    data_o <- data
+    data_o <- data %>%
+      dplyr::filter(lubridate::hour(date_utc) == "16")
   } else {
-  # Filter for the years your specify
-  data_o <- data %>%
-    dplyr::filter(lubridate::year(date_utc) %in% yr)  
+    # Filter for the years your specify
+    data_o <- data %>%
+      dplyr::filter(lubridate::year(date_utc) %in% yr) %>%
+      dplyr::filter(lubridate::hour(date_utc) == "16")
   }
   return(data_o)
 }
