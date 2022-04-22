@@ -4,16 +4,16 @@ library(bcsnowdata)
 #bcdata::bcdc_search("snow")
 
 time_start <- Sys.time()
-test_3 <- get_aswe_databc(station_id = "3B26P",
-                                get_year = "2017",
-                                parameter = "temperature",
-                                timestep = "hourly")
+test_3 <- get_aswe_databc(station_id = "3A28P",
+                                get_year = "All",
+                                parameter = "swe",
+                                timestep = "daily")
 time <- Sys.time() - time_start
 
 time_start <- Sys.time()
-test_3 <- get_aswe_databc(station_id = "3B26P",
-                          get_year = "all",
-                          parameter = "temperature",
+test_3 <- get_aswe_databc(station_id = c("2F05P", "2F08P", "2F18P", "2F19P"),
+                          get_year = "2019",
+                          parameter = "swe",
                           timestep = "daily")
 time <- Sys.time() - time_start
 
