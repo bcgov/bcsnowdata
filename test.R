@@ -12,7 +12,7 @@ time <- Sys.time() - time_start
 
 time_start <- Sys.time()
 test_3 <- get_aswe_databc(station_id = c("2F05P", "2F08P", "2F18P", "2F19P"),
-                          get_year = "2019",
+                          get_year = "All",
                           parameter = "swe",
                           timestep = "daily")
 time <- Sys.time() - time_start
