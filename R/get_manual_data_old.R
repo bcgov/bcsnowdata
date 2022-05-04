@@ -11,7 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and limitations under the License.
 
-# Archived  manual snow data
+# Archived manual snow data
 snow_manual_archive_ <- function() {
   res <- GET_client("http://www.env.gov.bc.ca/wsd/data_searches/snow/asws/data/allmss_archive.csv")
   
