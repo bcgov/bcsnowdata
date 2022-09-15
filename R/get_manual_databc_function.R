@@ -25,7 +25,7 @@
 #' @importFrom grDevices cm
 #' @export
 #' @examples \dontrun{}
-#' get_manual_swe()
+
 get_manual_swe <- function(station_id = "All",
                            survey_period = "All",
                            get_year = "All") {
@@ -117,10 +117,7 @@ get_manual_swe <- function(station_id = "All",
       swe_mm = `Water Equiv. mm`,
       survey_code = `Survey Code`,
       snow_line_elev_m = `Snow Line Elev. m`,
-      snow_line_code = `Snow Line Code`,
-      x_of_normal = `% of Normal`,
       density_percent = `Density %`,
-      survey_period = `Survey Period`,
-      normal_mm = `Normal mm`
+      survey_period = `Survey Period`
     )
 }
