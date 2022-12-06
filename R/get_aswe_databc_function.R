@@ -21,7 +21,6 @@
 #' @importFrom grDevices cm
 #' @export
 #' @examples \dontrun{}
-
 get_aswe_databc <- function(station_id = "All",
                             get_year = "All",
                             parameter = c("swe", "snow_depth", "precipitation", "temperature"),
@@ -40,29 +39,30 @@ get_aswe_databc <- function(station_id = "All",
   }
   
   # Does the user want daily data or hourly? Get hourly first
-  if (timestep == "hourly") {
+  if (timestep[1] == "hourly") {
     message("Note: Hourly data only available until 2003")
-
+    
     if (get_year < 2003) {
       print("No hourly data available before 2003")
     } else {
+      
       # If the user wants to simply get the hourly current year data, grab only that 
       if (get_year == wtr_yr(Sys.Date())) {
-        data <- hourly_current(parameter, id)
+        data <- hourly_current(parameter[1], id)
       } else {
         # Get the archived and current year hourly data
-        data <- hourly_archive(parameter, get_year, id)
+        data <- hourly_archive(parameter[1], get_year, id)
       } 
     }
   } 
   
-  if (timestep == "daily") {
+  if (timestep[1] == "daily") {
     # If the user wants to simply get the daily current year data, grab only that 
     if (get_year == wtr_yr(Sys.Date())) {
-      data <- daily_current(parameter, id)
+      data <- daily_current(parameter[1], id)
     } else {
       # Get the archived and current year hourly data
-      data <- daily_archive(parameter, get_year, id)
+      data <- daily_archive(parameter[1], get_year, id)
     } 
   }
   

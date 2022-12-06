@@ -32,7 +32,7 @@ hourly_archive <- function(parameter = c("swe", "snow_depth", "precipitation", "
   # Knit the current year with past year data if you need both current and archived data
   if (any(yr %in% wtr_yr(Sys.Date()))) {
 
-    if (parameter == "swe") {
+    if (parameter[1] == "swe") {
   
       # knit the hourly swe archive with the current year hourly data
       historic <- bcdata::bcdc_get_data("5e7acd31-b242-4f09-8a64-000af872d68f", resource = "6789d794-c40a-4023-ac0b-0acc10d0d50f") %>%
@@ -60,7 +60,7 @@ hourly_archive <- function(parameter = c("swe", "snow_depth", "precipitation", "
             dplyr::filter(!is.na(value)) 
         )
   
-    } else if (parameter == "snow_depth") {
+    } else if (parameter[1] == "snow_depth") {
   
       # knit the daily snow depth available pre 2003 with hourly 2003-current
       historic <-  bcdata::bcdc_get_data("5e7acd31-b242-4f09-8a64-000af872d68f", resource = "204f91d4-b136-41d2-98b3-125ecefd6887") %>%
@@ -88,7 +88,7 @@ hourly_archive <- function(parameter = c("swe", "snow_depth", "precipitation", "
           dplyr::filter(!is.na(value)) 
       )
   
-    } else if (parameter == "precipitation") {
+    } else if (parameter[1] == "precipitation") {
   
       # knit the daily snow depth available pre 2003 with hourly 2003-current
       historic <-  bcdata::bcdc_get_data("5e7acd31-b242-4f09-8a64-000af872d68f", resource = "371a0479-1c6a-4f15-a456-11d778824f38") %>%
@@ -116,7 +116,7 @@ hourly_archive <- function(parameter = c("swe", "snow_depth", "precipitation", "
           dplyr::filter(!is.na(value)) 
       )
   
-    } else if (parameter == "temperature") {
+    } else if (parameter[1] == "temperature") {
   
       # knit the daily snow depth available pre 2003 with hourly 2003-current
       historic <-  bcdata::bcdc_get_data("5e7acd31-b242-4f09-8a64-000af872d68f", resource = "fba88311-34b9-4422-b5ae-572fd23b2a00") %>%
@@ -146,7 +146,7 @@ hourly_archive <- function(parameter = c("swe", "snow_depth", "precipitation", "
     }
   } else {
     
-    if (parameter == "swe") {
+    if (parameter[1] == "swe") {
       
       # get only the archived data
       # knit the hourly swe archive with the current year hourly data
@@ -171,7 +171,7 @@ hourly_archive <- function(parameter = c("swe", "snow_depth", "precipitation", "
           dplyr::filter(!is.na(value))
       )
       
-    } else if (parameter == "snow_depth") {
+    } else if (parameter[1] == "snow_depth") {
       
       # knit the daily snow depth available pre 2003 with hourly 2003-current
       historic <-  bcdata::bcdc_get_data("5e7acd31-b242-4f09-8a64-000af872d68f", resource = "204f91d4-b136-41d2-98b3-125ecefd6887") %>%
@@ -195,7 +195,7 @@ hourly_archive <- function(parameter = c("swe", "snow_depth", "precipitation", "
           dplyr::filter(!is.na(value))
       )
       
-    } else if (parameter == "precipitation") {
+    } else if (parameter[1] == "precipitation") {
       
       # knit the daily snow depth available pre 2003 with hourly 2003-current
       historic <-  bcdata::bcdc_get_data("5e7acd31-b242-4f09-8a64-000af872d68f", resource = "371a0479-1c6a-4f15-a456-11d778824f38") %>%
@@ -219,7 +219,7 @@ hourly_archive <- function(parameter = c("swe", "snow_depth", "precipitation", "
           dplyr::filter(!is.na(value))
       )
       
-    } else if (parameter == "temperature") {
+    } else if (parameter[1] == "temperature") {
       
       # knit the daily snow depth available pre 2003 with hourly 2003-current
       historic <-  bcdata::bcdc_get_data("5e7acd31-b242-4f09-8a64-000af872d68f", resource = "fba88311-34b9-4422-b5ae-572fd23b2a00") %>%
